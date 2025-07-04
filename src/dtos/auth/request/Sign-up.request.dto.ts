@@ -8,3 +8,7 @@ export interface SignUpRequestDto {
   birthDate: string;
   branchId: string;
 }
+
+export interface CheckLoginIdDuplicateRequestDto {
+  loginId: string;
+}
