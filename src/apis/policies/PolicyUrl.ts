@@ -7,5 +7,5 @@ export const DELETE_POLICY_URL = (policyId : number) => `${POLICY_MODULE_ADMIN}/
 
 
 const POLICY_MODULE_COMMON = `${COMMON_URL}/policies`;
-export const GET_ALL_POLICIES_URL = `${POLICY_MODULE_COMMON}`;
+export const GET_FILTERED_POLICIES_URL = `${POLICY_MODULE_COMMON}`;
 export const GET_POLICY_URL = (policyId : number) => `${POLICY_MODULE_COMMON}/${policyId}`;
