@@ -1,6 +1,6 @@
 import { ResponseDto } from "@/dtos"
 import { PublisherListResponseDto, PublisherResponseDto } from "@/dtos/publishers/publisher.response.dto"
-import { DELETE_PUBLISHER_URL, GET_ALL_PUBLISHER_URL, POST_PUBLISHER_URL, PUT_PUBLISHER_URL } from "./publisherURL"
+import { DELETE_PUBLISHER_URL, GET_ALL_PUBLISHER_URL, POST_PUBLISHER_URL, PUT_PUBLISHER_URL } from "./publisherUrl"
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig"
 import { AxiosError } from "axios";
 import { PublisherRequestDto } from "@/dtos/publishers/publisher.request.dto";
