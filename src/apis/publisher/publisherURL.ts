@@ -1,3 +1,5 @@
+import { ADMIN_URL } from "../constants/constants";
+
 const PUBLISHER_MODULE_URL = `${ADMIN_URL}/publishers`;
 
 export const POST_PUBLISHER_URL = `${PUBLISHER_MODULE_URL}`;
