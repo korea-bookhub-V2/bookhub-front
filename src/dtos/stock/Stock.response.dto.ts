@@ -1,6 +1,6 @@
 import { StockActionType } from "@/apis/enums/StockActionType";
 
-export interface StockListResponseDto{
+export interface StockResponseDto{
     stockId: number;
     branchId: number;
     isbn : string;

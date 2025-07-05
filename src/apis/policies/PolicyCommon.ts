@@ -40,7 +40,6 @@ export const getPolicyDetail = async(
             bearerAuthorization(accessToken)
         );
         return responseSuccessHandler(response);
-
     }catch (error){
         return responseErrorHandler(error as AxiosError<ResponseDto<PolicyDetailResponseDto>>);
     }
