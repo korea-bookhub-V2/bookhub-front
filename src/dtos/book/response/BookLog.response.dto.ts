@@ -1,8 +1,10 @@
+import { BookLogType } from "@/apis/enums/BookLogType";
+
 export interface BookLogResponseDto {
   bookLogId: number;
   bookIsbn: string;
   bookTitle: string;
-  bookLogType: "CREATE" | "PRICE_CHANGE" | "DISCOUNT_RATE" | "STATUS_CHANGE" | "HIDDEN";
+  bookLogType: BookLogType;
   previousPrice?: number;
   previousDiscountRate?: number;
   employeeName: string;

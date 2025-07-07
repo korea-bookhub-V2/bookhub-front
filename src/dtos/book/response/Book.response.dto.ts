@@ -1,3 +1,5 @@
+import { BookStatus } from "@/apis/enums/BookStatus";
+
 export interface BookResponseDto {
   isbn: string;
   bookTitle: string;
@@ -11,6 +13,6 @@ export interface BookResponseDto {
   pageCount: string;
   language: string;
   description?: string;
-  bookStatus?: 'ACTIVE' | 'INACTIVE' | 'HIDDEN';
+  bookStatus?: BookStatus;
   policyId: number;
 }
