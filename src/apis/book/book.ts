@@ -2,10 +2,10 @@ import ResponseDto from "@/dtos/Response.dto";
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { GET_BOOK_URL, HIDE_BOOK_URL, POST_BOOK_URL, UPDATE_BOOK_URL } from "./bookUrl";
 import axios, { AxiosError } from "axios";
-import { BookCreateRequestDto } from "@/dtos/book/request/book-create.request.dto";
-import { BookResponseDto } from "@/dtos/book/response/book-response.dto";
-import { BookUpdateRequestDto } from "@/dtos/book/request/book-update.request.dto";
-import { BookLogResponseDto } from "@/dtos/book/response/book-log-response.dto";
+import { BookCreateRequestDto, BookUpdateRequestDto } from "@/dtos/book/request/Book.request.dto";
+import { BookLogResponseDto } from "@/dtos/book/response/BookLog.response.dto";
+import { BookResponseDto } from "@/dtos/book/response/Book.response.dto";
+
 
 export const createBook = async (
   dto: BookCreateRequestDto,
