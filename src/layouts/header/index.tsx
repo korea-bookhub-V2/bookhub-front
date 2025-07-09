@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Header(){
+
     const[cookies, ,removeCookies] = useCookies(["accessToken"]);
     const logout = useEmployeeStore((state) => state.setLogout);
     const employee  = useEmployeeStore((state) => state.employee);
     const navigate = useNavigate();
+
 
     const onLogoutClick = async () => {
         await logoutRequest();
