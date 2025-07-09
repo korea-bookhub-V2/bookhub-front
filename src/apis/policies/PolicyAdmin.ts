@@ -1,5 +1,5 @@
 import { ResponseDto } from "@/dtos";
-import { PolicyCreateRequestDto } from "@/dtos/policy/Policy.request.dto";
+import { PolicyCreateRequestDto, PolicyUpdateRequestDto } from "@/dtos/policy/Policy.request.dto";
 import { PolicyListResponseDto } from "@/dtos/policy/Policy.response.dto";
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { DELETE_POLICY_URL, POST_POLICY_URL, PUT_POLICY_URL } from "./PolicyUrl";
@@ -23,7 +23,7 @@ export const createPolicy = async(
 
 export const updatePolicy = async(
     policyId : number,
-    dto: PolicyCreateRequestDto,
+    dto: PolicyUpdateRequestDto,
     accessToken: string
 ): Promise<ResponseDto<PolicyListResponseDto>> => {
     try{
