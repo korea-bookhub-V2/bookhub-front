@@ -2,6 +2,7 @@ import { logoutRequest } from "@/apis/auth/auth";
 import { useEmployeeStore } from "@/stores/employee.store";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import styles from "./Header.module.css"
 
 
 export default function Header(){
@@ -18,21 +19,21 @@ export default function Header(){
         logout();
     };
     
-    const onLogClick = () => {
+    const onLogoClick = () => {
         navigate("/main");
     };
 
     return(
-        <Header>
+        <header>
             <div>
                 <img src="@/public/북허브_로고_배경제거.png" 
                 alt="북허브 로고"
-                onClick = {onLogoutClick}
-                //className = {styles.logoImg}
+                onClick = {onLogoClick}
+                className = {styles.logoImg}
                 />
             </div>
             <div>
-                <AlertIcon/>
+                {/* <AlertIcon/> */}
                 <div>
                     {employee?.branchName} {employee?.positionName}{""}
                     {employee?.employeeName}
@@ -40,6 +41,6 @@ export default function Header(){
                 <button onClick={onLogoutClick}>로그아웃</button>
             </div>
 
-        </Header>
+        </header>
     );
 }
