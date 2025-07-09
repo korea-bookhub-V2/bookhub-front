@@ -1,42 +1,45 @@
+import { logoutRequest } from "@/apis/auth/auth";
+import { useEmployeeStore } from "@/stores/employee.store";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Header(){
-   
+
+    const[cookies, ,removeCookies] = useCookies(["accessToken"]);
+    const logout = useEmployeeStore((state) => state.setLogout);
+    const employee  = useEmployeeStore((state) => state.employee);
+    const navigate = useNavigate();
+
+
+    const onLogoutClick = async () => {
+        await logoutRequest();
+        removeCookies("accessToken", {path : "/"});
+        logout();
+    };
     
-    // const[cookies, ,removeCookies] = useCookies(["accessToken"]);
-    // const logout = useEmployee((state) => state.setLogout);
-    // const employee  = useEmployeeStore((state) => state.employee);
-    // const navigate = useNavigate();
+    const onLogClick = () => {
+        navigate("/main");
+    };
 
-    // const onLogoutClick = async () => {
-    //     await logoutRequest();
-    //     removeCookies("accessToken", {path : "/"});
-    //     logout();
-    // };
-    
-    // const onLogClick = () => {
-    //     navigate("/main");
-    // };
+    return(
+        <Header>
+            <div>
+                <img src="@/public/북허브_로고_배경제거.png" 
+                alt="북허브 로고"
+                onClick = {onLogoutClick}
+                //className = {styles.logoImg}
+                />
+            </div>
+            <div>
+                <AlertIcon/>
+                <div>
+                    {employee?.branchName} {employee?.positionName}{""}
+                    {employee?.employeeName}
+                </div>
+                <button onClick={onLogoutClick}>로그아웃</button>
+            </div>
 
-    // return(
-    //     <Header>
-    //         <div>
-    //             <img src="@/public/북허브_로고_배경제거.png" 
-    //             alt="북허브 로고"
-    //             onClick = {onLogoClick}
-    //             //className = {styles.logoImg}
-    //             />
-    //         </div>
-    //         <div>
-    //             <AlertIcon/>
-    //             <div>
-    //                 {employee?.branchName} {employee?.positionName}{""}
-    //                 {employee?.employeeName}
-    //             </div>
-    //             <button onClick={onLogoutClick}>로그아웃</button>
-    //         </div>
-
-    //     </Header>
-    // );
+        </Header>
+    );
 }

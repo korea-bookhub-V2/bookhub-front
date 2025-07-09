@@ -4,6 +4,7 @@ import { Status } from "@/apis/enums/StatusType";
 export type Employee = {
   employeeId: number;
   employeeNumber: number;
+  employeeName: string;
   branchId: number;
   branchName: string;
   positionId: number;
