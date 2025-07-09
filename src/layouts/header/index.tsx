@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 
 
 export default function Header(){
-    //*Zustand 관리 후 주석해제 +import
+   
     
     // const[cookies, ,removeCookies] = useCookies(["accessToken"]);
     // const logout = useEmployee((state) => state.setLogout);
