@@ -6,5 +6,5 @@ export interface SignUpRequestDto {
   email: string;
   phoneNumber: string;
   birthDate: string;
-  branchId: string;
+  branchId: number;
 }
