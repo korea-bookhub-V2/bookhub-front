@@ -5,7 +5,9 @@ import {
   responseSuccessHandler,
 } from "../axiosConfig";
 import {
+  CHECK_DUPLICATE_EMAIL,
   CHECK_DUPLICATE_LOGIN_ID,
+  CHECK_DUPLICATE_PHONE_NUMBER,
   GET_LOGIN_ID_URL,
   LOGIN_ID_FIND_EMAIL_RUL,
   LOGOUT_URL,
@@ -23,6 +25,7 @@ import { LoginIdFindSendEmailRequestDto } from "@/dtos/auth/request/Login-id-fin
 import { PasswordChangeSendEmailRequestDto } from "@/dtos/auth/request/Password-change-send-email.request.dto";
 import { PasswordChangeRequestDto } from "@/dtos/auth/request/Password-change.request.dto";
 import { EmployeeUpdateRequestDto } from "@/dtos/auth/request/Employee-update.request.dto";
+import { SignInResponseDto } from "@/dtos/auth/response/Sign-in.response.dto";
 
 export const signUpRequest = async (
   dto: SignUpRequestDto
@@ -48,9 +51,35 @@ export const checkLoginIdDuplicate = async (
   }
 };
 
+export const checkEmailDuplicate = async (
+  email: string
+): Promise<ResponseDto<void>> => {
+  try {
+    const response = await axiosInstance.get(
+      CHECK_DUPLICATE_EMAIL + `?email=${email}`
+    );
+    return responseSuccessHandler(response);
+  } catch (error) {
+    return responseErrorHandler(error as AxiosError<ResponseDto>);
+  }
+};
+
+export const checkPhoneNumberDuplicate = async (
+  phoneNumber: string
+): Promise<ResponseDto<void>> => {
+  try {
+    const response = await axiosInstance.get(
+      CHECK_DUPLICATE_PHONE_NUMBER + `?phoneNumber=${phoneNumber}`
+    );
+    return responseSuccessHandler(response);
+  } catch (error) {
+    return responseErrorHandler(error as AxiosError<ResponseDto>);
+  }
+};
+
 export const signInRequest = async (
   dto: SignInRequestDto
-): Promise<ResponseDto<SignInRequestDto>> => {
+): Promise<ResponseDto<SignInResponseDto>> => {
   try {
     const response = await axiosInstance.post(SIGN_IN_URL, dto);
     return responseSuccessHandler(response);

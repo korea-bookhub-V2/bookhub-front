@@ -26,7 +26,7 @@ export const useEmployeeStore = create<EmployeeStore>()(
       setLogout: () => {
         if (logoutTimer) clearTimeout(logoutTimer);
         set({ isLogin: false, employee: null });
-        localStorage.clear();
+        localStorage.removeItem("employee-storage");
         useEmployeeStore.getState().clearEmployee();
         alert("로그아웃하였습니다.");
         window.location.href = "/auth/login";
@@ -34,9 +34,8 @@ export const useEmployeeStore = create<EmployeeStore>()(
       setLogoutTimer: (milliseconds: number) => {
         if (logoutTimer) clearTimeout(logoutTimer);
         logoutTimer = setTimeout(() => {
-          alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+          alert("세션이 만료되었습니다.");
           useEmployeeStore.getState().setLogout();
-          window.location.href = "/auth/login";
         }, milliseconds);
       },
     }),

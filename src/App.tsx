@@ -1,17 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useEmployeeStore } from './stores/employee.store';
 import Sidebar from './layouts/sidebar';
 import Header from './layouts/header';
+import SignUp from './views/auth/SignUp';
+import SignIn from './views/auth/SignIn';
+import SearchBranch from './views/branch/SearchBranch';
+import RequireAuth from './components/RequireAuth';
+import CreateBranch from './views/branch/CreateBranch';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
-
   if (!isLogin) {
-    //return <Routes>{Auth()}</Routes>
+    return (
+      <Routes>
+        <Route path="/auth/login" element={<SignIn />} />
+        <Route path="/auth/sign-up" element={<SignUp />} />
+      </Routes>
+    );
   }
 
   return (
@@ -35,7 +41,7 @@ function App() {
             }}
           >
             <Routes>
-              {/* <Route path="/" element={<navigate to="/main" />} /> */}
+              <Route path="/" element={<Navigate to="/main" />} />
               {/* <Route path="/alerts/*" element={<AlertPage />} /> */}
               {/* <Route path="/books/*" element={<Book />} /> */}
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
@@ -59,18 +65,18 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/branches" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <BranchSearch />
+              <Route path="/branches" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                  <SearchBranch />
                 </RequireAuth>
               }
-              /> */}
-              {/* <Route path="/branches/manage" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              />
+              <Route path="/branches/manage" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <CreateBranch />
                 </RequireAuth>
               }
-              /> */}
+              />
               {/* <Route path="/categories" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <CategoryMain />
@@ -184,7 +190,7 @@ function App() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
