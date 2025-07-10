@@ -6,12 +6,11 @@ import { axiosInstance, responseSuccessHandler, responseErrorHandler, bearerAuth
 import { StockActionType } from "../enums/StockActionType";
 import { GET_FILTERED_STOCK_LOGS_URL, GET_STOCK_LOG_URL } from "./StockUrl";
 
-export const getLocations= async (
+export const getStockLogs= async (
     accessToken: string,
     page: number,
     size: number,
     bookTitle?: string,
-    isbn? : string,
     branchId? : number, //이거 토글로 할건데 어떻게 할지 생각해보기 (branchrepo에서 받아와야하나?)
     type? : StockActionType,
     start? : string,
@@ -22,7 +21,7 @@ export const getLocations= async (
     try {
         const response : AxiosResponse<ResponseDto<
         PageResponseDto<StockLogResponseDto>>> = await axiosInstance.get(GET_FILTERED_STOCK_LOGS_URL,{
-            params:{page, size, bookTitle, isbn, branchId, type, start, end},
+            params:{page, size, bookTitle, branchId, type, start, end},
             headers: {Authorization: `Bearer ${accessToken}`},
         });
         return responseSuccessHandler(response);
