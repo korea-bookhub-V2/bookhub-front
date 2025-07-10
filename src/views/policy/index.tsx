@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import PolicySearch from './PolicySearch'
 
+
 function Policy() {
   return (
     <Routes>

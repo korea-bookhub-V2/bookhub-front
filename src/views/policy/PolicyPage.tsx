@@ -4,8 +4,9 @@ import { getPolicies, getPolicyDetail } from '@/apis/policies/PolicyCommon';
 import { PolicyDetailResponseDto, PolicyListResponseDto } from '@/dtos/policy/Policy.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import CreatePolicy from './CreatePolicy';
 import UpdatePolicy from './UpdatePolicy';
+import CreatePolicy from './CreatePolicy';
+
 
 const PAGE_SIZE = 10;
 
