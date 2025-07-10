@@ -79,22 +79,6 @@ function PolicySearch() {
     }
   };
 
-  const openUpdateModal = async (id : number) => {
-    if(!token) return;
-    try{
-        const response = await getPolicyDetail(id, token);
-        if (response.code ==="SU" && response.data){
-            setSelectedDetail(response.data);
-            setSelectedPolicyId(id);
-            setIsDetailOpen(true);
-        }else{
-            alert(response.message);
-        }
-    }catch(err){
-        console.error("상세 조회 예외",err);
-        alert("상세 조회 중 오류 발생")
-    }
-  };
 
   const handleDetailClose = () => {
     setSelectedDetail(null);
@@ -160,8 +144,7 @@ function PolicySearch() {
             <PolicyDetail
             isOpen={isDetailOpen}
             onClose={handleDetailClose}
-            policyDetail={selectedDetail}
-            policyId={selectedPolicyId}/>
+            policyDetail={selectedDetail}/>
         )}
 
 

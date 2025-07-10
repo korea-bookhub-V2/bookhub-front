@@ -5,10 +5,10 @@ interface PolicyDetailProps {
     isOpen: boolean;
     onClose : () => void;
     policyDetail : PolicyDetailResponseDto;
-    policyId: number;
+    
 }
 
-function PolicyDetail({isOpen, onClose, policyDetail, policyId}:PolicyDetailProps) {
+function PolicyDetail({isOpen, onClose, policyDetail}:PolicyDetailProps) {
   if(!isOpen) return null;
 
   return (
