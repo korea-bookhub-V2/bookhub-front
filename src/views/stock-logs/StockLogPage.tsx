@@ -1,6 +1,5 @@
 import { StockActionType } from '@/apis/enums/StockActionType';
 import { getStockLogDetail, getStockLogs } from '@/apis/stocks/StockLog';
-import { StockResponseDto } from '@/dtos/stock/Stock.response.dto';
 import { StockLogResponseDto } from '@/dtos/stock/StockLog.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
