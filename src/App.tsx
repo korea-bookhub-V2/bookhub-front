@@ -8,6 +8,10 @@ import SignIn from './views/auth/SignIn';
 import SearchBranch from './views/branch/SearchBranch';
 import RequireAuth from './components/RequireAuth';
 import CreateBranch from './views/branch/CreateBranch';
+import LoginIdFindEmail from './views/auth/LoginIdFindEmail';
+import LoginIdGet from './views/auth/LoginIdGet';
+import PasswordChangeSendEmail from './views/auth/PasswordChangeSendEmail';
+import PasswordChange from './views/auth/PasswordChange';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -16,6 +20,10 @@ function App() {
       <Routes>
         <Route path="/auth/login" element={<SignIn />} />
         <Route path="/auth/sign-up" element={<SignUp />} />
+        <Route path="/auth/login-id-find/email" element={<LoginIdFindEmail/>}/>
+        <Route path="/auth/login-id-find" element={<LoginIdGet/>}/>
+        <Route path="/auth/password-change/email" element={<PasswordChangeSendEmail/>}/>
+        <Route path="/auth/password-change" element={<PasswordChange/>}/>
       </Routes>
     );
   }
