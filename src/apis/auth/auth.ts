@@ -138,6 +138,19 @@ export const passwordChangeRequest = async (
   }
 };
 
+export const verifyPasswordChangeToken = async (
+  token: string
+): Promise<ResponseDto<string>> => {
+  try {
+    const response = await axiosInstance.get(
+      PASSWORD_CHANGE_URL + `?token=${token}`
+    );
+    return responseSuccessHandler(response);
+  } catch (error) {
+    return responseErrorHandler(error as AxiosError<ResponseDto>);
+  }
+};
+
 export const logoutRequest = async (): Promise<ResponseDto<void>> => {
   try {
     const response = await axiosInstance.post(LOGOUT_URL);

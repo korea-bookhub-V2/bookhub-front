@@ -9,7 +9,7 @@ export const CHECK_DUPLICATE_PHONE_NUMBER = `${AUTH_URL}/phone-number-exists`;
 export const LOGIN_ID_FIND_EMAIL_RUL = `${AUTH_URL}/login-id-find/email`;
 export const GET_LOGIN_ID_URL = `${AUTH_URL}/login-id-find`;
 
-export const PASSWORD_CHANGE_EMAIL_URL = `${AUTH_URL}/password-chagne/email`;
+export const PASSWORD_CHANGE_EMAIL_URL = `${AUTH_URL}/password-change/email`;
 export const PASSWORD_CHANGE_URL = `${AUTH_URL}/password-change`
 
 export const LOGOUT_URL = `${AUTH_URL}/logout`
