@@ -12,12 +12,16 @@ import LoginIdFindEmail from './views/auth/LoginIdFindEmail';
 import LoginIdGet from './views/auth/LoginIdGet';
 import PasswordChangeSendEmail from './views/auth/PasswordChangeSendEmail';
 import PasswordChange from './views/auth/PasswordChange';
+import Publisher from './views/publisher';
+import Policy from './views/policy';
+import StockLog from './views/stock-logs';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
   if (!isLogin) {
     return (
       <Routes>
+        <Route path="/" element={<Navigate to="/auth/login" />} />
         <Route path="/auth/login" element={<SignIn />} />
         <Route path="/auth/sign-up" element={<SignUp />} />
         <Route path="/auth/login-id-find/email" element={<LoginIdFindEmail/>}/>
@@ -53,20 +57,20 @@ function App() {
               {/* <Route path="/alerts/*" element={<AlertPage />} /> */}
               {/* <Route path="/books/*" element={<Book />} /> */}
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
-              {/* <Route path="/publishers/*" element={<Publisher />} /> */}
-              {/* <Route path="/policies/*" element={<Policy />} /> */}
+              <Route path="/publishers/*" element={<Publisher />} />
+              <Route path="/policies/*" element={<Policy />} />
               {/* <Route path="/branch/locations" element={<LocationPage />} /> */}
               {/* <Route path="/author/else" element={<ElseAuthor />} /> */}
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
               {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
               
-              {/* <Route path="/stock-logs/*" element={
+             <Route path="/stock-logs/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <StockLog />
                 </RequireAuth>
               }
-              /> */}
+              /> 
               {/* <Route path="/statistics/stocks/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <StockStatistics />
@@ -115,12 +119,12 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/purchase-order" element={
+               {/* <Route path="/purchase-order" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <ElsePurchaseOrder />
                 </RequireAuth>
               }
-              /> */}
+              />  */}
               {/* <Route path="/purchase-order/approve" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <ApprovePurchaseOrder />
