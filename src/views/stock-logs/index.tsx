@@ -7,7 +7,7 @@ import StockLogPage from './StockLogPage'
 function StockLog() {
   return (
     <Routes>
-      {/* <Route path = "/" element={<StockLogPage />}/> */}
+      <Route path = "/" element={<StockLogPage />}/>
     </Routes>
   )
 }
