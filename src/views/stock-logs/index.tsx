@@ -1,10 +1,14 @@
 
 
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import StockLogPage from './StockLogPage'
 
 function StockLog() {
   return (
-    <div>index</div>
+    <Routes>
+      {/* <Route path = "/" element={<StockLogPage />}/> */}
+    </Routes>
   )
 }
 
