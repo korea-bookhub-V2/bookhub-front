@@ -5,6 +5,6 @@ export interface StockUpdateRequestDto{
     employeeId : number;
     isbn: string;
     branchId: number;
-    amount: number;
+    stockAmount: number;
     description? : string;
 }

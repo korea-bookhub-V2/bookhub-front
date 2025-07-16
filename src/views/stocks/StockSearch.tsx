@@ -5,10 +5,11 @@ import { StockResponseDto } from '@/dtos/stock/Stock.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import StockUpdate from './StockUpdate';
+import StockDetail from './StockDetail';
 
 const PAGE_SIZE = 10;
 
-function StockPage({
+function StockSearch({
   branches = [],
 }: StockProps) {
 
@@ -25,7 +26,7 @@ function StockPage({
      const [selectedStockId, setSelectedStockId] = useState<number | null>(null);
      const [selectedDetail, setSelectedDetail] = useState<StockResponseDto | null>(null);
    
-     const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+     const [isDetailOpen, setIsDetailOpen] = useState(false);
    
      const fetchPage = async (page: number) => {
        if(!token) return;
@@ -60,35 +61,32 @@ function StockPage({
      useEffect(() => {
        fetchPage(0);
      },[token,keyword,stockActionType]);
-   
-    
-     const openUpdateModal = async (id : number) => {
+
+
+   const openDetailModal =  async (id : number) => {
        if(!token) return;
-       try{
-           const response = await getStockById(id, token);
-           if (response.code ==="SU" && response.data){
+       try {
+           const response = await getStockById(id,token);
+           if(response.code === "SU" && response.data){
                setSelectedDetail(response.data);
                setSelectedStockId(id);
-               setIsUpdateOpen(true);
+               setIsDetailOpen(true);
            }else{
                alert(response.message);
            }
        }catch(err){
-           console.error("상세 조회 예외",err);
-           alert("상세 조회 중 오류 발생")
+           console.log("상세 조회 예외",err);
+           alert("상세 조회 중 오류 발생");
        }
      };
    
-     const handleUpdateClose = () => {
+   
+     const handleDetailClose = () => {
        setSelectedDetail(null);
-       setIsUpdateOpen(false);
+       setIsDetailOpen(false);
      };
-   
-     const handleUpdated = () => {
-       handleUpdateClose();
-       fetchPage(currentPage);
-     }
-   
+    
+
      const goToPage = (page : number) => {
        if(page<0 || page >=totalPage) return;
        fetchPage(page);
@@ -131,9 +129,8 @@ function StockPage({
                         <td>{s.bookTitle}</td>
                         <td>{s.branchName}</td>
                         <td>{s.amount}</td>
-                       
                         <td>
-                            <button className = "modifyBtn" onClick={() => openUpdateModal(s.stockId)}>수정</button>
+                            <button className = "" onClick={() => openDetailModal(s.stockId)}>보기</button>
                             
                         </td>
                     </tr>
@@ -148,13 +145,13 @@ function StockPage({
 
        
 
-        {isUpdateOpen && selectedDetail && selectedStockId != null && (
-            <StockUpdate
-            isOpen={isUpdateOpen}
-            onClose={handleUpdateClose}
-            onUpdate={handleUpdated}
+        {isDetailOpen && selectedDetail && selectedStockId != null && (
+            <StockDetail
+            isOpen={isDetailOpen}
+            onClose={handleDetailClose}
+        
             stockDetail={selectedDetail}
-            stockId={selectedStockId}/>
+            />
         )}
 
 
@@ -162,4 +159,4 @@ function StockPage({
   )
 }
 
-export default StockPage
+export default StockSearch;
