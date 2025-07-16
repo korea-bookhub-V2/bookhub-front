@@ -3,13 +3,16 @@ import { GET_ALERT_URL, GET_UNREAD_ALERT_COUNT_URL, GET_UNREAD_ALERT_URL, PUT_AL
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { AxiosError } from "axios";
 import { AlertResponseDto } from "@/dtos/alert/response/Alert.response.dto";
+import { PageResponseDto } from "@/dtos/PageResponseDto";
 
 export const getUnreadAlerts = async (
   employeeId: number,
-  accessToken: string
-): Promise<ResponseDto<any[]>> => {
+  accessToken: string,
+  page: number = 0,
+  size: number = 10
+): Promise<ResponseDto<PageResponseDto<AlertResponseDto>>> => {
   try {
-    const url = GET_UNREAD_ALERT_URL.replace("{employeeId}", String(employeeId));
+    const url = GET_UNREAD_ALERT_URL.replace("{employeeId}", String(employeeId)) + `?page=${page}${size}`;
     const response = await axiosInstance.get(url, bearerAuthorization(accessToken));
     return responseSuccessHandler(response);
   } catch(error) {

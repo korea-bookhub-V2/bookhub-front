@@ -41,5 +41,11 @@ export const commonMenu: SidebarMenu[] = [
             {label: '카테고리별 베스트셀러', path: '/best-seller/category'},
         ],
     },
+    {
+        title: '도서 검색',
+        submenu: [
+            {label: '통합 검색', path: '/books/search'},
+        ],
+    },
 
 ];
