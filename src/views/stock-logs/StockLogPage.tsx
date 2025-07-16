@@ -10,8 +10,14 @@ interface Branch{
   name : string
 }
 
+interface StockLogPageProps{
+  branches? : Branch[]
+}
+
 const PAGE_SIZE = 10;
-function StockLogPage({branches}:{branches:Branch[]}) {
+function StockLogPage({
+  branches = [],
+}: StockLogPageProps) {
   const [cookies] = useCookies(['accessToken']);
   const accessToken = cookies.accessToken;
 
