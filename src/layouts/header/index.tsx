@@ -26,7 +26,7 @@ export default function Header(){
     return(
         <header>
             <div>
-                <img src="@/public/북허브_로고_배경제거.png" 
+                <img src="@/public/북허브_로고_배경제거_navy.png" 
                 alt="북허브 로고"
                 onClick = {onLogoClick}
                 className = {styles.logoImg}
