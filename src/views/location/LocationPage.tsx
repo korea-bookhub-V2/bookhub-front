@@ -52,7 +52,18 @@ function LocationPage() {
       isbn || undefined,
       branchId ? Number(branchId) : undefined
     );
- function LocationPage() {
+
+    if (res.code === "SU" && res.data) {
+      setLocations(res.data.content);
+      setCurrentPage(res.data.currentPage);
+      setTotalPage(res.data.totalPages);
+      setMessage("");
+    } else {
+      setLocations([]);
+      setCurrentPage(0);
+      setTotalPage(0);
+      setMessage(res.message);
+    }
   };
 
   const reset = () => {
@@ -168,12 +179,16 @@ function LocationPage() {
               <td>{loc.bookTitle}</td>
               <td>{loc.floor}</td>
               <td>{loc.hall}</td>
-              <td>{(loc as any).section ?? ""}</td>
+              <td>{loc.section}</td>
               <td>{loc.type}</td>
               <td>{loc.note}</td>
               <td>
-                <button className="modifyBtn" onClick={() => openUpdateModal(loc.locationId)}>수정</button>
-                <button className="deleteBtn" onClick={() => handleDelete(loc.locationId)}>삭제</button>
+                <button className="modifyBtn" onClick={() => openUpdateModal(loc.locationId)}>
+                  수정
+                </button>
+                <button className="deleteBtn" onClick={() => handleDelete(loc.locationId)}>
+                  삭제
+                </button>
               </td>
             </tr>
           ))}
@@ -181,12 +196,12 @@ function LocationPage() {
       </table>
       <div className="footer">
         <button className="pageBtn" onClick={goPrev} disabled={currentPage === 0}>
-          {"<"}
+          {'<'}
         </button>
         {Array.from({ length: totalPage }, (_, i) => i).map((i) => (
           <button
             key={i}
-            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            className={`pageBtn${i === currentPage ? ' current' : ''}`}
             onClick={() => goToPage(i)}
           >
             {i + 1}
@@ -197,10 +212,10 @@ function LocationPage() {
           onClick={goNext}
           disabled={currentPage >= totalPage - 1}
         >
-          {">"}
+          {'>'}
         </button>
         <span className="pageText">
-          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
+          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : '0 / 0'}
         </span>
       </div>
       {isCreateOpen && (
@@ -223,6 +238,6 @@ function LocationPage() {
       )}
     </div>
   );
-}}
+}
 
 export default LocationPage;
