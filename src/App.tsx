@@ -16,6 +16,7 @@ import Publisher from './views/publisher';
 import Policy from './views/policy';
 import StockLog from './views/stock-logs';
 import LocationPage from './views/location/LocationPage';
+import MainPage from './views/main/MainPage';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -55,6 +56,7 @@ function App() {
           >
             <Routes>
               <Route path="/" element={<Navigate to="/main" />} />
+               <Route path = "/main" element = {<MainPage />} />
               {/* <Route path="/alerts/*" element={<AlertPage />} /> */}
               {/* <Route path="/books/*" element={<Book />} /> */}
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
@@ -66,12 +68,7 @@ function App() {
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
               {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
               
-             <Route path="/stock-logs/*" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <StockLog />
-                </RequireAuth>
-              }
-              /> 
+             <Route path="/stock-logs/*" element={<StockLog />}/> 
               {/* <Route path="/statistics/stocks/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <StockStatistics />
