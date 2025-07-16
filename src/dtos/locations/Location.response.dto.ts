@@ -5,6 +5,7 @@ export interface LocationResponseDto{
     bookTitle : string;
     floor: string;
     hall: string;
+    section:string;
     type: DisplayType;
     note: string;
 }

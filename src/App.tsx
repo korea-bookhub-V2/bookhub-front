@@ -15,6 +15,7 @@ import PasswordChange from './views/auth/PasswordChange';
 import Publisher from './views/publisher';
 import Policy from './views/policy';
 import StockLog from './views/stock-logs';
+import LocationPage from './views/location/LocationPage';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -59,7 +60,7 @@ function App() {
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
               <Route path="/publishers/*" element={<Publisher />} />
               <Route path="/policies/*" element={<Policy />} />
-              {/* <Route path="/branch/locations" element={<LocationPage />} /> */}
+              <Route path="/locations" element={<LocationPage />} />
               {/* <Route path="/author/else" element={<ElseAuthor />} /> */}
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
