@@ -10,7 +10,7 @@ export const commonMenu: SidebarMenu[] = [
     {
         title: '진열위치 관리',
         submenu: [
-            {label: '진열위치 관리', path: '/branch/locations'},
+            {label: '진열위치 관리', path: '/locations'},
 
         ],
     },
