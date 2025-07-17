@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import { PublisherRequestDto } from "@/dtos/publishers/publisher.request.dto";
 import { PageResponseDto } from "@/dtos/PageResponseDto";
 
+
 export const createPublisher = async (
     dto: PublisherRequestDto,
     accessToken: string
@@ -59,3 +60,28 @@ export const deletePublisher = async (
         );
     }
 };
+
+export const getPublishers = async(
+    accessToken : string,
+    page: number,
+    size : number,
+    keyword? : string
+): Promise<
+ResponseDto<
+PageResponseDto<PublisherResponseDto>| PublisherResponseDto[]>> => {
+ try{
+    let url = `${GET_ALL_PUBLISHER_URL}?page=${page}&size=${size}`;
+    if(keyword && keyword.trim() ! == ''){
+        url += `&keyword=${encodeURIComponent(keyword.trim())}`;
+    }
+    const response = await axiosInstance.get(
+        url,
+        bearerAuthorization(accessToken)
+    );
+    return responseSuccessHandler(response);
+ }   catch(error){
+    return responseErrorHandler(
+        error as AxiosError<ResponseDto<PageResponseDto<PublisherResponseDto>| PublisherResponseDto[]>>
+    );
+ }
+}
