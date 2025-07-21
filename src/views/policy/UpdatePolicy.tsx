@@ -13,7 +13,6 @@ interface UpdatePolicyProps {
     onUpdate: () => void;
     policyDetail: PolicyDetailResponseDto;
     policyId: number;
-
 }
 
 function UpdatePolicy({ isOpen, onClose, onUpdate, policyDetail, policyId }: UpdatePolicyProps) {

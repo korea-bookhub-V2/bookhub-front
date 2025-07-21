@@ -1,10 +1,12 @@
 
 
-import { deletePublisher, getPublishers } from '@/apis/publisher/publisher';
+import { deletePublisher, getPublisher, getPublishers } from '@/apis/publisher/publisher';
 import { PageResponseDto } from '@/dtos/PageResponseDto';
 import { PublisherListResponseDto, PublisherResponseDto } from '@/dtos/publishers/publisher.response.dto';
 import React, { useState } from 'react'
 import { useCookies } from 'react-cookie';
+import Createpublisher from './Createpublisher';
+import UpdatePublisher from './UpdatePublisher';
 
 const PAGE_SIZE = 10;
 
@@ -17,6 +19,7 @@ function Publisherpage() {
     const [totalPage, setTotalPage] = useState<number>(0);
     const [searh, setSearch] = useState('');
     const [publishers, setPublishers] = useState<PublisherResponseDto[]>([]);
+    const [selectedDetail, setSelectedDetail] = useState<PublisherResponseDto | null>(null);
     const [selectedPublisherId, setSelectedPublisherId] = useState<number | null>(null);
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isUpdateOpen, setIsUpdateOpen] = useState(false);
@@ -70,6 +73,38 @@ function Publisherpage() {
         }
       };
 
+      const openUpdateModal = async(id : number) => {
+        if(!token) return;
+        try{
+            const response = await getPublisher(id, token);
+            if(response.code === "SU" && response.data){
+                setSelectedDetail(response.data);
+                setSelectedPublisherId(id);
+                setIsUpdateOpen(true);
+            }else{
+                alert(response.message);
+            }
+            
+        }catch(err){
+            console.error("상세 조회 예외", err);
+            alert("상세 조회 중 오류 발생");
+        }
+      }
+
+  const handleUpdateClose = () => {
+    setSelectedDetail(null);
+    setIsUpdateOpen(false);
+  };
+
+  const handleUpdated = () => {
+    handleUpdateClose();
+    fetchPage(currentPage);
+  }
+
+  const goToPage = (page : number) => {
+    if(page<0 || page >=totalPage) return;
+    fetchPage(page);
+  };
 
     return (
       <div className=''>
@@ -78,9 +113,55 @@ function Publisherpage() {
         </div>
 
         <div className=''>
-            <input type="text" value={keyword}/>
+            <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
+            
+            <button className='' onClick={() => goToPage(0)}>검색</button>
+            </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>IDX</th>
+                            <th>출판사 이름</th>
+                           
+                            <th>수정</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {publishers.map((p) => (
+                            <tr key = {p.publisherId}>
+                                <td>{p.publisherId}</td>
+                                <td>{p.publisherName}</td>
+                            
+                                <td><button className = "modifyBtn" onClick={() => openUpdateModal(p.publisherId)}>수정</button></td>
+                                
+                                <td><button className = "deleteBtn" onClick={() => deletePub(p.publisherId)}>삭제</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                 <div className='pagination'>
+            <button className='' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
+            <span>{currentPage+1}/{totalPage}</span>
+            <button className='' disabled={currentPage +1 >= totalPage} onClick={() => goToPage(currentPage+1)}>다음</button>
         </div>
-      </div>
+
+        {isCreateOpen &&(<Createpublisher
+        isOpen = {isCreateOpen}
+        onClose = {() => setIsCreateOpen(false)}
+        onCreated = {() => fetchPage(currentPage)}
+        />)}
+
+        {isUpdateOpen && selectedDetail && selectedPublisherId != null && (
+            <UpdatePublisher
+            isOpen={isUpdateOpen}
+            onClose={handleUpdateClose}
+            onUpdate={handleUpdated}
+            publisherDetail={selectedDetail}
+            publisherId={selectedPublisherId}/>
+        )}
+            </div>
+      
     )
 }
 
