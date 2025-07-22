@@ -1,17 +1,19 @@
-import './App.css'
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { useEmployeeStore } from './stores/employee.store';
-import Sidebar from './layouts/sidebar';
-import Header from './layouts/header';
-import SignUp from './views/auth/SignUp';
-import SignIn from './views/auth/SignIn';
-import SearchBranch from './views/branch/SearchBranch';
-import RequireAuth from './components/RequireAuth';
-import CreateBranch from './views/branch/CreateBranch';
-import LoginIdFindEmail from './views/auth/LoginIdFindEmail';
-import LoginIdGet from './views/auth/LoginIdGet';
-import PasswordChangeSendEmail from './views/auth/PasswordChangeSendEmail';
-import PasswordChange from './views/auth/PasswordChange';
+import "./App.css";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useEmployeeStore } from "./stores/employee.store";
+import Sidebar from "./layouts/sidebar";
+import Header from "./layouts/header";
+import SignUp from "./views/auth/SignUp";
+import SignIn from "./views/auth/SignIn";
+import SearchBranch from "./views/branch/SearchBranch";
+import RequireAuth from "./components/RequireAuth";
+import CreateBranch from "./views/branch/CreateBranch";
+import LoginIdFindEmail from "./views/auth/LoginIdFindEmail";
+import LoginIdGet from "./views/auth/LoginIdGet";
+import PasswordChangeSendEmail from "./views/auth/PasswordChangeSendEmail";
+import PasswordChange from "./views/auth/PasswordChange";
+import Author from "./views/author/Author";
+import CreateAuthor from "./views/author/CreateAuthor";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -20,10 +22,16 @@ function App() {
       <Routes>
         <Route path="/auth/login" element={<SignIn />} />
         <Route path="/auth/sign-up" element={<SignUp />} />
-        <Route path="/auth/login-id-find/email" element={<LoginIdFindEmail/>}/>
-        <Route path="/auth/login-id-find" element={<LoginIdGet/>}/>
-        <Route path="/auth/password-change/email" element={<PasswordChangeSendEmail/>}/>
-        <Route path="/auth/password-change" element={<PasswordChange/>}/>
+        <Route
+          path="/auth/login-id-find/email"
+          element={<LoginIdFindEmail />}
+        />
+        <Route path="/auth/login-id-find" element={<LoginIdGet />} />
+        <Route
+          path="/auth/password-change/email"
+          element={<PasswordChangeSendEmail />}
+        />
+        <Route path="/auth/password-change" element={<PasswordChange />} />
       </Routes>
     );
   }
@@ -56,11 +64,10 @@ function App() {
               {/* <Route path="/publishers/*" element={<Publisher />} /> */}
               {/* <Route path="/policies/*" element={<Policy />} /> */}
               {/* <Route path="/branch/locations" element={<LocationPage />} /> */}
-              {/* <Route path="/author/else" element={<ElseAuthor />} /> */}
+              <Route path="/author/else" element={<Author />} />
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
               {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
-              
               {/* <Route path="/stock-logs/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <StockLog />
@@ -73,17 +80,30 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              <Route path="/branches" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <SearchBranch />
-                </RequireAuth>
-              }
+              <Route
+                path="/author/create"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <CreateAuthor />
+                  </RequireAuth>
+                }
               />
-              <Route path="/branches/manage" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <CreateBranch />
-                </RequireAuth>
-              }
+              ƒ
+              <Route
+                path="/branches"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <SearchBranch />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/branches/manage"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <CreateBranch />
+                  </RequireAuth>
+                }
               />
               {/* <Route path="/categories" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>

@@ -265,6 +265,7 @@ function CreateBranch() {
         <table>
           <thead>
             <tr>
+              <th></th>
               <th>지점 명</th>
               <th>지점 주소</th>
               <th>등록 일자</th>

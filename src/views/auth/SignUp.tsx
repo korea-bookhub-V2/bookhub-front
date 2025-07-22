@@ -85,7 +85,7 @@ function SignUp() {
       const response = await checkLoginIdDuplicate(form.loginId);
       const { code, message } = response;
 
-      if (code === "su") {
+      if (code === "SU") {
         setLoginIdNotExistsMessage(message);
         return;
       } else {
@@ -105,7 +105,7 @@ function SignUp() {
       const response = await checkEmailDuplicate(form.email);
       const { code, message } = response;
 
-      if (code === "su") {
+      if (code === "SU") {
         setEmailNotExistsMessage(message);
       } else {
         setEmailExistsMessage(message);
@@ -123,7 +123,7 @@ function SignUp() {
       const response = await checkPhoneNumberDuplicate(form.phoneNumber);
       const { code, message } = response;
 
-      if (code === "su") {
+      if (code === "SU") {
         setPhoneNumberNotExistsMessage(message);
       } else {
         setPhoneNumberExistsMessage(message);

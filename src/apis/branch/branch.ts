@@ -42,7 +42,7 @@ export const branchSearchRequest = async (
     });
     return responseSuccessHandler(response);
   } catch (error) {
-    return responseErrorHandler(error as AxiosError<ResponseDto<PageResponseDto<null>>>);
+    return responseErrorHandler(error as AxiosError<ResponseDto<PageResponseDto<void>>>);
   }
 };
 
