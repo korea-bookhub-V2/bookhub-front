@@ -12,6 +12,8 @@ import LoginIdFindEmail from './views/auth/LoginIdFindEmail';
 import LoginIdGet from './views/auth/LoginIdGet';
 import PasswordChangeSendEmail from './views/auth/PasswordChangeSendEmail';
 import PasswordChange from './views/auth/PasswordChange';
+import Author from "./views/author/Author";
+import CreateAuthor from "./views/author/CreateAuthor";
 import Publisher from './views/publisher';
 import Policy from './views/policy';
 import StockLog from './views/stock-logs';
@@ -26,10 +28,16 @@ function App() {
         <Route path="/" element={<Navigate to="/auth/login" />} />
         <Route path="/auth/login" element={<SignIn />} />
         <Route path="/auth/sign-up" element={<SignUp />} />
-        <Route path="/auth/login-id-find/email" element={<LoginIdFindEmail/>}/>
-        <Route path="/auth/login-id-find" element={<LoginIdGet/>}/>
-        <Route path="/auth/password-change/email" element={<PasswordChangeSendEmail/>}/>
-        <Route path="/auth/password-change" element={<PasswordChange/>}/>
+        <Route
+          path="/auth/login-id-find/email"
+          element={<LoginIdFindEmail />}
+        />
+        <Route path="/auth/login-id-find" element={<LoginIdGet />} />
+        <Route
+          path="/auth/password-change/email"
+          element={<PasswordChangeSendEmail />}
+        />
+        <Route path="/auth/password-change" element={<PasswordChange />} />
       </Routes>
     );
   }
@@ -60,6 +68,7 @@ function App() {
               {/* <Route path="/alerts/*" element={<AlertPage />} /> */}
               {/* <Route path="/books/*" element={<Book />} /> */}
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
+              <Route path="/author/else" element={<Author />} />
               <Route path="/publishers/*" element={<Publisher />} />
               <Route path="/policies/*" element={<Policy />} />
               <Route path="/locations" element={<LocationPage />} />
@@ -67,7 +76,6 @@ function App() {
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
               {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
-              
              <Route path="/stock-logs/*" element={<StockLog />}/> 
               {/* <Route path="/statistics/stocks/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
@@ -75,17 +83,30 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              <Route path="/branches" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <SearchBranch />
-                </RequireAuth>
-              }
+              <Route
+                path="/author/create"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <CreateAuthor />
+                  </RequireAuth>
+                }
               />
-              <Route path="/branches/manage" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <CreateBranch />
-                </RequireAuth>
-              }
+              ƒ
+              <Route
+                path="/branches"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <SearchBranch />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/branches/manage"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <CreateBranch />
+                  </RequireAuth>
+                }
               />
               {/* <Route path="/categories" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>

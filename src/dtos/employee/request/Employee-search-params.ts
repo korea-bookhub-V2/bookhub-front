@@ -2,8 +2,8 @@ import { Status } from "@/apis/enums/StatusType";
 
 export interface EmployeeSearchParams {
   name: string;
-  branchId: string;
-  positionId: string;
-  authorityId: string;
+  branchId: number;
+  positionId: number;
+  authorityId: number;
   status: Status;
 }
