@@ -1,20 +1,20 @@
 import { ResponseDto } from "@/dtos";
 import { StockUpdateRequestDto } from "@/dtos/stock/Stock.request.dto";
 import { StockResponseDto, StockUpdateResponseDto } from "@/dtos/stock/Stock.response.dto";
-import { GET_FILTERED_STOCKS_URL, PUT_STOCK_URL } from "./StockUrl";
+import { GET_FILTERED_STOCKS_URL, GET_STOCK_URL, PUT_STOCK_URL } from "./StockUrl";
 import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSuccessHandler } from "../axiosConfig";
 import { AxiosError, AxiosResponse } from "axios";
 import { PageResponseDto } from "@/dtos/PageResponseDto";
 
 export const updateStock = async(
-    branchId: number,
+    
     stockId : number,
     dto : StockUpdateRequestDto,
     accessToken : string
 ) : Promise<ResponseDto<StockUpdateResponseDto>> =>{
     try{
         const response = await axiosInstance.put(
-            PUT_STOCK_URL(branchId, stockId),
+            PUT_STOCK_URL( stockId),
             dto,
             bearerAuthorization(accessToken)
         );
@@ -24,13 +24,13 @@ export const updateStock = async(
     }
 }
 
-export const getLocations= async (
+export const getStocks= async (
     accessToken: string,
     page: number,
     size: number,
     bookTitle?: string,
     isbn? : string,
-    branchId? : number //이거 토글로 할건데 어떻게 할지 생각해보기 (branchrepo에서 받아와야하나?)
+    branchId? : number 
 ): Promise<
     ResponseDto<
         PageResponseDto<StockResponseDto>>> => {
@@ -46,3 +46,19 @@ export const getLocations= async (
         PageResponseDto<StockResponseDto>>>);
     }
 };
+
+export const getStockById= async(
+    stockId:number,
+    accessToken: string
+    
+):Promise<ResponseDto<StockResponseDto>> => {
+    try{
+        const response = await axiosInstance.get(
+            GET_STOCK_URL(stockId),
+            bearerAuthorization(accessToken)
+        );
+        return responseSuccessHandler(response);
+    }catch(error){
+        return responseErrorHandler(error as AxiosError<ResponseDto<StockResponseDto>>);
+    }
+}

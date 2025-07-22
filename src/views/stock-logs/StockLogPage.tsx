@@ -4,14 +4,14 @@ import { StockLogResponseDto } from '@/dtos/stock/StockLog.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import StockLogdetail from './StockLogdetail';
+import { StockProps } from '@/components/types/StockProps';
 
-interface Branch{
-  id: number
-  name : string
-}
+
 
 const PAGE_SIZE = 10;
-function StockLogPage({branches}:{branches:Branch[]}) {
+function StockLogPage({
+  branches = [],
+}: StockProps) {
   const [cookies] = useCookies(['accessToken']);
   const accessToken = cookies.accessToken;
 

@@ -44,3 +44,4 @@ export const getPolicyDetail = async(
         return responseErrorHandler(error as AxiosError<ResponseDto<PolicyDetailResponseDto>>);
     }
 }
+

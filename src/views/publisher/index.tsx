@@ -1,8 +1,13 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Publisherpage from './Publisherpage'
 
 function Publisher() {
   return (
-    <div>Publisher</div>
+  <Routes>
+    <Route path="/" element={<Publisherpage/>} />
+      
+    </Routes>
   )
 }
 

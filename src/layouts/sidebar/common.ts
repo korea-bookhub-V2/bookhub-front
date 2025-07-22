@@ -10,7 +10,7 @@ export const commonMenu: SidebarMenu[] = [
     {
         title: '진열위치 관리',
         submenu: [
-            {label: '진열위치 관리', path: '/branch/locations'},
+            {label: '진열위치 관리', path: '/locations'},
 
         ],
     },
@@ -39,6 +39,12 @@ export const commonMenu: SidebarMenu[] = [
             {label: '총합 베스트셀러', path: '/best-seller'},
             {label: '기간별 베스트셀러', path: '/best-seller/period'},
             {label: '카테고리별 베스트셀러', path: '/best-seller/category'},
+        ],
+    },
+    {
+        title: '도서 검색',
+        submenu: [
+            {label: '통합 검색', path: '/books/search'},
         ],
     },
 

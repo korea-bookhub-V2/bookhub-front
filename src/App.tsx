@@ -1,25 +1,31 @@
-import "./App.css";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useEmployeeStore } from "./stores/employee.store";
-import Sidebar from "./layouts/sidebar";
-import Header from "./layouts/header";
-import SignUp from "./views/auth/SignUp";
-import SignIn from "./views/auth/SignIn";
-import SearchBranch from "./views/branch/SearchBranch";
-import RequireAuth from "./components/RequireAuth";
-import CreateBranch from "./views/branch/CreateBranch";
-import LoginIdFindEmail from "./views/auth/LoginIdFindEmail";
-import LoginIdGet from "./views/auth/LoginIdGet";
-import PasswordChangeSendEmail from "./views/auth/PasswordChangeSendEmail";
-import PasswordChange from "./views/auth/PasswordChange";
+import './App.css'
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { useEmployeeStore } from './stores/employee.store';
+import Sidebar from './layouts/sidebar';
+import Header from './layouts/header';
+import SignUp from './views/auth/SignUp';
+import SignIn from './views/auth/SignIn';
+import SearchBranch from './views/branch/SearchBranch';
+import RequireAuth from './components/RequireAuth';
+import CreateBranch from './views/branch/CreateBranch';
+import LoginIdFindEmail from './views/auth/LoginIdFindEmail';
+import LoginIdGet from './views/auth/LoginIdGet';
+import PasswordChangeSendEmail from './views/auth/PasswordChangeSendEmail';
+import PasswordChange from './views/auth/PasswordChange';
 import Author from "./views/author/Author";
 import CreateAuthor from "./views/author/CreateAuthor";
+import Publisher from './views/publisher';
+import Policy from './views/policy';
+import StockLog from './views/stock-logs';
+import LocationPage from './views/location/LocationPage';
+import MainPage from './views/main/MainPage';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
   if (!isLogin) {
     return (
       <Routes>
+        <Route path="/" element={<Navigate to="/auth/login" />} />
         <Route path="/auth/login" element={<SignIn />} />
         <Route path="/auth/sign-up" element={<SignUp />} />
         <Route
@@ -58,22 +64,19 @@ function App() {
           >
             <Routes>
               <Route path="/" element={<Navigate to="/main" />} />
+               <Route path = "/main" element = {<MainPage />} />
               {/* <Route path="/alerts/*" element={<AlertPage />} /> */}
               {/* <Route path="/books/*" element={<Book />} /> */}
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
-              {/* <Route path="/publishers/*" element={<Publisher />} /> */}
-              {/* <Route path="/policies/*" element={<Policy />} /> */}
-              {/* <Route path="/branch/locations" element={<LocationPage />} /> */}
               <Route path="/author/else" element={<Author />} />
+              <Route path="/publishers/*" element={<Publisher />} />
+              <Route path="/policies/*" element={<Policy />} />
+              <Route path="/locations" element={<LocationPage />} />
+              {/* <Route path="/author/else" element={<ElseAuthor />} /> */}
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
               {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
-              {/* <Route path="/stock-logs/*" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <StockLog />
-                </RequireAuth>
-              }
-              /> */}
+             <Route path="/stock-logs/*" element={<StockLog />}/> 
               {/* <Route path="/statistics/stocks/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <StockStatistics />
@@ -135,12 +138,12 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/purchase-order" element={
+               {/* <Route path="/purchase-order" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <ElsePurchaseOrder />
                 </RequireAuth>
               }
-              /> */}
+              />  */}
               {/* <Route path="/purchase-order/approve" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <ApprovePurchaseOrder />
