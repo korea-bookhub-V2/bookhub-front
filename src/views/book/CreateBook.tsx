@@ -9,6 +9,8 @@ import { BookCreateRequestDto } from '@/dtos/book/request/Book.request.dto';
 import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto';
 import { PageResponseDto } from '@/dtos/PageResponseDto';
 import { PublisherResponseDto } from '@/dtos/publishers/publisher.response.dto';
+import { getAllAuthorsByName } from '@/apis/author/author';
+import { AuthorResponseDto } from '@/dtos/author/response/Author.response.dto';
 
 interface CreateBookProps {
   onSuccess: () => Promise<void>;
@@ -75,9 +77,14 @@ function CreateBook({ onSuccess }: CreateBookProps) {
   if (!authorName || !token) return;
 
   const delayDebounce = setTimeout(async () => {
-    const res = await getAllAuthorsByName(authorName, token);
+    const res = await getAllAuthorsByName({
+      authorName,
+      page: 0,
+      size: 0
+    }, token);
+
     if (res.code === 'SU' && res.data) {
-      const options = res.data.map((a: AuthorResponseDto) => ({
+      const options = res.data.content.map((a: AuthorResponseDto) => ({
         label: `${a.authorName} (${a.authorEmail})`,
         value: a.authorId
       }));

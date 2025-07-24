@@ -19,6 +19,11 @@ import Policy from './views/policy';
 import StockLog from './views/stock-logs';
 import LocationPage from './views/location/LocationPage';
 import MainPage from './views/main/MainPage';
+import ReceptionConfirm from './views/reception/ReceptionConfirm';
+import ReceptionPending from './views/reception/ReceptionPending';
+import SearchBook from './views/book/SearchBook';
+import AlertPage from './views/alert/AlertPage';
+import CategoryMain from './views/category/CategoryMain';
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -65,8 +70,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Navigate to="/main" />} />
                <Route path = "/main" element = {<MainPage />} />
-              {/* <Route path="/alerts/*" element={<AlertPage />} /> */}
-              {/* <Route path="/books/*" element={<Book />} /> */}
+              <Route path="/alerts/*" element={<AlertPage />} />
+              <Route path="/books/search*" element={<SearchBook />} />
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
               <Route path="/author/else" element={<Author />} />
               <Route path="/publishers/*" element={<Publisher />} />
@@ -108,24 +113,24 @@ function App() {
                   </RequireAuth>
                 }
               />
-              {/* <Route path="/categories" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              <Route path="/categories" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <CategoryMain />
                 </RequireAuth>
               } 
-              />*/}
-              {/* <Route path="/reception/confirmed" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              />
+              <Route path="/reception/confirmed" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <ReceptionConfirm />
                 </RequireAuth>
               }
-              /> */}
-              {/* <Route path="/reception/pending" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              />
+              <Route path="/reception/pending" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <ReceptionPending />
                 </RequireAuth>
               }
-              /> */}
+              />
               {/* <Route path="/reception/logs" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <AdminReceptionList />
