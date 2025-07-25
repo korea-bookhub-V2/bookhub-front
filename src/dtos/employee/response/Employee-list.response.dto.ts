@@ -1,6 +1,6 @@
 import { Status } from "@/apis/enums/StatusType";
 
-export interface EmployeeListResponse {
+export interface EmployeeListResponseDto {
   employeeId: number;
   employeeNumber: number;
   employeeName: string;

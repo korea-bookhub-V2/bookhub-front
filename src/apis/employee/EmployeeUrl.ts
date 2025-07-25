@@ -3,7 +3,7 @@ import { ADMIN_URL } from "../constants/constants";
 const EMPLOYEE_MODULE_ADMIN = `${ADMIN_URL}/employees`;
 
 export const PUT_EMPLOYEE_CHANGE_URL = (employeeId: number) =>
-  `${EMPLOYEE_MODULE_ADMIN}/${employeeId}/organization`;
+  `${EMPLOYEE_MODULE_ADMIN}/${employeeId}/organization-update`;
 
 export const PUT_EMPLOYEE_STATUS_URL = (employeeId: number) =>
   `${EMPLOYEE_MODULE_ADMIN}/${employeeId}/status`;

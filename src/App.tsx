@@ -1,29 +1,31 @@
-import './App.css'
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { useEmployeeStore } from './stores/employee.store';
-import Sidebar from './layouts/sidebar';
-import Header from './layouts/header';
-import SignUp from './views/auth/SignUp';
-import SignIn from './views/auth/SignIn';
-import SearchBranch from './views/branch/SearchBranch';
-import RequireAuth from './components/RequireAuth';
-import CreateBranch from './views/branch/CreateBranch';
-import LoginIdFindEmail from './views/auth/LoginIdFindEmail';
-import LoginIdGet from './views/auth/LoginIdGet';
-import PasswordChangeSendEmail from './views/auth/PasswordChangeSendEmail';
-import PasswordChange from './views/auth/PasswordChange';
+import "./App.css";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useEmployeeStore } from "./stores/employee.store";
+import Sidebar from "./layouts/sidebar";
+import Header from "./layouts/header";
+import SignUp from "./views/auth/SignUp";
+import SignIn from "./views/auth/SignIn";
+import SearchBranch from "./views/branch/SearchBranch";
+import RequireAuth from "./components/RequireAuth";
+import CreateBranch from "./views/branch/CreateBranch";
+import LoginIdFindEmail from "./views/auth/LoginIdFindEmail";
+import LoginIdGet from "./views/auth/LoginIdGet";
+import PasswordChangeSendEmail from "./views/auth/PasswordChangeSendEmail";
+import PasswordChange from "./views/auth/PasswordChange";
 import Author from "./views/author/Author";
 import CreateAuthor from "./views/author/CreateAuthor";
-import Publisher from './views/publisher';
-import Policy from './views/policy';
-import StockLog from './views/stock-logs';
-import LocationPage from './views/location/LocationPage';
-import MainPage from './views/main/MainPage';
-import ReceptionConfirm from './views/reception/ReceptionConfirm';
-import ReceptionPending from './views/reception/ReceptionPending';
-import SearchBook from './views/book/SearchBook';
-import AlertPage from './views/alert/AlertPage';
-import CategoryMain from './views/category/CategoryMain';
+import Publisher from "./views/publisher";
+import Policy from "./views/policy";
+import StockLog from "./views/stock-logs";
+import LocationPage from "./views/location/LocationPage";
+import MainPage from "./views/main/MainPage";
+import ReceptionConfirm from "./views/reception/ReceptionConfirm";
+import ReceptionPending from "./views/reception/ReceptionPending";
+import SearchBook from "./views/book/SearchBook";
+import AlertPage from "./views/alert/AlertPage";
+import CategoryMain from "./views/category/CategoryMain";
+import EmployeeSearch from "./views/employee/EmployeeSearch";
+import EmployeeChange from "./views/employee/EmployeeChange";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -69,7 +71,7 @@ function App() {
           >
             <Routes>
               <Route path="/" element={<Navigate to="/main" />} />
-               <Route path = "/main" element = {<MainPage />} />
+              <Route path="/main" element={<MainPage />} />
               <Route path="/alerts/*" element={<AlertPage />} />
               <Route path="/books/search*" element={<SearchBook />} />
               {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
@@ -81,7 +83,7 @@ function App() {
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
               {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
-             <Route path="/stock-logs/*" element={<StockLog />}/> 
+              <Route path="/stock-logs/*" element={<StockLog />} />
               {/* <Route path="/statistics/stocks/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <StockStatistics />
@@ -113,23 +115,29 @@ function App() {
                   </RequireAuth>
                 }
               />
-              <Route path="/categories" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <CategoryMain />
-                </RequireAuth>
-              } 
+              <Route
+                path="/categories"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <CategoryMain />
+                  </RequireAuth>
+                }
               />
-              <Route path="/reception/confirmed" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <ReceptionConfirm />
-                </RequireAuth>
-              }
+              <Route
+                path="/reception/confirmed"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <ReceptionConfirm />
+                  </RequireAuth>
+                }
               />
-              <Route path="/reception/pending" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <ReceptionPending />
-                </RequireAuth>
-              }
+              <Route
+                path="/reception/pending"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <ReceptionPending />
+                  </RequireAuth>
+                }
               />
               {/* <Route path="/reception/logs" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
@@ -143,7 +151,7 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-               {/* <Route path="/purchase-order" element={
+              {/* <Route path="/purchase-order" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <ElsePurchaseOrder />
                 </RequireAuth>
@@ -185,24 +193,28 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/employees" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <EmployeeSearch />
-                </RequireAuth>
-              }
-              /> */}
+              <Route
+                path="/employees"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <EmployeeSearch />
+                  </RequireAuth>
+                }
+              />
               {/* <Route path="/employees/approval" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <EmployeeSignUpApprovals />
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/employees/edit" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <EmployeeChange />
-                </RequireAuth>
-              }
-              /> */}
+              <Route
+                path="/employees/edit"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <EmployeeChange />
+                  </RequireAuth>
+                }
+              />
               {/* <Route path="/employee/approval/logs" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <EmployeeSignUpApprovalsSearch />
