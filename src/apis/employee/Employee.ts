@@ -15,17 +15,18 @@ import {
 } from "./EmployeeUrl";
 import { AxiosError } from "axios";
 import { EmployeeSearchParams } from "@/dtos/employee/request/Employee-search-params";
-import { EmployeeListResponse } from "@/dtos/employee/response/Employee-list.response.dto";
 import { EmployeeDetailResponseDto } from "@/dtos/employee/response/Employee-detail.response.dto";
 import { EmployeeSignUpListResponseDto } from "@/dtos/employee/response/Employee-sign-up-list.response.dto";
 import { EmployeeSignUpApprovalRequestDto } from "@/dtos/employee/request/Employee-sign-up-approval.request.dto";
 import { EmployeeChangeRequestDto } from "@/dtos/employee/request/Employee-change.request.dto";
 import { EmployeeExitUpdateRequestDto } from "@/dtos/employee/request/Employee-exit-update.request.dto";
+import { EmployeeListResponseDto } from "@/dtos/employee/response/Employee-list.response.dto";
+import { PageResponseDto } from "@/dtos/PageResponseDto";
 
 export const employeeRequest = async (
   params: EmployeeSearchParams,
   accessToken: string
-): Promise<ResponseDto<EmployeeListResponse[]>> => {
+): Promise<ResponseDto<PageResponseDto<EmployeeListResponseDto>>> => {
   try {
     const response = await axiosInstance.get(GET_ALL_EMPLOYEE_URL, {
       params,

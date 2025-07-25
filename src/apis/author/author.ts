@@ -51,20 +51,6 @@ export const checkDuplicateAuthorEmail = async (
   }
 };
 
-export const getAllAuthors = async (
-  accessToken: string
-): Promise<ResponseDto<AuthorResponseDto[]>> => {
-  try {
-    const response = await axiosInstance.get(
-      GET_ALL_AUTHOR_URL,
-      bearerAuthorization(accessToken)
-    );
-    return responseSuccessHandler(response);
-  } catch (error) {
-    return responseErrorHandler(error as AxiosError<ResponseDto>);
-  }
-};
-
 export const getAllAuthorsByName = async (
   params: AuthorSearchParams,
   accessToken: string
@@ -76,9 +62,7 @@ export const getAllAuthorsByName = async (
     });
     return responseSuccessHandler(response);
   } catch (error) {
-    return responseErrorHandler(
-      error as AxiosError<ResponseDto<PageResponseDto<void>>>
-    );
+    return responseErrorHandler(error as AxiosError<ResponseDto>);
   }
 };
 
