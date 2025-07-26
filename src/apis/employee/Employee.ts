@@ -54,13 +54,14 @@ export const employeeDetailRequeset = async (
 };
 
 export const employeeSignUpListRequest = async (
+  params: { page: number; size: number },
   accessToken: string
-): Promise<ResponseDto<EmployeeSignUpListResponseDto[]>> => {
+): Promise<ResponseDto<PageResponseDto<EmployeeSignUpListResponseDto>>> => {
   try {
-    const response = await axiosInstance.get(
-      GET_PENDING_EMPLOYEE_URL,
-      bearerAuthorization(accessToken)
-    );
+    const response = await axiosInstance.get(GET_PENDING_EMPLOYEE_URL, {
+      params,
+      ...bearerAuthorization(accessToken),
+    });
     return responseSuccessHandler(response);
   } catch (error) {
     return responseErrorHandler(error as AxiosError<ResponseDto>);

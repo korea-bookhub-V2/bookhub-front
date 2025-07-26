@@ -147,7 +147,6 @@ function EmployeeChange() {
         if ("content" in data) {
           setEmployeeList(data.content);
           setTotalPage(data.totalPages);
-          console.log(data.totalPages);
           setCurrentPage(data.currentPage);
           setMessage("");
         } else {

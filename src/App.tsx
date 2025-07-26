@@ -26,6 +26,7 @@ import AlertPage from "./views/alert/AlertPage";
 import CategoryMain from "./views/category/CategoryMain";
 import EmployeeSearch from "./views/employee/EmployeeSearch";
 import EmployeeChange from "./views/employee/EmployeeChange";
+import EmployeeSignUpApprovals from "./views/employee/EmployeeSignUpApprovals";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -201,12 +202,12 @@ function App() {
                   </RequireAuth>
                 }
               />
-              {/* <Route path="/employees/approval" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              <Route path="/employees/approval" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <EmployeeSignUpApprovals />
                 </RequireAuth>
               }
-              /> */}
+              />
               <Route
                 path="/employees/edit"
                 element={
