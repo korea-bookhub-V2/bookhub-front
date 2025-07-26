@@ -122,7 +122,6 @@ function EmployeeSearch() {
         if ("content" in data) {
           setEmployeeList(data.content);
           setTotalPage(data.totalPages);
-          console.log(data.totalPages);
           setCurrentPage(data.currentPage);
           setMessage("");
         } else {
@@ -312,7 +311,7 @@ function EmployeeSearch() {
               </option>
             ))}
           </select>
-          <div className="search-button">
+          <div>
             <button onClick={() => onSearchClick(0)}>검색</button>
             <button onClick={onResetClick}>초기화</button>
           </div>
