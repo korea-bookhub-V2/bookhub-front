@@ -27,6 +27,7 @@ import CategoryMain from "./views/category/CategoryMain";
 import EmployeeSearch from "./views/employee/EmployeeSearch";
 import EmployeeChange from "./views/employee/EmployeeChange";
 import EmployeeSignUpApprovals from "./views/employee/EmployeeSignUpApprovals";
+import SignUpInfoUpdate from "./views/auth/SignUpInfoUpdate";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -46,6 +47,7 @@ function App() {
           element={<PasswordChangeSendEmail />}
         />
         <Route path="/auth/password-change" element={<PasswordChange />} />
+        <Route path="/auth/sign-up/update" element={<SignUpInfoUpdate />} />
       </Routes>
     );
   }
