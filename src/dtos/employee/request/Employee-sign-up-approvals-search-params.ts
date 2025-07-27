@@ -1,8 +1,10 @@
 export interface EmployeeSignUpApprovalsSearchParams {
+  page: number;
+  size: number;
   employeeName: string;
-  authorityName: string;
+  authorizerName: string;
   isApproved: string;
-  deniedReason: string;
+  deniedReason?: string ;
   startUpdatedAt: string;
   endUpdatedAt: string;
 }

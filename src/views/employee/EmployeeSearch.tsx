@@ -1,7 +1,5 @@
 import { authorityRequest } from "@/apis/authority/authority";
-import { GET_ALL_AUTHORITY_URL } from "@/apis/authority/authorityUrl";
 import { branchRequest } from "@/apis/branch/branch";
-import { GET_ALL_BRANCH_URL } from "@/apis/branch/branchUrl";
 import Modal from "@/apis/constants/Modal";
 import {
   employeeDetailRequeset,
@@ -9,7 +7,6 @@ import {
 } from "@/apis/employee/Employee";
 import { StatusT } from "@/apis/enums/StatusType";
 import { positionRequest } from "@/apis/position/position";
-import { GET_ALL_POSITION_URL } from "@/apis/position/positionUrl";
 import { AuthorityListResponseDto } from "@/dtos/authority/Authority-list.response.dto";
 import { BranchSearchResponseDto } from "@/dtos/branch/response/Branch-search.response.dto";
 import { EmployeeSearchParams } from "@/dtos/employee/request/Employee-search-params";

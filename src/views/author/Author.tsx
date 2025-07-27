@@ -173,6 +173,9 @@ function Author() {
     if (currentPage < totalPage - 1) goToPage(currentPage + 1);
   };
 
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
+
   const authorList = authors.map((author) => {
     return (
       <tr key={author.authorId}>
@@ -260,7 +263,10 @@ function Author() {
         >
           {"<"}
         </button>
-        {Array.from({ length: totalPage }, (_, i) => i).map((i) => (
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
           <button
             key={i}
             className={`pageBtn${i === currentPage ? " current" : ""}`}

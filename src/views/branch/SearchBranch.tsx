@@ -81,6 +81,8 @@ function SearchBranch() {
   const goNext = () => {
     if (currentPage < totalPage - 1) goToPage(currentPage + 1);
   };
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
   return (
     <div>
@@ -111,7 +113,7 @@ function SearchBranch() {
         <tbody>
           {branchList.map((branch, index) => (
             <tr key={branch.branchId}>
-              <td>{currentPage * PAGE_SIZE + index +1}</td>
+              <td>{currentPage * PAGE_SIZE + index + 1}</td>
               <td>{branch.branchName}</td>
               <td>{branch.branchLocation}</td>
               <td>{branch.createdAt}</td>
@@ -127,7 +129,10 @@ function SearchBranch() {
         >
           {"<"}
         </button>
-        {Array.from({ length: totalPage }, (_, i) => i).map((i) => (
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
           <button
             key={i}
             className={`pageBtn${i === currentPage ? " current" : ""}`}
