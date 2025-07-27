@@ -245,6 +245,9 @@ function CreateBranch() {
     if (currentPage < totalPage - 1) goToPage(currentPage + 1);
   };
 
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
+
   return (
     <div>
       <h2>지점 괸리</h2>
@@ -299,7 +302,10 @@ function CreateBranch() {
           >
             {"<"}
           </button>
-          {Array.from({ length: totalPage }, (_, i) => i).map((i) => (
+          {Array.from(
+            { length: endPage - startPage },
+            (_, i) => startPage + i
+          ).map((i) => (
             <button
               key={i}
               className={`pageBtn${i === currentPage ? " current" : ""}`}

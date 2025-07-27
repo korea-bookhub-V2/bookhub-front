@@ -1,7 +1,7 @@
 import { employeeUpdateRequest, verifyTokenEmployee } from "@/apis/auth/auth";
 import { branchRequest } from "@/apis/branch/branch";
 import { BranchSearchResponseDto } from "@/dtos/branch/response/Branch-search.response.dto";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 function SignUpInfoUpdate() {

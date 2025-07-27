@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 function PasswordChange() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [verified, setVerifed] = useState(false);
   const [form, setForm] = useState<PasswordChangeRequestDto>({
