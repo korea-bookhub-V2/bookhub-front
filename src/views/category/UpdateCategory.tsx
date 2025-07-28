@@ -10,7 +10,7 @@ interface UpdateCategoryProps {
   mode: "update" | "delete";
 }
 
-function UpdateCategory({ category, onSuccess, mode }: UpdateCategoryProps) {
+function UpdateCategory({ category, onSuccess }: UpdateCategoryProps) {
   const [categoryName, setCategoryName] = useState("");
   const [categoryType, setCategoryType] = useState<"DOMESTIC" | "FOREIGN">("DOMESTIC");
   const [discountPolicyId, setDiscountPolicyId] = useState<number | null>(null);
@@ -37,6 +37,7 @@ function UpdateCategory({ category, onSuccess, mode }: UpdateCategoryProps) {
       categoryName,
       categoryType,
       isActive,
+      categoryLevel: category.categoryLevel,
       ...(discountPolicyId !== null ? { discountPolicyId } : {}),
     };
 
@@ -46,31 +47,6 @@ function UpdateCategory({ category, onSuccess, mode }: UpdateCategoryProps) {
       onSuccess();
     } catch (err) {
       alert("카테고리 수정 실패");
-    }
-  };
-
-  const handleDeactivate = async () => {
-    const confirm = window.confirm("정말 이 카테고리를 비활성화하시겠습니까?");
-    if (!confirm) return;
-
-    const token = cookies.accessToken;
-    if (!token) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    const dto: CategoryUpdateRequestDto = {
-      categoryName,
-      categoryType,
-      isActive: false,
-    };
-    
-    try {
-      await updateCategory(category.categoryId, dto, token);
-      alert("카테고리 비활성화 완료");
-      onSuccess();
-    } catch (error) {
-      alert("비활성화 실패");
     }
   };
 
@@ -107,8 +83,7 @@ function UpdateCategory({ category, onSuccess, mode }: UpdateCategoryProps) {
         활성 상태
       </label>
 
-      { mode === "update" && <button type="submit">수정</button>}
-      { mode === "delete" && <button type="button" onClick={handleDeactivate}>비활성화(삭제)</button>}
+      <button type="submit">수정</button>
     </form>
   );
 }

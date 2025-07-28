@@ -1,32 +1,31 @@
-import { getRootCategories, createCategory } from "@/apis/category/category";
-import { CategoryCreateRequestDto } from "@/dtos/category/request/Category.request.dto";
-import { CategoryTreeResponseDto } from "@/dtos/category/response/Category.response.dto";
-import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
+import { createCategory, getRootCategories } from '@/apis/category/category';
+import { CategoryCreateRequestDto } from '@/dtos/category/request/Category.request.dto';
+import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto';
+import React, { useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie';
 
 interface CreateCategoryProps {
-  parentCategories: CategoryTreeResponseDto[];
   onSuccess: () => Promise<void>;
 }
 
 function CreateCategory({ onSuccess }: CreateCategoryProps) {
+  const [cookies] = useCookies(["accessToken"]);
   const [categoryName, setCategoryName] = useState("");
   const [categoryType, setCategoryType] = useState<"DOMESTIC" | "FOREIGN">("DOMESTIC");
   const [categoryLevel, setCategoryLevel] = useState<1 | 2>(1);
   const [parentCategoryId, setParentCategoryId] = useState<number | null>(null);
   const [parentCategories, setParentCategories] = useState<CategoryTreeResponseDto[]>([]);
-  const [cookies] = useCookies(["accessToken"]);
+  const [message, setMessage] = useState("");
 
-  
+  const token = cookies.accessToken;
+  if(!token) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
   useEffect(() => {
-    if (categoryLevel !== 2) {
+    if (categoryLevel !==2 || !token) {
       setParentCategories([]);
-      return;
-    }
-
-    const token = cookies.accessToken;
-    if (!token) {
-      alert("로그인이 필요합니다.");
       return;
     }
 
@@ -39,14 +38,16 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
         alert("대분류 조회 실패");
       }
     });
-  }, [categoryLevel, categoryType]);
+  }, [categoryLevel, categoryType, token]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onCreateClick = async () => {
+    if (!categoryName.trim()) {
+      setMessage("카테고리 이름을 입력해주십시오.");
+      return;
+    }
 
-    const token = cookies.accessToken;
     if (!token) {
-      alert("로그인이 필요합니다.");
+      alert("인증 토큰이 없습니다.");
       return;
     }
 
@@ -58,16 +59,20 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
     };
 
     try {
-      const res = await createCategory(dto, token);
-      if (res.code !== "SU") throw new Error(res.message);
+      const response = await createCategory(dto, token);
+      if (response.code !== "SU") {
+        setMessage(response.message);
+        return;
+      }
 
       alert("카테고리 등록 성공!");
+      onSuccess();
       setCategoryName("");
       setCategoryType("DOMESTIC");
       setCategoryLevel(1);
       setParentCategoryId(null);
       setParentCategories([]);
-      await onSuccess();
+      setMessage("");
     } catch (err) {
       console.error(err);
       alert("카테고리 등록 실패");
@@ -75,72 +80,64 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
   };
 
   return (
-    <div className="">
-      <form onSubmit={handleSubmit} className="">
-      <h2 className="">카테고리 등록</h2>
-
+    <div>
+      <h2>카테고리 등록</h2>
       <input
         type="text"
         value={categoryName}
         onChange={(e) => setCategoryName(e.target.value)}
-        placeholder="카테고리 이름"
-        className=""
-        required
-      />
+        placeholder="카테고리 이름"/>
 
-      <select
-        value={categoryType}
-        onChange={(e) => setCategoryType(e.target.value as "DOMESTIC" | "FOREIGN")}
-        className=""
-      >
-        <option value="DOMESTIC">국내도서</option>
-        <option value="FOREIGN">해외도서</option>
-      </select>
-
-      <div className="">
-        <label>
-          <input
-            type="radio"
-            name="categoryLevel"
-            value={1}
-            checked={categoryLevel === 1}
-            onChange={() => setCategoryLevel(1)}
-          />
-          대분류
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="categoryLevel"
-            value={2}
-            checked={categoryLevel === 2}
-            onChange={() => setCategoryLevel(2)}
-          />
-          소분류
-        </label>
-      </div>
-
-      {categoryLevel === 2 && (
         <select
-          value={parentCategoryId ?? ""}
-          onChange={(e) => setParentCategoryId(Number(e.target.value))}
-          className=""
-          required
-        >
-          <option value="">카테고리 선택</option>
-          {parentCategories.map((cat) => (
-            <option key={cat.categoryId} value={cat.categoryId}>
-              {cat.categoryName}
-            </option>
-          ))}
-        </select>
-      )}
+          value={categoryType}
+          onChange={(e) => setCategoryType(e.target.value as "DOMESTIC" | "FOREIGN")}
+          className="de-input">
+            <option value="DOMESTIC">국내도서</option>
+            <option value="FOREIGN">해외도서</option>
+          </select>
 
-      <button type="submit" className="">등록</button>
-    </form>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="categoryLevel"
+                value={1}
+                checked={categoryLevel === 1}
+                onChange={() => setCategoryLevel(1)}/>
+                대분류
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="categoryLevel"
+                value={2}
+                checked={categoryLevel === 2}
+                onChange={() => setCategoryLevel(2)}/>
+                소분류
+            </label>
+          </div>
+
+          {categoryLevel === 2 && (
+            <select
+              value={parentCategoryId ?? ""}
+              onChange={(e) => setParentCategoryId(Number(e.target.value))}
+              required>
+                <option value="">상위 카테고리 선택</option>
+                {parentCategories.map((cat) => (
+                  <option key={cat.categoryId} value={cat.categoryId}>
+                    {cat.categoryName}
+                  </option>
+                ))}
+              </select>
+          )}
+
+          {message && <p>{message}</p>}
+
+          <div>
+            <button onClick={onCreateClick}>등록</button>
+          </div>
     </div>
-    
   );
 }
 
-export default CreateCategory;
+export default CreateCategory

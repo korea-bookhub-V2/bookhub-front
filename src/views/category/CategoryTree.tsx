@@ -1,13 +1,14 @@
 import { getCategoryTree } from '@/apis/category/category';
 import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 
 interface CategoryTreeProps {
   onSelect: (category: CategoryTreeResponseDto) => void;
+  onEdit?: (category: CategoryTreeResponseDto) => void;
 }
 
-const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect }) => {
+const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect, onEdit }) => {
   const [cookies] = useCookies(["accessToken"]);
 
   const [categoriesMap, setCategoriesMap] = useState<{
@@ -53,22 +54,22 @@ const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect }) => {
 
       return (
         <div key={cat.categoryId}>
-          <div
-            className="category"
-            onClick={() => {
-              if (hasChildren) toggleCategory(cat.categoryId);
-              onSelect(cat);
-            }}
-          >
-            {hasChildren ? (isExpanded ? "▼" : "▶") : "•"} {cat.categoryName}
+          <div>
+            <span onClick={() => hasChildren && toggleCategory(cat.categoryId)} style={{ cursor: hasChildren ? 'pointer' : 'default' }}>
+              {hasChildren ? (isExpanded ? "▼" : "▶") : "•"}
+            </span>
+            <span onClick={() => onEdit?.(cat)}>
+              {cat.categoryName}
+            </span>
           </div>
+
           {isExpanded && hasChildren && (
             <div>
               {cat.subCategories!.map((sub) => (
                 <div
                   key={sub.categoryId}
-                  className="subcategory-item"
-                  onClick={() => onSelect(sub)}
+                  className=""
+                  onClick={() => onEdit?.(sub)}
                 >
                   {sub.categoryName}
                 </div>
@@ -81,11 +82,11 @@ const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect }) => {
   };
 
   return (
-    <div className="category-container">
+    <div className="">
       <h2>전체 도서 카테고리</h2>
       <div>
         <div
-          className="category-type"
+          className=""
           onClick={() => fetchCategories("DOMESTIC")}
         >
           {expandedType === "DOMESTIC" ? "▼" : "▶"} 국내 도서
