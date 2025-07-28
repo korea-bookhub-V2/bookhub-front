@@ -29,6 +29,7 @@ import EmployeeChange from "./views/employee/EmployeeChange";
 import EmployeeSignUpApprovals from "./views/employee/EmployeeSignUpApprovals";
 import SignUpInfoUpdate from "./views/auth/SignUpInfoUpdate";
 import EmployeeSignUpApprovalsSearch from "./views/employee/EmployeeSignUpApprovalsSearch";
+import EmployeeExitLog from "./views/employee/EmployeeExitLog";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -229,18 +230,22 @@ function App() {
                   </RequireAuth>
                 }
               />
-              {/* <Route path="/employees/logs" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <EmployeeChangeLogsSearch />
-                </RequireAuth>
-              }
+              {/* <Route
+                path="/employees/logs"
+                element={
+                  <RequireAuth allowedRoles={["ADMIN"]}>
+                    <EmployeeChangeLogsSearch />
+                  </RequireAuth>
+                }
               /> */}
-              {/* <Route path="/employees/retired/logs" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <EmployeeExitLogs />
-                </RequireAuth>
-              }
-              /> */}
+              <Route
+                path="/employees/retired/logs"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <EmployeeExitLog/>
+                  </RequireAuth>
+                }
+              />
             </Routes>
           </main>
         </div>
