@@ -31,6 +31,7 @@ import SignUpInfoUpdate from "./views/auth/SignUpInfoUpdate";
 import EmployeeSignUpApprovalsSearch from "./views/employee/EmployeeSignUpApprovalsSearch";
 import EmployeeExitLog from "./views/employee/EmployeeExitLog";
 import EmployeeChangeLog from "./views/employee/EmployeeChangeLog";
+import ElsePurchaseOrderApproval from "./views/purchaseOrder/ElsePurchaseOrderApproval";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -169,12 +170,12 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/purchase-order-approval" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              <Route path="/purchase-order-approval" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <ElsePurchaseOrderApproval />
                 </RequireAuth>
               }
-              /> */}
+              />
               {/* <Route path="/statistics/sales-quantity/branch" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <SaleQuantityByBranch />

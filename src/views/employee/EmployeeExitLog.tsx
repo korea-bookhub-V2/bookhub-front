@@ -191,7 +191,7 @@ function EmployeeExitLog() {
               </td>
               <td>{employeeExitLog.authorizerNumber}</td>
               <td>{employeeExitLog.authorizerName}</td>
-              <td>{new Date(employeeExitLog.updatedAt).toLocaleString()}</td>
+              <td>{employeeExitLog.updatedAt}</td>
             </tr>
           ))}
         </tbody>

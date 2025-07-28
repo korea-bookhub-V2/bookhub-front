@@ -212,11 +212,11 @@ function EmployeeSearch() {
                 {new Date(employee?.birthDate || "").toLocaleDateString()}
               </span>
             </div>
-            <div className="field">
+            <div>
               <label>재직 상태</label>
               <span>{employee?.status === "EXITED" ? "퇴사" : "재직"}</span>
             </div>
-            <div className="field">
+            <div>
               <label>입사 일자:</label>
               <span>
                 {new Date(employee?.createdAt || "").toLocaleString()}

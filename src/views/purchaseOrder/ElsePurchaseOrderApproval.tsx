@@ -1,32 +1,27 @@
-import { employeeChangeLogsSearchRequest } from "@/apis/employee/EmployeeChangeLogs";
-import { EmployeeChangeLogsSearchParams } from "@/dtos/employee/request/Employee-change-logs-search-params";
-import { EmployeeChangeLogsResponseDto } from "@/dtos/employee/response/Employee-change-logs.response.dto";
-import { useState } from "react";
+import { PurchaseOrderStatus } from "@/apis/enums/PurchaseOrderStatus";
+import { getAllPurchaseOrderApproval } from "@/apis/purchaseOrder/purchaseOrderApproval";
+import { PurchaseOrderApprovalSearchParams } from "@/dtos/purchaseOrder/PurchaseOrderApprovalSearchParams";
+import { PurchaseOrderApprovalResponseDto } from "@/dtos/purchaseOrderApproval/purchaseOrderApproval.response.dto";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 
-const changeTypeMap: Record<string, string> = {
-  POSITION_CHANGE: "직급 변경",
-  AUTHORITY_CHANGE: "권한 변경",
-  BRANCH_CHANGE: "지점 변경",
-};
-
-function EmployeeChangeLog() {
+function ElsePurchaseOrderApproval() {
   const [cookies] = useCookies(["accessToken"]);
   const token = cookies.accessToken;
   const PAGE_SIZE = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-  const [searchForm, setSearchForm] = useState<EmployeeChangeLogsSearchParams>({
-    page: 0,
-    size: PAGE_SIZE,
-    employeeName: "",
-    authorizerName: "",
-    changeType: "",
-    startUpdatedAt: "",
-    endUpdatedAt: "",
-  });
-  const [employeeChangeLogs, setEmployeeChangeLogs] = useState<
-    EmployeeChangeLogsResponseDto[]
+  const [searchForm, setSearchForm] =
+    useState<PurchaseOrderApprovalSearchParams>({
+      page: 0,
+      size: PAGE_SIZE,
+      employeeName: "",
+      isApproved: undefined,
+      startUpdatedAt: "",
+      endUpdatedAt: "",
+    });
+  const [purchaseOrderApprovals, setPurchaseOrderApprovals] = useState<
+    PurchaseOrderApprovalResponseDto[]
   >([]);
   const [message, setMessage] = useState("");
 
@@ -48,21 +43,18 @@ function EmployeeChangeLog() {
         ...searchForm,
         page: page,
       };
-      const response = await employeeChangeLogsSearchRequest(
-        requestBody,
-        token
-      );
+      const response = await getAllPurchaseOrderApproval(requestBody, token);
 
       const { code, message, data } = response;
 
       if (code === "SU" && data) {
         if ("content" in data) {
-          setEmployeeChangeLogs(data.content);
+          setPurchaseOrderApprovals(data.content);
           setTotalPage(data.totalPages);
           setCurrentPage(data.currentPage);
           setMessage("");
         } else {
-          setEmployeeChangeLogs([]);
+          setPurchaseOrderApprovals([]);
           setMessage(message);
           setTotalPage(1);
           setCurrentPage(0);
@@ -80,12 +72,11 @@ function EmployeeChangeLog() {
       page: 0,
       size: PAGE_SIZE,
       employeeName: "",
-      authorizerName: "",
-      changeType: "",
+      isApproved: undefined,
       startUpdatedAt: "",
       endUpdatedAt: "",
     });
-    setEmployeeChangeLogs([]);
+    setPurchaseOrderApprovals([]);
     setTotalPage(0);
     setMessage("");
     setCurrentPage(0);
@@ -107,34 +98,55 @@ function EmployeeChangeLog() {
   const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
   const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
+  const responsePurchaseOrderApprovalList = purchaseOrderApprovals.map(
+    (purchaseOrderApproval, index) => {
+      return (
+        <tr key={index}>
+          <td>{purchaseOrderApproval.employeeName}</td>
+          <td>{purchaseOrderApproval.isApproved ? "승인" : "승인 거부"}</td>
+          <td>{purchaseOrderApproval.approvedDateAt}</td>
+
+          <td></td>
+          <td>{purchaseOrderApproval.poDetail.branchName}</td>
+          <td>{purchaseOrderApproval.poDetail.employeeName}</td>
+          <td>{purchaseOrderApproval.poDetail.isbn}</td>
+          <td>{purchaseOrderApproval.poDetail.bookTitle}</td>
+          <td>{purchaseOrderApproval.poDetail.purchaseOrderAmount}</td>
+          <td>
+            {purchaseOrderApproval.poDetail.purchaseOrderStatus ==
+            PurchaseOrderStatus.REQUESTED
+              ? "요청중"
+              : purchaseOrderApproval.poDetail.purchaseOrderStatus ===
+                PurchaseOrderStatus.APPROVED
+              ? "승인"
+              : "거부"}
+          </td>
+        </tr>
+      );
+    }
+  );
+
   return (
     <div>
       <div>
-        <h2>회원정보 로그 조회</h2>
         <div>
           <input
             type="text"
             name="employeeName"
             value={searchForm.employeeName}
-            placeholder="사원 명"
-            onChange={onInputChange}
-          />
-          <input
-            type="text"
-            name="authorizerName"
-            value={searchForm.authorizerName}
-            placeholder="관리자 명"
+            placeholder="승인담당자"
             onChange={onInputChange}
           />
           <select
-            name="changeType"
-            value={searchForm.changeType}
+            name="isApproved"
+            value={
+              searchForm.isApproved == null ? "" : String(searchForm.isApproved)
+            }
             onChange={onInputChange}
           >
-            <option value="">변경 종류를 선택하세요</option>
-            <option value="POSITION_CHANGE">직급 변경</option>
-            <option value="AUTHORITY_CHANGE">권한 변경</option>
-            <option value="BRANCH_CHANGE">지점 변경</option>
+            <option value="">전체 (승인여부)</option>
+            <option value="true">승인</option>
+            <option value="false">승인 거부</option>
           </select>
           <input
             type="date"
@@ -157,56 +169,28 @@ function EmployeeChangeLog() {
           </div>
         </div>
       </div>
-      {message && <p>{message}</p>}
-      <table>
-        <thead>
-          <tr>
-            <td></td>
-            <th>사원 번호</th>
-            <th>사원 명</th>
-            <th>변경 종류</th>
-            <th>이전 직급</th>
-            <th>이전 권한</th>
-            <th>이전 지점</th>
-            <th>관리자 사원 번호</th>
-            <th>관리자 명</th>
-            <th>수정 일자</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employeeChangeLogs.map((employeeChangeLog, index) => (
-            <tr key={employeeChangeLog.logId}>
-              <td>{currentPage * PAGE_SIZE + index + 1}</td>
-              <td>{employeeChangeLog.employeeNumber}</td>
-              <td>{employeeChangeLog.employeeName}</td>
-              <td>
-                {employeeChangeLog.changeType
-                  ? changeTypeMap[employeeChangeLog.changeType] ||
-                    employeeChangeLog.changeType
-                  : "-"}
-              </td>
-              <td>
-                {employeeChangeLog.prePositionName
-                  ? employeeChangeLog.prePositionName
-                  : "-"}
-              </td>
-              <td>
-                {employeeChangeLog.preAuthorityName
-                  ? employeeChangeLog.preAuthorityName
-                  : "-"}
-              </td>
-              <td>
-                {employeeChangeLog.preBranchName
-                  ? employeeChangeLog.preBranchName
-                  : "-"}
-              </td>
-              <td>{employeeChangeLog.authorizerNumber}</td>
-              <td>{employeeChangeLog.authorizerName}</td>
-              <td>{employeeChangeLog.updatedAt}</td>
+
+      {purchaseOrderApprovals && (
+        <table>
+          <thead>
+            <tr>
+              <th>승인 담당자</th>
+              <th>승인 여부</th>
+              <th>승인 일자</th>
+
+              <th>[발주서 사항]</th>
+              <th>지점명</th>
+              <th>발주 담당자</th>
+              <th>ISBN</th>
+              <th>책 제목</th>
+              <th>발주 수량</th>
+              <th>승인 상태</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>{responsePurchaseOrderApprovalList}</tbody>
+        </table>
+      )}
+      {message && <p>{message}</p>}
       <div className="footer">
         <button
           className="pageBtn"
@@ -242,4 +226,4 @@ function EmployeeChangeLog() {
   );
 }
 
-export default EmployeeChangeLog;
+export default ElsePurchaseOrderApproval;
