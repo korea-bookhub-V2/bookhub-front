@@ -1,7 +1,7 @@
 import { ChangeType } from "@/apis/enums/ChangeType";
 
 export interface EmployeeChangeLogsResponseDto {
-  loginId: number;
+  logId: number;
   employeeNumber: number;
   employeeName: string;
   changeType: ChangeType;
