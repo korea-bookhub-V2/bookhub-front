@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto';
 import { useCookies } from 'react-cookie';
 import { getCategoryTree } from '@/apis/category/category';
 import CategoryTree from './CategoryTree';
-import CreateCategory from './CreateCategory';
 import UpdateCategory from './UpdateCategory';
-
-type Mode = "create" | "read" | "update" | "delete";
+import CreateCategory from './CreateCategory';
+import Modal from "@/apis/constants/Modal";
 
 function CategoryMain() {
   const [categories, setCategories] = useState<CategoryTreeResponseDto[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<CategoryTreeResponseDto | null>(null);
-  const [mode, setMode] = useState<Mode>("create");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [cookies] = useCookies(["accessToken"]);
 
   const fetchCategories = async () => {
@@ -29,56 +28,45 @@ function CategoryMain() {
     }
   };
 
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   const handleSelectCategory = (category: CategoryTreeResponseDto) => {
     setSelectedCategory(category);
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = async () => {
     fetchCategories();
     setSelectedCategory(null);
   };
 
-  const topLevelCategories = categories.filter((cat) => cat.categoryLevel === 1);
-
   return (
     <div>
-    <div className="topBar">
-      <div style={{ display: "flex", gap: "12px", marginBottom: "20px" }}>
-        <button className="button" onClick={() => setMode("create")}>등록</button>
-        <button className="button" onClick={() => setMode("read")}>전체 조회</button>
-        <button className="button" onClick={() => setMode("update")}>수정</button>
-        <button className="button" onClick={() => setMode("delete")}>삭제</button>
+      <div>
+        <button className="" onClick={() => setIsCreateModalOpen(true)}>등록</button>
+        <button className="" onClick={fetchCategories}>전체 조회</button>
       </div>
-      </div>
-      <div style={{ display: "flex", gap: "32px" }}>
-        {(mode === "read" || mode === "update" || mode === "delete") && (
-          <div style={{ flex: 1 }}>
-            <CategoryTree onSelect={handleSelectCategory} />
-          </div>
-        )}
 
-        <div style={{ flex: 1 }}>
-          {mode === "create" && (
-            <CreateCategory parentCategories={topLevelCategories} onSuccess={fetchCategories} />
-          )}
+      <CategoryTree onSelect={handleSelectCategory} onEdit={(cat) => setSelectedCategory(cat)} />
+      
+      {isCreateModalOpen && (
+        <Modal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}>
+            <CreateCategory onSuccess={handleSuccess} />
+          </Modal>
+      )}
 
-          {mode === "update" && selectedCategory && (
-            <UpdateCategory
-              category={selectedCategory}
-              onSuccess={handleSuccess}
-              mode="update"
-            />
-          )}
-
-          {mode === "delete" && selectedCategory && (
-            <UpdateCategory
-              category={selectedCategory}
-              onSuccess={handleSuccess}
-              mode="delete"
-            />
-          )}
-        </div>
-      </div>
+      {selectedCategory && (
+        <Modal isOpen={true} onClose={() => setSelectedCategory(null)}>
+          <UpdateCategory
+            category={selectedCategory}
+            onSuccess={handleSuccess}
+            mode="update"
+          />
+        </Modal>
+      )}
     </div>
   );
 }

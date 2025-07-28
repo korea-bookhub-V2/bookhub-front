@@ -12,6 +12,7 @@ export interface CategoryUpdateRequestDto {
   categoryName?: string;
   categoryType?: CategoryType;
   parentCategoryId?: number;
+  categoryLevel?: number;
   discountPolicyId?: number;
   isActive?: boolean;
 }
