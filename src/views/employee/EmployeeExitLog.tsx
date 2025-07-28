@@ -1,36 +1,33 @@
-import { employeeSignUpApprovalsSearchRequest } from "@/apis/employee/Employee-sign-up-approvals";
-import { ApprovalStatusT } from "@/apis/enums/ApprovalType";
-import { EmployeeSignUpApprovalsSearchParams } from "@/dtos/employee/request/Employee-sign-up-approvals-search-params";
-import { EmployeeSignUpApprovalsResponseDto } from "@/dtos/employee/response/Employee-sign-up-approvals.response.dto";
-import React, { useState } from "react";
+import { employeeExitLogsSearchRequest } from "@/apis/employee/EmployeeExitLogs";
+import { EmployeeExitLogsSearchParams } from "@/dtos/employee/request/Employee-exit-logs-search-params";
+import { EmployeeExitLogsResponseDto } from "@/dtos/employee/response/Employee-exit-logs.response.dto";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 
-const deniedReasonMap: Record<string, string> = {
-  INVALID_EMPLOYEE_INFO: "사원 정보 불일치",
-  ACCOUNT_ALREADY_EXISTS: "이미 계정이 발급된 사원",
-  CONTRACT_EMPLOYEE_RESTRICTED: "계약직/기간제 사용 제한",
-  PENDING_RESIGNATION: "퇴사 예정자",
+const exitReasonMap: Record<string, string> = {
+  RETIREMENT: "정년 퇴직",
+  VOLUNTEER: "자진 퇴사",
+  FORCED: "권고 사직",
+  TERMINATED: "해고",
 };
 
-function EmployeeSignUpApprovalsSearch() {
+function EmployeeExitLog() {
   const [cookies] = useCookies(["accessToken"]);
   const token = cookies.accessToken;
   const PAGE_SIZE = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
-  const [searchForm, setSearchForm] =
-    useState<EmployeeSignUpApprovalsSearchParams>({
-      page: 0,
-      size: PAGE_SIZE,
-      employeeName: "",
-      authorizerName: "",
-      isApproved: "",
-      deniedReason: "",
-      startUpdatedAt: "",
-      endUpdatedAt: "",
-    });
-  const [employeeApprovalList, setEmployeeApprovalList] = useState<
-    EmployeeSignUpApprovalsResponseDto[]
+  const [searchForm, setSearchForm] = useState<EmployeeExitLogsSearchParams>({
+    page: 0,
+    size: PAGE_SIZE,
+    employeeName: "",
+    authorizerName: "",
+    exitReason: "",
+    startUpdatedAt: "",
+    endUpdatedAt: "",
+  });
+  const [employeeExitLogs, setEmployeeExitLogs] = useState<
+    EmployeeExitLogsResponseDto[]
   >([]);
   const [message, setMessage] = useState("");
 
@@ -38,7 +35,7 @@ function EmployeeSignUpApprovalsSearch() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setSearchForm({ ...searchForm, [name]: value});
+    setSearchForm({ ...searchForm, [name]: value });
   };
 
   const onSearchClick = async (page: number) => {
@@ -51,24 +48,19 @@ function EmployeeSignUpApprovalsSearch() {
       const requestBody = {
         ...searchForm,
         page: page,
-        deniedReason:
-          searchForm.deniedReason === "" ? undefined : searchForm.deniedReason,
       };
-      const response = await employeeSignUpApprovalsSearchRequest(
-        requestBody,
-        token
-      );
+      const response = await employeeExitLogsSearchRequest(requestBody, token);
 
       const { code, message, data } = response;
 
       if (code === "SU" && data) {
         if ("content" in data) {
-          setEmployeeApprovalList(data.content);
+          setEmployeeExitLogs(data.content);
           setTotalPage(data.totalPages);
           setCurrentPage(data.currentPage);
           setMessage("");
         } else {
-          setEmployeeApprovalList([]);
+          setEmployeeExitLogs([]);
           setMessage(message);
           setTotalPage(1);
           setCurrentPage(0);
@@ -87,12 +79,11 @@ function EmployeeSignUpApprovalsSearch() {
       size: PAGE_SIZE,
       employeeName: "",
       authorizerName: "",
-      isApproved: "",
-      deniedReason: "",
+      exitReason: "",
       startUpdatedAt: "",
       endUpdatedAt: "",
     });
-    setEmployeeApprovalList([]);
+    setEmployeeExitLogs([]);
     setTotalPage(0);
     setMessage("");
     setCurrentPage(0);
@@ -116,9 +107,9 @@ function EmployeeSignUpApprovalsSearch() {
 
   return (
     <div>
-      <div>
-        <h2>회원 가입 승인 로그 조회</h2>
-        <div>
+      <div className="searchContainer">
+        <h2>퇴사자 로그 조회</h2>
+        <div className="search-row">
           <input
             type="text"
             name="employeeName"
@@ -134,35 +125,22 @@ function EmployeeSignUpApprovalsSearch() {
             onChange={onInputChange}
           />
           <select
-            name="isApproved"
-            value={searchForm.isApproved}
+            name="exitReason"
+            value={searchForm.exitReason}
             onChange={onInputChange}
           >
-            <option value="">승인 상태를 선택하세요.</option>
-            {ApprovalStatusT.map((approved) => (
-              <option key={approved} value={approved}>
-                {approved == "APPROVED" ? "승인" : "거절"}
-              </option>
-            ))}
-          </select>
-          <select
-            name="deniedReason"
-            value={searchForm.deniedReason}
-            onChange={onInputChange}
-          >
-            <option value="">거절 사유를 선택하세요.</option>
-            <option value="INVALID_EMPLOYEE_INFO">사원 정보 불일치</option>
-            <option value="ACCOUNT_ALREADY_EXISTS">
-              이미 계정이 발급된 사원
-            </option>
-            <option value="PENDING_RESIGNATION">퇴사 예정자</option>
+            <option value="">퇴사 사유를 선택하세요.</option>
+            <option value="RETIREMENT">정년 퇴직</option>
+            <option value="VOLUNTEER">자진 퇴사</option>
+            <option value="FORCED">권고 사직</option>
+            <option value="TERMINATED">해고</option>
           </select>
 
           <input
             type="date"
             name="startUpdatedAt"
             value={searchForm.startUpdatedAt}
-            placeholder="시작 연도"
+            placeholder="시작 일자"
             onChange={onInputChange}
           />
           <span>~</span>
@@ -170,11 +148,11 @@ function EmployeeSignUpApprovalsSearch() {
             type="date"
             name="endUpdatedAt"
             value={searchForm.endUpdatedAt}
-            placeholder="끝 연도"
+            placeholder="종료 일자"
             onChange={onInputChange}
           />
 
-          <div>
+          <div className="search-button">
             <button onClick={() => onSearchClick(0)}>검색</button>
             <button onClick={onResetClick}>초기화</button>
           </div>
@@ -184,36 +162,36 @@ function EmployeeSignUpApprovalsSearch() {
       <table>
         <thead>
           <tr>
-            <th></th>
-            <th>사원 번호</th>
-            <th>사원 명</th>
-            <th>회원 가입 일자</th>
-            <th>승인 상태</th>
-            <th>거절 사유</th>
-            <th>관리자 사원 번호</th>
-            <th>관리자 명</th>
-            <th>승인/거절 일자</th>
+            <td></td>
+            <td>사원 번호</td>
+            <td>사원 명</td>
+            <td>지점 명</td>
+            <td>직급 명</td>
+            <td>상태</td>
+            <td>퇴사 사유</td>
+            <td>권한자 사원 번호</td>
+            <td>권한자 명</td>
+            <td>퇴사 일자</td>
           </tr>
         </thead>
         <tbody>
-          {employeeApprovalList.map((employeeApproval, index) => (
-            <tr key={employeeApproval.approvalId}>
+          {employeeExitLogs.map((employeeExitLog, index) => (
+            <tr key={employeeExitLog.exitId}>
               <td>{currentPage * PAGE_SIZE + index + 1}</td>
-              <td>{employeeApproval.employeeNumber}</td>
-              <td>{employeeApproval.employeeName}</td>
-              <td>{new Date(employeeApproval.appliedAt).toLocaleString()}</td>
+              <td>{employeeExitLog.employeeNumber}</td>
+              <td>{employeeExitLog.employeeName}</td>
+              <td>{employeeExitLog.branchName}</td>
+              <td>{employeeExitLog.positionName}</td>
+              <td>{employeeExitLog.status === "EXITED" ? "퇴사" : "재직"}</td>
               <td>
-                {employeeApproval.isApproved === "APPROVED" ? "승인" : "거절"}
-              </td>
-              <td>
-                {employeeApproval.deniedReason
-                  ? deniedReasonMap[employeeApproval.deniedReason] ||
-                    employeeApproval.deniedReason
+                {employeeExitLog.exitReason
+                  ? exitReasonMap[employeeExitLog.exitReason] ||
+                    employeeExitLog.exitReason
                   : "-"}
               </td>
-              <td>{employeeApproval.authorizerNumber}</td>
-              <td>{employeeApproval.authorizerName}</td>
-              <td> {new Date(employeeApproval.updatedAt).toLocaleString()}</td>
+              <td>{employeeExitLog.authorizerNumber}</td>
+              <td>{employeeExitLog.authorizerName}</td>
+              <td>{new Date(employeeExitLog.updatedAt).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
@@ -253,4 +231,4 @@ function EmployeeSignUpApprovalsSearch() {
   );
 }
 
-export default EmployeeSignUpApprovalsSearch;
+export default EmployeeExitLog;
