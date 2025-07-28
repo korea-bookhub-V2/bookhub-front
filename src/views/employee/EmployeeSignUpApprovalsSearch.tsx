@@ -213,7 +213,7 @@ function EmployeeSignUpApprovalsSearch() {
               </td>
               <td>{employeeApproval.authorizerNumber}</td>
               <td>{employeeApproval.authorizerName}</td>
-              <td> {new Date(employeeApproval.updatedAt).toLocaleString()}</td>
+              <td> {employeeApproval.updatedAt}</td>
             </tr>
           ))}
         </tbody>

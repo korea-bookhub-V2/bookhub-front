@@ -197,7 +197,7 @@ function EmployeeSignUpApprovals() {
               <td>{employee.branchName}</td>
               <td>{employee.email}</td>
               <td>{employee.phoneNumber}</td>
-              <td>{new Date(employee.appliedAt || "").toLocaleString()}</td>
+              <td>{employee.appliedAt}</td>
               <td>{employee.isApproved === "PENDING" ? "대기 중" : "오류"}</td>
               <td>
                 <button onClick={() => onApprovedClick(employee)}>승인</button>

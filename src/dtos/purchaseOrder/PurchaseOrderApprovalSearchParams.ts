@@ -1,9 +1,8 @@
-export interface EmployeeChangeLogsSearchParams {
+export interface PurchaseOrderApprovalSearchParams {
   page: number;
   size: number;
   employeeName: string;
-  authorizerName: string;
-  changeType: string;
+  isApproved: Boolean | undefined;
   startUpdatedAt: string;
   endUpdatedAt: string;
 }

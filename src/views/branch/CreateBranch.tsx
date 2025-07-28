@@ -137,7 +137,7 @@ function CreateBranch() {
 
   const modalContent = (
     <>
-      <div className="contain">
+      <div>
         <h1>지점 등록</h1>
         <input
           type="text"
@@ -145,7 +145,6 @@ function CreateBranch() {
           value={createBranch.branchName}
           placeholder="지점 명"
           onChange={onCreateInputChange}
-          className="de-input"
         />
         <input
           type="text"
@@ -153,12 +152,9 @@ function CreateBranch() {
           value={createBranch.branchLocation}
           placeholder="지점 위치"
           onChange={onCreateInputChange}
-          className="de-input"
         />
         {createErrorMessage && <p>{createErrorMessage}</p>}
-        <button onClick={onCreateClick} className="de-button">
-          등록
-        </button>
+        <button onClick={onCreateClick}>등록</button>
       </div>
     </>
   );
@@ -183,7 +179,7 @@ function CreateBranch() {
 
   const modalUpdateContent = (
     <>
-      <div className="contain">
+      <div>
         <h1>지점 수정</h1>
         <input
           type="text"
@@ -191,7 +187,6 @@ function CreateBranch() {
           value={branchDetail.branchName}
           placeholder="지점 명"
           onChange={onUpdateInputChange}
-          className="de-input"
         />
         <input
           type="text"
@@ -199,13 +194,9 @@ function CreateBranch() {
           value={branchDetail.branchLocation}
           placeholder="지점 위치"
           onChange={onUpdateInputChange}
-          className="de-input"
         />
         {updateErrorMessage && <p>{updateErrorMessage}</p>}
-        <button
-          onClick={() => onUpdateClick(branchDetail.branchId)}
-          className="de-button"
-        >
+        <button onClick={() => onUpdateClick(branchDetail.branchId)}>
           수정
         </button>
       </div>
@@ -281,7 +272,7 @@ function CreateBranch() {
                 <td>{currentPage * PAGE_SIZE + index + 1}</td>
                 <td>{branch.branchName}</td>
                 <td>{branch.branchLocation}</td>
-                <td>{new Date(branch.createdAt).toLocaleString()}</td>
+                <td>{branch.createdAt}</td>
                 <td>
                   <button
                     onClick={() => onOpenUpdateModal(branch)}
