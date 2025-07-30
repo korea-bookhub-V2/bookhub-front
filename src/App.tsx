@@ -32,6 +32,10 @@ import EmployeeSignUpApprovalsSearch from "./views/employee/EmployeeSignUpApprov
 import EmployeeExitLog from "./views/employee/EmployeeExitLog";
 import EmployeeChangeLog from "./views/employee/EmployeeChangeLog";
 import ElsePurchaseOrderApproval from "./views/purchaseOrder/ElsePurchaseOrderApproval";
+import BranchStockStatistics from "./views/statistics/stockStatistics/BranchStockStatistics";
+import CategoryStockStatistics from "./views/statistics/stockStatistics/CategoryStockStatistics";
+import TimeStockStatistics from "./views/statistics/stockStatistics/TimeStockStatistics";
+import ZeroStockStatistics from "./views/statistics/stockStatistics/ZeroStockStatistics";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -170,11 +174,45 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              <Route path="/purchase-order-approval" element={
-                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                  <ElsePurchaseOrderApproval />
-                </RequireAuth>
-              }
+              <Route
+                path="/purchase-order-approval"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <ElsePurchaseOrderApproval />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/statistics/stocks/time"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <TimeStockStatistics />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/statistics/stocks/category"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <CategoryStockStatistics />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/statistics/stocks/branch"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <BranchStockStatistics />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/statistics/stocks/zero"
+                element={
+                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                    <ZeroStockStatistics />
+                  </RequireAuth>
+                }
               />
               {/* <Route path="/statistics/sales-quantity/branch" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
