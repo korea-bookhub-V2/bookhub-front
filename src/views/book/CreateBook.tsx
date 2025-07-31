@@ -80,7 +80,7 @@ function CreateBook({ onSuccess }: CreateBookProps) {
     const res = await getAllAuthorsByName({
       authorName,
       page: 0,
-      size: 0
+      size: 10
     }, token);
 
     if (res.code === 'SU' && res.data) {

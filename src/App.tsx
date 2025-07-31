@@ -36,6 +36,10 @@ import BranchStockStatistics from "./views/statistics/stockStatistics/BranchStoc
 import CategoryStockStatistics from "./views/statistics/stockStatistics/CategoryStockStatistics";
 import TimeStockStatistics from "./views/statistics/stockStatistics/TimeStockStatistics";
 import ZeroStockStatistics from "./views/statistics/stockStatistics/ZeroStockStatistics";
+import BookLogs from "./views/book/book-logs/BookLogs";
+import AdminReceptionList from "./views/reception/AdminReceptionList";
+import Book from "./views/book/AdminBook";
+import AdminBook from "./views/book/AdminBook";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -85,7 +89,8 @@ function App() {
               <Route path="/main" element={<MainPage />} />
               <Route path="/alerts/*" element={<AlertPage />} />
               <Route path="/books/search*" element={<SearchBook />} />
-              {/* <Route path="/booklogs/*" element={<BookLogs />} /> */}
+              <Route path="/book/edit" element={<AdminBook />} />
+              <Route path="/booklogs/*" element={<BookLogs />} />
               <Route path="/author/else" element={<Author />} />
               <Route path="/publishers/*" element={<Publisher />} />
               <Route path="/policies/*" element={<Policy />} />
@@ -150,12 +155,12 @@ function App() {
                   </RequireAuth>
                 }
               />
-              {/* <Route path="/reception/logs" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              <Route path="/reception/logs" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <AdminReceptionList />
                 </RequireAuth>
               }
-              /> */}
+              />
               {/* <Route path="/author/create" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
                   <CreateAuthor />
