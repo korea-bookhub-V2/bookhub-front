@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import { BookCreateRequestDto, BookUpdateRequestDto } from "@/dtos/book/request/Book.request.dto";
 import { BookLogResponseDto } from "@/dtos/book/response/BookLog.response.dto";
 import { BookResponseDto } from "@/dtos/book/response/Book.response.dto";
+import { PageResponseDto } from "@/dtos/PageResponseDto";
 
 
 export const createBook = async (
@@ -63,11 +64,20 @@ export const hideBook = async (
   isbn: string,
   accessToken: string
 ): Promise<ResponseDto<null>> => {
+  if (!accessToken || accessToken.trim() === "") {
+    return {
+      code: "ER",
+      message: "Invalid token",
+      data: null,
+    };
+  }
+
   try {
+    const token = accessToken?.trim();
     const response = await axiosInstance.put(
       HIDE_BOOK_URL(isbn),
       null,
-      bearerAuthorization(accessToken)
+      bearerAuthorization(token)
     );
     return responseSuccessHandler(response);
   } catch (error) {
@@ -111,9 +121,12 @@ export const getBookByIsbn = async (
 
 export const getBookLogs = async (
   isbn: string,
-  accessToken: string
-): Promise<ResponseDto<BookLogResponseDto[]>> => {
-  const response = await axiosInstance.get(`/api/v1/admin/book-logs/${isbn}`, {
+  accessToken: string,
+  page: number,
+  size: number
+): Promise<ResponseDto<PageResponseDto<BookLogResponseDto>>> => {
+  const response = await axiosInstance.get(`/api/v2/admin/books/logs/${isbn}`, {
+    params: { page, size },
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
