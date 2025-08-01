@@ -119,20 +119,20 @@ function SearchBook() {
 
   return (
     <div>
-      <div className="topBar">
+      <div className="">
         <h2>도서 통합 검색</h2>
         <input
-          className="book-input"
+          className=""
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="검색어를 입력하세요"
         />
-        <button type="button" className="button" onClick={handleSearch}>
+        <button type="button" className="" onClick={handleSearch}>
           검색
         </button>
       </div>
 
-      <div className="table-container">
+      <div className="">
         <table>
           <thead>
             <tr>

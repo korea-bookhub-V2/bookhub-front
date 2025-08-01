@@ -43,6 +43,13 @@ import AdminBook from "./views/book/AdminBook";
 import ElsePurchaseOrderApproval from "./views/purchaseOrder/purchaseOrderApproval/ElsePurchaseOrderApproval";
 import ElsePurchaseOrder from "./views/purchaseOrder/ElsePurchaseOrder";
 import ApprovePurchaseOrder from "./views/purchaseOrder/purchaseOrderApproval/ApprovePurchaseOrder";
+import TotalBestSeller from "./views/statistics/salesQuantity-statistics/BestSellerTotal";
+import BestSellerByPeriod from "./views/statistics/salesQuantity-statistics/BestSellerByPeriod";
+import BestSellerByCategory from "./views/statistics/salesQuantity-statistics/BestSellerByCategory";
+import SaleQuantityByBranch from "./views/statistics/salesQuantity-statistics/SalesQuantityByBranch";
+import SalesQuantityByPeriod from "./views/statistics/salesQuantity-statistics/SalesQuantityByPeriod";
+import SalesQuantityByDiscountPolicy from "./views/statistics/salesQuantity-statistics/SalesQuantityByDiscountPolicy";
+import SalesQuantityByCategory from "./views/statistics/salesQuantity-statistics/SalesQuantityByCategory";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -102,9 +109,9 @@ function App() {
               <Route path="/purchase-order/approve" element={<ApprovePurchaseOrder />}/> 
               <Route path="/purchase-order-approval" element={<ElsePurchaseOrderApproval /> } />
               {/* <Route path="/author/else" element={<ElseAuthor />} /> */}
-              {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
-              {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
-              {/* <Route path="/best-seller/category" element={<BestSellerByCategory />} /> */}
+              <Route path="/best-seller" element={<TotalBestSeller />} />
+              <Route path="/best-seller/period" element={<BestSellerByPeriod />} />
+              <Route path="/best-seller/category" element={<BestSellerByCategory />} />
               <Route path="/stock-logs/*" element={<StockLog />} />
               {/* <Route path="/statistics/stocks/*" element={
                 <RequireAuth allowedRoles={["ADMIN"]}>
@@ -206,30 +213,30 @@ function App() {
                   </RequireAuth>
                 }
               />
-              {/* <Route path="/statistics/sales-quantity/branch" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              <Route path="/statistics/sales-quantity/branch" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <SaleQuantityByBranch />
                 </RequireAuth>
               }
-              /> */}
-              {/* <Route path="/statistics/sales-quantity/period" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              />
+              <Route path="/statistics/sales-quantity/period" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <SalesQuantityByPeriod />
                 </RequireAuth>
               }
-              /> */}
-              {/* <Route path="/statistics/sales-quantity/discount-policy" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              />
+              <Route path="/statistics/sales-quantity/discount-policy" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <SalesQuantityByDiscountPolicy />
                 </RequireAuth>
               }
-              /> */}
-              {/* <Route path="/statistics/sales-quantity/category" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
+              />
+              <Route path="/statistics/sales-quantity/category" element={
+                <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
                   <SalesQuantityByCategory />
                 </RequireAuth>
               }
-              /> */}
+              />
               <Route
                 path="/employees"
                 element={

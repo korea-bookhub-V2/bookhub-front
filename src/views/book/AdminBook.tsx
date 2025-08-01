@@ -45,56 +45,56 @@ function AdminBook() {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">도서 검색</h2>
+      <div className="">
+        <h2>도서 검색</h2>
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className=""
           onClick={() => setIsCreateModalOpen(true)}
         >
           + 책 등록
         </button>
       </div>
-      <div className="mb-4">
+      <div className="">
         <input
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="책 제목, 저자, ISBN 등"
-          className="border px-2 py-1 mr-2"
+          className=""
         />
-        <button onClick={handleSearch} className="bg-green-500 text-white px-3 py-1 rounded">
+        <button onClick={handleSearch} className="">
           검색
         </button>
       </div>
 
-      <table className="w-full border">
+      <table className="">
         <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">제목</th>
-            <th className="border p-2">저자</th>
-            <th className="border p-2">출판사</th>
-            <th className="border p-2">가격</th>
-            <th className="border p-2">상태</th>
-            <th className="border p-2">관리</th>
+          <tr className="">
+            <th>제목</th>
+            <th>저자</th>
+            <th>출판사</th>
+            <th>가격</th>
+            <th>상태</th>
+            <th>관리</th>
           </tr>
         </thead>
         <tbody>
           {bookList.map((book) => (
             <tr key={book.isbn}>
-              <td className="border p-2">{book.bookTitle}</td>
-              <td className="border p-2">{book.authorName}</td>
-              <td className="border p-2">{book.publisherName}</td>
-              <td className="border p-2">{book.bookPrice.toLocaleString()}원</td>
-              <td className="border p-2">{book.bookStatus}</td>
-              <td className="border p-2 space-x-2">
+              <td>{book.bookTitle}</td>
+              <td>{book.authorName}</td>
+              <td>{book.publisherName}</td>
+              <td>{book.bookPrice.toLocaleString()}원</td>
+              <td>{book.bookStatus}</td>
+              <td>
                 <button
-                  className="bg-yellow-400 px-2 py-1 rounded"
+                  className=""
                   onClick={() => setSelectedBook(book)}
                 >
                   수정
                 </button>
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  className=""
                   onClick={() => handleHideBook(book.isbn)}
                 >
                   삭제
@@ -104,7 +104,7 @@ function AdminBook() {
           ))}
           {bookList.length === 0 && (
             <tr>
-              <td colSpan={6} className="text-center p-4">검색 결과가 없습니다.</td>
+              <td>검색 결과가 없습니다.</td>
             </tr>
           )}
         </tbody>
