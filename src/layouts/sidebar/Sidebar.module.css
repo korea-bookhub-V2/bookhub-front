@@ -71,3 +71,21 @@
     cursor: pointer;
     margin-top: auto;
 }
+
+.submenuIndex {
+    padding: 10px 0;
+    font-size: 14px;
+    color: #003366;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.submenuIndex + .submenuIndex {
+    margin-top: 7px; 
+}
+
+.submenuIndex:hover {
+    background-color: #e0e0e0;
+}

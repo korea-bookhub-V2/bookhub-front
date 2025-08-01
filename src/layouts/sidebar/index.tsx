@@ -8,10 +8,8 @@ import { commonMenu } from "./common";
 
 export default function Sidebar(){
     const navigate = useNavigate();
-    //*zustand 관리 후 주석 해제
     const employee = useEmployeeStore((state) => state.employee);
     const isAdmin = employee?.authorityName.includes("ADMIN");
-
     const [isAdminMode, setIsAdminMode] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number | null>(() =>{
         const savedIndex = localStorage.getItem("sidebarActiveIndex");

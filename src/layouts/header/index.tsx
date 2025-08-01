@@ -24,21 +24,28 @@ export default function Header(){
     };
 
     return(
-        <header>
-            <div>
-                <img src="@/public/북허브_로고_배경제거_navy.png" 
+        <header className={styles.header}>
+            <div className={styles.logo}>
+                <img 
+                src="/북허브_로고_배경제거_black.png" 
                 alt="북허브 로고"
                 onClick = {onLogoClick}
                 className = {styles.logoImg}
                 />
-            </div>
-            <div>
-                {/* <AlertIcon/> */}
+            </div >
+            <div className={styles.headerInfo}>
                 <div>
-                    {employee?.branchName} {employee?.positionName}{""}
-                    {employee?.employeeName}
+                 <div className={styles.loginInfo}>
+                    {employee?.branchName} {employee?.positionName} {""}
+                    {employee?.employeeName}님
                 </div>
-                <button onClick={onLogoutClick}>로그아웃</button>
+
+
+                </div>
+
+                {/* <AlertIcon/> */}
+               
+                <button onClick={onLogoutClick} className={styles.logoutBtn}>Logout</button>
             </div>
 
         </header>

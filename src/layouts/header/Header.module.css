@@ -17,7 +17,28 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    font-size: 14px;
-    color: rgb(4, 92, 199);
     margin: 30px;
+    
+}
+
+.loginInfo{
+    background-color: white;
+    padding: 8px 24px;
+    border-radius: 8px;
+}
+.logoutBtn{
+    background-color: #e5eaf1;
+    color: #4b5563;
+    font-weight: 500;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 9999px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.logoutBtn:hover{
+    background-color: #d1d9e6;
+
 }
