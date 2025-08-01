@@ -193,27 +193,27 @@ function CreateBook({ onSuccess }: CreateBookProps) {
         value={bookPrice ?? ""} 
         onChange={(e) => setBookPrice(Number(e.target.value))} 
         placeholder="가격" 
-        className="create-book-input"
+        className=""
         required />
       <input 
         type="date" 
         value={publishedDate} 
         onChange={(e) => setPublishedDate(e.target.value)} 
         placeholder="출판일" 
-        className="create-book-input" 
+        className="" 
         required />
       <div 
-        className="file-upload-wrapper">
-        <label htmlFor="coverUpload" className="file-upload-label">
+        className="">
+        <label htmlFor="coverUpload" className="">
           책 표지 업로드
         </label>
         <input
           id="coverUpload"
           type="file"
           onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
-          className="file-upload-input"
+          className=""
           />
-        {coverFile && <p className="file-name">선택된 파일: {coverFile.name}</p>}
+        {coverFile && <p className="">선택된 파일: {coverFile.name}</p>}
       </div>
 
 
@@ -229,17 +229,17 @@ function CreateBook({ onSuccess }: CreateBookProps) {
       value={language} 
       onChange={(e) => setLanguage(e.target.value)} 
       placeholder="언어" 
-      className="create-book-input" 
+      className="" 
       required />
       <textarea 
       value={description} 
       onChange={(e) => setDescription(e.target.value)} 
       placeholder="설명" 
-      className="create-book-input" 
+      className="" 
       required />
       <button 
         type="submit" 
-        className="create-book-button">등록</button>
+        className="">등록</button>
     </form>
   );
 }
