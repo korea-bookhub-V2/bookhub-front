@@ -1,136 +1,110 @@
 import { PurchaseOrderStatus } from "@/apis/enums/PurchaseOrderStatus";
-import { getAllPurchaseOrderApprovalByCriteria, getAllPurchaseOrderApprovalByDate } from "@/apis/purchaseOrder/purchaseOrderApproval";
+import { getAllPurchaseOrderApproval } from "@/apis/purchaseOrder/purchaseOrderApproval";
+import { PurchaseOrderApprovalSearchParams } from "@/dtos/purchaseOrder/PurchaseOrderApprovalSearchParams";
 import { PurchaseOrderApprovalResponseDto } from "@/dtos/purchaseOrderApproval/purchaseOrderApproval.response.dto";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 
 function ElsePurchaseOrderApproval() {
-  const [searchForm, setSearchForm] = useState<{
-    employeeName: string;
-    isApproved: boolean | null;
-  }>({
-    employeeName: "",
-    isApproved: null,
-  });
-
-  const [dateForm, setDateForm] = useState({
-    startDate: "",
-    endDate: "",
-  });
-
   const [cookies] = useCookies(["accessToken"]);
-  const [message, setMessage] = useState("");
+  const token = cookies.accessToken;
+  const PAGE_SIZE = 10;
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [searchForm, setSearchForm] =
+    useState<PurchaseOrderApprovalSearchParams>({
+      page: 0,
+      size: PAGE_SIZE,
+      employeeName: "",
+      isApproved: undefined,
+      startUpdatedAt: "",
+      endUpdatedAt: "",
+    });
   const [purchaseOrderApprovals, setPurchaseOrderApprovals] = useState<
     PurchaseOrderApprovalResponseDto[]
   >([]);
+  const [message, setMessage] = useState("");
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
-
-  const navigate = useNavigate();
-
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setDateForm({ ...dateForm, [name]: value });
+    setSearchForm({ ...searchForm, [name]: value });
   };
 
-  //* 조회 조건으로 조회 -- 조건 선택안하면 전체 조회
-  const onGetPurchaseOrderByCriteria = async () => {
-    setPurchaseOrderApprovals([]);
-    const { employeeName, isApproved } = searchForm;
-    const token = cookies.accessToken;
-
-    if (!token) {
-      alert("인증 토큰이 없습니다.");
-      navigate("/auth/login");
-      return;
-    }
-
-    const response = await getAllPurchaseOrderApprovalByCriteria(
-      employeeName,
-      isApproved,
-      token
-    );
-    const { code, message, data } = response;
-
-    if (!code) {
-      setMessage(message);
-      return;
-    }
-
-    if (Array.isArray(data)) {
-      setPurchaseOrderApprovals(data);
-      setMessage("");
-    } else {
-      setMessage("올바른 검색 조건을 입력해주세요.");
-    }
-  };
-
-  // * 날짜로 조회
-  const onGetPurchaseOrderApprovalByDate = async () => {
-    setPurchaseOrderApprovals([]);
-    const { startDate, endDate } = dateForm;
-    const token = cookies.accessToken;
-
+  const onSearchClick = async (page: number) => {
     if (!token) {
       alert("인증 토큰이 없습니다.");
       return;
     }
 
-    const response = await getAllPurchaseOrderApprovalByDate(
-      startDate,
-      endDate,
-      token
-    );
-    const { code, message, data } = response;
+    try {
+      const requestBody = {
+        ...searchForm,
+        page: page,
+      };
+      const response = await getAllPurchaseOrderApproval(requestBody, token);
 
-    if (!code) {
-      setMessage(message);
-      return;
-    }
+      const { code, message, data } = response;
 
-    if (Array.isArray(data)) {
-      setPurchaseOrderApprovals(data);
-      setMessage("");
-    } else {
-      setMessage("올바른 검색 조건을 입력해주세요.");
+      if (code === "SU" && data) {
+        if ("content" in data) {
+          setPurchaseOrderApprovals(data.content);
+          setTotalPage(data.totalPages);
+          setCurrentPage(data.currentPage);
+          setMessage("");
+        } else {
+          setPurchaseOrderApprovals([]);
+          setMessage(message);
+          setTotalPage(1);
+          setCurrentPage(0);
+        }
+      } else {
+        console.error("목록 조회 실패: ", message);
+      }
+    } catch (error) {
+      console.error("목록 조회 예외: ", error);
     }
   };
 
-  const totalPages = Math.ceil(purchaseOrderApprovals.length / itemsPerPage);
+  const onResetClick = () => {
+    setSearchForm({
+      page: 0,
+      size: PAGE_SIZE,
+      employeeName: "",
+      isApproved: undefined,
+      startUpdatedAt: "",
+      endUpdatedAt: "",
+    });
+    setPurchaseOrderApprovals([]);
+    setTotalPage(0);
+    setMessage("");
+    setCurrentPage(0);
+  };
 
   const goToPage = (page: number) => {
-    if (page >= 0 && page < totalPages) {
-      setCurrentPage(page);
-    }
+    if (page < 0 || page >= totalPage) return;
+
+    onSearchClick(page);
   };
 
   const goPrev = () => {
-    if (currentPage > 0) setCurrentPage(currentPage - 1);
+    if (currentPage > 0) goToPage(currentPage - 1);
   };
-
   const goNext = () => {
-    if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
+    if (currentPage < totalPage - 1) goToPage(currentPage + 1);
   };
 
-  const pagedPurchaseOrderApprovals = purchaseOrderApprovals.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
-  // *노출 리스트
   const responsePurchaseOrderApprovalList = purchaseOrderApprovals.map(
     (purchaseOrderApproval, index) => {
       return (
         <tr key={index}>
           <td>{purchaseOrderApproval.employeeName}</td>
           <td>{purchaseOrderApproval.isApproved ? "승인" : "승인 거부"}</td>
-          <td>
-            {new Date(purchaseOrderApproval.approvedDateAt).toLocaleString(
-              "ko-KR"
-            )}
-          </td>
+          <td>{purchaseOrderApproval.approvedDateAt}</td>
 
           <td></td>
           <td>{purchaseOrderApproval.poDetail.branchName}</td>
@@ -154,95 +128,50 @@ function ElsePurchaseOrderApproval() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div
-          style={{
-            flex: "2",
-            display: "flex",
-
-            gap: "12px",
-          }}
-        >
+      <div>
+        <div>
           <input
             type="text"
             name="employeeName"
             value={searchForm.employeeName}
             placeholder="승인담당자"
-            onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setSearchForm({ ...searchForm, employeeName: e.target.value });
-            }}
-            style={{ border: "1px solid #ccc", textAlign: "center" }}
+            onChange={onInputChange}
           />
           <select
             name="isApproved"
             value={
               searchForm.isApproved == null ? "" : String(searchForm.isApproved)
             }
-            onChange={(e) =>
-              setSearchForm({
-                ...searchForm,
-                isApproved:
-                  e.target.value == ""
-                    ? null
-                    : e.target.value === "true"
-                    ? true
-                    : false,
-              })
-            }
+            onChange={onInputChange}
           >
             <option value="">전체 (승인여부)</option>
             <option value="true">승인</option>
             <option value="false">승인 거부</option>
           </select>
-          <button
-            onClick={onGetPurchaseOrderByCriteria}
-            style={{ border: "1px solid #ccc" }}
-          >
-            검색
-          </button>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-          }}
-        >
           <input
             type="date"
-            name="startDate"
-            value={dateForm.startDate}
-            placeholder="시작일"
-            onInput={onInputChange}
-            style={{ border: "1px solid #ccc", width: 150 }}
+            name="startUpdatedAt"
+            value={searchForm.startUpdatedAt}
+            placeholder="시작 일자"
+            onChange={onInputChange}
           />
+          <span>~</span>
           <input
             type="date"
-            name="endDate"
-            value={dateForm.endDate}
-            placeholder="종료일"
-            onInput={onInputChange}
-            style={{ border: "1px solid #ccc", width: 150 }}
+            name="endUpdatedAt"
+            value={searchForm.endUpdatedAt}
+            placeholder="마지막 일자"
+            onChange={onInputChange}
           />
-          <button
-            onClick={onGetPurchaseOrderApprovalByDate}
-            style={{ border: "1px solid #ccc" }}
-          >
-            검색
-          </button>
+          <div>
+            <button onClick={() => onSearchClick(0)}>검색</button>
+            <button onClick={onResetClick}>초기화</button>
+          </div>
         </div>
       </div>
 
       {purchaseOrderApprovals && (
-        <table
-          style={{
-            border: "1px solid black",
-            borderCollapse: "collapse",
-            width: "100%",
-            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-            fontSize: "14px",
-          }}
-        >
+        <table>
           <thead>
             <tr>
               <th>승인 담당자</th>
@@ -262,37 +191,37 @@ function ElsePurchaseOrderApproval() {
         </table>
       )}
       {message && <p>{message}</p>}
-      {/* 페이지네이션 */}
-      {purchaseOrderApprovals.length > 0 && (
-        <div className="footer">
+      <div className="footer">
+        <button
+          className="pageBtn"
+          onClick={goPrev}
+          disabled={currentPage === 0}
+        >
+          {"<"}
+        </button>
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
           <button
-            className="pageBtn"
-            onClick={goPrev}
-            disabled={currentPage === 0}
+            key={i}
+            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            onClick={() => goToPage(i)}
           >
-            {"<"}
+            {i + 1}
           </button>
-          {Array.from({ length: totalPages }, (_, i) => i).map((i) => (
-            <button
-              key={i}
-              className={`pageBtn${i === currentPage ? " current" : ""}`}
-              onClick={() => goToPage(i)}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            className="pageBtn"
-            onClick={goNext}
-            disabled={currentPage >= totalPages - 1}
-          >
-            {">"}
-          </button>
-          <span className="pageText">
-            {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "0 / 0"}
-          </span>
-        </div>
-      )}
+        ))}
+        <button
+          className="pageBtn"
+          onClick={goNext}
+          disabled={currentPage >= totalPage - 1}
+        >
+          {">"}
+        </button>
+        <span className="pageText">
+          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
+        </span>
+      </div>
     </div>
   );
 }
