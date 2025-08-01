@@ -31,7 +31,7 @@ import SignUpInfoUpdate from "./views/auth/SignUpInfoUpdate";
 import EmployeeSignUpApprovalsSearch from "./views/employee/EmployeeSignUpApprovalsSearch";
 import EmployeeExitLog from "./views/employee/EmployeeExitLog";
 import EmployeeChangeLog from "./views/employee/EmployeeChangeLog";
-import ElsePurchaseOrderApproval from "./views/purchaseOrder/ElsePurchaseOrderApproval";
+
 import BranchStockStatistics from "./views/statistics/stockStatistics/BranchStockStatistics";
 import CategoryStockStatistics from "./views/statistics/stockStatistics/CategoryStockStatistics";
 import TimeStockStatistics from "./views/statistics/stockStatistics/TimeStockStatistics";
@@ -40,6 +40,9 @@ import BookLogs from "./views/book/book-logs/BookLogs";
 import AdminReceptionList from "./views/reception/AdminReceptionList";
 import Book from "./views/book/AdminBook";
 import AdminBook from "./views/book/AdminBook";
+import ElsePurchaseOrderApproval from "./views/purchaseOrder/purchaseOrderApproval/ElsePurchaseOrderApproval";
+import ElsePurchaseOrder from "./views/purchaseOrder/ElsePurchaseOrder";
+import ApprovePurchaseOrder from "./views/purchaseOrder/purchaseOrderApproval/ApprovePurchaseOrder";
 
 function App() {
   const isLogin = useEmployeeStore((state) => state.isLogin);
@@ -88,13 +91,16 @@ function App() {
               <Route path="/" element={<Navigate to="/main" />} />
               <Route path="/main" element={<MainPage />} />
               <Route path="/alerts/*" element={<AlertPage />} />
-              <Route path="/books/search*" element={<SearchBook />} />
+              <Route path="/books/search/*" element={<SearchBook />} />
               <Route path="/book/edit" element={<AdminBook />} />
               <Route path="/booklogs/*" element={<BookLogs />} />
               <Route path="/author/else" element={<Author />} />
               <Route path="/publishers/*" element={<Publisher />} />
               <Route path="/policies/*" element={<Policy />} />
               <Route path="/locations" element={<LocationPage />} />
+              <Route path="/purchase-order" element={<ElsePurchaseOrder />}/> 
+              <Route path="/purchase-order/approve" element={<ApprovePurchaseOrder />}/> 
+              <Route path="/purchase-order-approval" element={<ElsePurchaseOrderApproval /> } />
               {/* <Route path="/author/else" element={<ElseAuthor />} /> */}
               {/* <Route path="/best-seller" element={<TotalBestSeller />} /> */}
               {/* <Route path="/best-seller/period" element={<BestSellerByPeriod />} /> */}
@@ -167,26 +173,7 @@ function App() {
                 </RequireAuth>
               }
               /> */}
-              {/* <Route path="/purchase-order" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <ElsePurchaseOrder />
-                </RequireAuth>
-              }
-              />  */}
-              {/* <Route path="/purchase-order/approve" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <ApprovePurchaseOrder />
-                </RequireAuth>
-              }
-              /> */}
-              <Route
-                path="/purchase-order-approval"
-                element={
-                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                    <ElsePurchaseOrderApproval />
-                  </RequireAuth>
-                }
-              />
+
               <Route
                 path="/statistics/stocks/time"
                 element={
