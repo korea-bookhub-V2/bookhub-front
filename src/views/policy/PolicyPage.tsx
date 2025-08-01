@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import UpdatePolicy from './UpdatePolicy';
 import CreatePolicy from './CreatePolicy';
-
+import '@/styles/style.css';
 
 const PAGE_SIZE = 10;
 
@@ -114,14 +114,29 @@ function PolicyPage() {
     fetchPage(page);
   };
 
+//   const goToPage = (page: number) => {
+//     if (page < 0 || page >= totalPage) return;
+
+//     onSearchClick(page);
+//   };
+
+  const goPrev = () => {
+    if (currentPage > 0) goToPage(currentPage - 1);
+  };
+  const goNext = () => {
+    if (currentPage < totalPage - 1) goToPage(currentPage + 1);
+  };
+
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
  
   return (
-    <div className='policy-page-container'>
-        <div className='topBar'>
-            <button onClick={() => setIsCreateOpen(true)} className=''>정책 등록</button>
-        </div>
+    <div>
+      <h2>정책 등록</h2>
+       
 
         <div className='filters'>
+          <div className='filter-left'>
             <select className='input-search' value={policyType} onChange={(e) => setPolicyType(e.target.value as PolicyType)}>
                 <option value="">전체</option>
                 <option value={PolicyType.BOOK_DISCOUNT}>도서 할인</option>
@@ -133,7 +148,11 @@ function PolicyPage() {
         <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
         <input className = 'input-search' type="number" placeholder='할인율(%)' value={discountPercent} onChange={(e) => setDiscountPercent(e.target.value=== ""?"":Number(e.target.value)) } />
 
-    <button className='' onClick={() => goToPage(0)}>검색</button>
+    <button className='searchBtn' onClick={() => goToPage(0)}>검색</button></div>
+  
+   
+            <button onClick={() => setIsCreateOpen(true)} className='createBtn'>정책 등록</button>
+       
         </div>
         <table className='table-policy'>
             <thead>
@@ -143,30 +162,61 @@ function PolicyPage() {
                     <th>타입</th>
                     <th>시작일</th>
                     <th>종료일</th>
-                    <th>작업</th>
+                    <th>수정</th>
+                    <th>삭제</th>
                 </tr>
             </thead>
             <tbody>
-                {policies.map((p) => (
+                {policies.map((p,index) => (
                     <tr key = {p.policyId}>
-                        <td></td>
+                    <td>{currentPage * PAGE_SIZE + index + 1}</td>
                         <td>{p.policyTitle}</td>
                         <td>{p.policyType}</td>
                         <td>{p.startDate}</td>
                         <td>{p.endDate}</td>
-                        <td>
-                            <button className = "modifyBtn" onClick={() => openUpdateModal(p.policyId)}>수정</button>
-                            <button className = "deleteBtn" onClick={() => deleteDiscountPolicy(p.policyId)}>삭제</button>
-                        </td>
+                        <td><button className = "modifyBtn" onClick={() => openUpdateModal(p.policyId)}>수정</button></td>
+                        <td><button className = "deleteBtn" onClick={() => deleteDiscountPolicy(p.policyId)}>삭제</button></td>
                     </tr>
                 ))}
             </tbody>
         </table>
-        <div className='pagination'>
-            <button className='' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
+        {/* <div className='footer'>
+            <button className='pageBtn' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
             <span>{currentPage+1}/{totalPage}</span>
-            <button className='' disabled={currentPage +1 >= totalPage} onClick={() => goToPage(currentPage+1)}>다음</button>
-        </div>
+            <button className='pageBtn' disabled={currentPage +1 >= totalPage} onClick={() => goToPage(currentPage+1)}>다음</button>
+        </div> */}
+
+         <div className="footer">
+        <button
+          className="pageBtn"
+          onClick={goPrev}
+          disabled={currentPage === 0}
+        >
+          {"<"}
+        </button>
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
+          <button
+            key={i}
+            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            onClick={() => goToPage(i)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          className="pageBtn"
+          onClick={goNext}
+          disabled={currentPage >= totalPage - 1}
+        >
+          {">"}
+        </button>
+        <span className="pageText">
+          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
+        </span>
+      </div>
 
         {isCreateOpen&&(<CreatePolicy 
         isOpen = {isCreateOpen}
