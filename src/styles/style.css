@@ -206,3 +206,108 @@ th, td {
     box-shadow: 0 0 0 2px rgba(48, 88, 130, 0.2);
     background-color: #fff;
 }
+
+.category-tree-wrapper {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #333;
+    padding: 10px;
+}
+
+.category-tree-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1e3a8a;
+}
+
+.category-type {
+    font-weight: 500;
+    margin: 12px 0 6px;
+    cursor: pointer;
+    color: #111827;
+}
+
+.category {
+    background-color: #e9edf5;
+    margin: 6px 0 0 20px;
+    padding: 10px 14px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.category:hover {
+    background-color: #dde3ee;
+}
+
+.category-node {
+    padding-left: 16px;
+}
+
+.category-parent {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+}
+
+.category-parent.clickable:hover {
+    background-color: #f3f4f6;
+    border-radius: 4px;
+}
+
+.category-arrow {
+    width: 20px;
+    display: inline-block;
+    color: #9ca3af;
+}
+
+.category-label {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.subcategory-list {
+    padding-left: 20px;
+    margin-top: 4px;
+}
+
+.subcategory-item {
+    background-color: #fff;
+    margin-left: 40px;
+    margin-top: 4px;
+    padding: 8px 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.subcategory-item:hover {
+    background-color: #e0e7ff;
+}
+
+.category-root {
+    background-color: #dfeaf7;
+    padding: 16px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-top: 14px;
+    cusor:pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.category-root:hover {
+    background-color: #c8def5;
+}
+
+.category-root .arrow {
+    margin-right: 10px;
+    font-size: 16px;
+}

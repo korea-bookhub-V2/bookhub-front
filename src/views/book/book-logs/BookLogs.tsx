@@ -47,22 +47,22 @@ function BookLogs() {
 
   return (
     <div>
-      <div className="">
+      <div className="topBar">
         <h2>도서 로그 조회</h2>
         <input
-          className=""
+          className="search"
           value={isbn}
           onChange={(e) => setIsbn(e.target.value)}
           placeholder="ISBN을 입력하세요"
           />
         <button
           type="button"
-          className=""
+          className="searchBtn"
           onClick={handleSearch}
         >검색</button>
       </div>
 
-      <div className="">
+      <div>
         <table>
           <thead>
             <tr>

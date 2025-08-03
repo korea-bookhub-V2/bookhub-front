@@ -61,6 +61,7 @@ const Container = styled.div`
   max-width: 90%;
   max-height: 80%;
   position: relative;
+  overflow-y: auto;
 `;
 
 const CloseButton = styled.button`

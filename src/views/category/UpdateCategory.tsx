@@ -3,6 +3,7 @@ import { CategoryUpdateRequestDto } from "@/dtos/category/request/Category.reque
 import { CategoryTreeResponseDto } from "@/dtos/category/response/Category.response.dto";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
+import "./UpdateCategoryModal.css";
 
 interface UpdateCategoryProps {
   category: CategoryTreeResponseDto;
@@ -51,30 +52,39 @@ function UpdateCategory({ category, onSuccess }: UpdateCategoryProps) {
   };
 
   return (
-    <form onSubmit={handleUpdate}>
+    <div className="modal-container">
+    <form onSubmit={handleUpdate} className="modal-form">
       <h3>카테고리 수정</h3>
 
+      <label className="modal-label">
       <input
         type="text"
         value={categoryName}
         onChange={(e) => setCategoryName(e.target.value)}
         placeholder="카테고리 이름"
         required
+        className="modal-input"
       />
+      </label>
 
-      <select value={categoryType} onChange={(e) => setCategoryType(e.target.value as "DOMESTIC" | "FOREIGN")}>
+      <label className="modal-label">
+      <select value={categoryType} className="modal-input" onChange={(e) => setCategoryType(e.target.value as "DOMESTIC" | "FOREIGN")}>
         <option value="DOMESTIC">국내도서</option>
         <option value="FOREIGN">해외도서</option>
       </select>
+      </label>
 
+      <label className="modal-label">
       <input
         type="number"
         value={discountPolicyId ?? ""}
         onChange={(e) => setDiscountPolicyId(Number(e.target.value))}
         placeholder="할인 정책 ID"
+        className="modal-input"
       />
+      </label>
 
-      <label>
+      <label className="modal-checkbox">
         <input
           type="checkbox"
           checked={isActive}
@@ -83,8 +93,9 @@ function UpdateCategory({ category, onSuccess }: UpdateCategoryProps) {
         활성 상태
       </label>
 
-      <button type="submit">수정</button>
+      <button type="submit" className="modal-submit-btn">수정</button>
     </form>
+    </div>
   );
 }
 

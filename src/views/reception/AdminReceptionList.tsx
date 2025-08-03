@@ -78,11 +78,12 @@ function AdminReceptionList() {
         </select>
         <input
           type="text"
+          className="input-search"
           placeholder="ISBN 검색"
           value={bookIsbn}
           onChange={(e) => setBookIsbn(e.target.value)} />
-        <button onClick={() => fetchLogs(0)}>조회</button>
-        <button onClick={fetchAllLogs}>전체</button>
+        <button className="searchBtn" onClick={() => fetchLogs(0)}>조회</button>
+        <button className="searchAll" onClick={fetchAllLogs}>전체</button>
       </div>
       {!pageData || pageData.content.length === 0 ? (
         <p>조회된 로그가 없습니다.</p>
