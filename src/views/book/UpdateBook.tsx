@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { updateBook, hideBook } from "@/apis/book/book";
 import { BookUpdateRequestDto } from "@/dtos/book/request/Book.request.dto";
 import { BookResponseDto } from "@/dtos/book/response/Book.response.dto";
+import './UpdateBookModal.css'
 
 interface UpdateBookProps {
   book: BookResponseDto;
@@ -60,55 +61,71 @@ function UpdateBook({ book, onSuccess }: UpdateBookProps) {
   };
 
   return (
-    <form onSubmit={handleUpdate}>
-      <table>
-        <thead>
-          <tr>
-            <th>설명</th>
-            <th>가격</th>
-            <th>정책ID</th>
-            <th>카테고리ID</th>
-            <th>상태</th>
-            <th>표지</th>
-            <th>작업</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="설명" />
-            </td>
-            <td>
-              <input type="number" value={bookPrice ?? ""} onChange={(e) => setBookPrice(Number(e.target.value))} placeholder="가격" />
-            </td>
-            <td>
-              <input type="number" value={policyId ?? ""} onChange={(e) => setPolicyId(Number(e.target.value))} placeholder="정책ID (선택)" />
-            </td>
-            <td>
-              <input
-                type="number"
-                value={categoryId ?? ""}
-                onChange={(e) => setCategoryId(e.target.value === "" ? null : Number(e.target.value))}
-                placeholder="카테고리ID"
-              />
-            </td>
-            <td>
-              <select value={bookStatus} onChange={(e) => setBookStatus(e.target.value as 'ACTIVE' | 'INACTIVE')}>
-                <option value="ACTIVE">활성</option>
-                <option value="INACTIVE">비활성</option>
-              </select>
-            </td>
-            <td>
-              <input type="file" onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)} />
-            </td>
-            <td>
-              <button type="submit">수정</button>
-              <button type="button" onClick={handleHide}>삭제(HIDDEN)</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="modal-container">
+      <h2 className="modal-header">책 정보 수정</h2>
+    <form onSubmit={handleUpdate} className="modal-form">
+
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="설명"
+        className="modal-textarea"
+        required
+      />
+
+      <input
+        type="number"
+        value={bookPrice}
+        onChange={(e) => setBookPrice(Number(e.target.value))}
+        placeholder="가격"
+        className="modal-input"
+        required
+      />
+
+      <input
+        type="number"
+        value={policyId ?? ""}
+        onChange={(e) => setPolicyId(e.target.value === "" ? null : Number(e.target.value))}
+        placeholder="정책ID (선택)"
+        className="modal-input"
+      />
+
+      <input
+        type="number"
+        value={categoryId ?? ""}
+        onChange={(e) => setCategoryId(e.target.value === "" ? null : Number(e.target.value))}
+        placeholder="카테고리 ID"
+        className="modal-input"
+        required
+      />
+
+      <select
+        value={bookStatus}
+        onChange={(e) => setBookStatus(e.target.value as 'ACTIVE' | 'INACTIVE' | 'HIDDEN')}
+        className="modal-input"
+      >
+        <option value="ACTIVE">활성</option>
+        <option value="INACTIVE">비활성</option>
+        <option value="HIDDEN">숨김</option>
+      </select>
+
+      <div className="file-upload-wrapper">
+          <label htmlFor="coverFile" className="file-upload-label">
+            {coverFile ? coverFile.name : "책 표지 선택하기"}
+          </label>
+          <input
+            id="coverFile"
+            type="file"
+            className="file-upload-input"
+            onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
+          />
+        </div>
+
+      <div className="modal-footer">
+        <button type="submit" className="modal-button-confirm">확인</button>
+      </div>
     </form>
+    </div>
   );
 }
 

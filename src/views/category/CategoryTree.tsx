@@ -1,7 +1,8 @@
 import { getCategoryTree } from '@/apis/category/category';
-import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto'
-import React, { useEffect, useState } from 'react'
+import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto';
+import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+
 
 interface CategoryTreeProps {
   onSelect: (category: CategoryTreeResponseDto) => void;
@@ -53,25 +54,28 @@ const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect, onEdit }) => {
       const hasChildren = cat.subCategories && cat.subCategories.length > 0;
 
       return (
-        <div key={cat.categoryId}>
-          <div>
-            <span onClick={() => hasChildren && toggleCategory(cat.categoryId)} style={{ cursor: hasChildren ? 'pointer' : 'default' }}>
+        <div key={cat.categoryId} className="category">
+          <div
+            className={`category-parent ${hasChildren ? 'clickable' : ''}`}
+            onClick={() => hasChildren && toggleCategory(cat.categoryId)}
+          >
+            <span className="category-arrow">
               {hasChildren ? (isExpanded ? "▼" : "▶") : "•"}
             </span>
-            <span onClick={() => onEdit?.(cat)}>
+            <span className="category-label" onClick={() => onEdit?.(cat)}>
               {cat.categoryName}
             </span>
           </div>
 
           {isExpanded && hasChildren && (
-            <div>
+            <div className="subcategory-list">
               {cat.subCategories!.map((sub) => (
                 <div
                   key={sub.categoryId}
-                  className=""
+                  className="subcategory-item"
                   onClick={() => onEdit?.(sub)}
                 >
-                  {sub.categoryName}
+                  • {sub.categoryName}
                 </div>
               ))}
             </div>
@@ -82,22 +86,18 @@ const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect, onEdit }) => {
   };
 
   return (
-    <div className="">
-      <h2>전체 도서 카테고리</h2>
+    <div className="category-tree-wrapper">
+      <h2 className="category-tree-title">전체 도서 카테고리</h2>
+
       <div>
-        <div
-          className=""
-          onClick={() => fetchCategories("DOMESTIC")}
-        >
+        <div className="category-root" onClick={() => fetchCategories("DOMESTIC")}>
           {expandedType === "DOMESTIC" ? "▼" : "▶"} 국내 도서
         </div>
         {expandedType === "DOMESTIC" && renderCategoryTree(categoriesMap.DOMESTIC)}
       </div>
+
       <div>
-        <div
-          className="category-type"
-          onClick={() => fetchCategories("FOREIGN")}
-        >
+        <div className="category-root" onClick={() => fetchCategories("FOREIGN")}>
           {expandedType === "FOREIGN" ? "▼" : "▶"} 해외 도서
         </div>
         {expandedType === "FOREIGN" && renderCategoryTree(categoriesMap.FOREIGN)}
@@ -106,4 +106,4 @@ const CategoryTree: React.FC<CategoryTreeProps> = ({ onSelect, onEdit }) => {
   );
 };
 
-export default CategoryTree
+export default CategoryTree;

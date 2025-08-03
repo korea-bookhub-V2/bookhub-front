@@ -45,31 +45,31 @@ function AdminBook() {
 
   return (
     <div>
-      <div className="">
+      <div style={{ marginBottom: '12px' }}>
         <h2>도서 검색</h2>
         <button
-          className=""
+          className="createBtn"
           onClick={() => setIsCreateModalOpen(true)}
         >
           + 책 등록
         </button>
       </div>
-      <div className="">
+      <div className="topBar">
         <input
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           placeholder="책 제목, 저자, ISBN 등"
-          className=""
+          className="search"
         />
-        <button onClick={handleSearch} className="">
+        <button onClick={handleSearch} className="searchBtn">
           검색
         </button>
       </div>
 
-      <table className="">
+      <table>
         <thead>
-          <tr className="">
+          <tr>
             <th>제목</th>
             <th>저자</th>
             <th>출판사</th>
@@ -88,13 +88,13 @@ function AdminBook() {
               <td>{book.bookStatus}</td>
               <td>
                 <button
-                  className=""
+                  className="modifyBtn"
                   onClick={() => setSelectedBook(book)}
                 >
                   수정
                 </button>
                 <button
-                  className=""
+                  className="deleteBtn"
                   onClick={() => handleHideBook(book.isbn)}
                 >
                   삭제

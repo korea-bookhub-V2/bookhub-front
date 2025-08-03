@@ -3,6 +3,7 @@ import { useEmployeeStore } from "@/stores/employee.store";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.css"
+import AlertIcon from "@/apis/constants/AlertIcon";
 
 
 export default function Header(){
@@ -35,16 +36,12 @@ export default function Header(){
             </div >
             <div className={styles.headerInfo}>
                 <div>
-                 <div className={styles.loginInfo}>
+                <div className={styles.loginInfo}>
                     {employee?.branchName} {employee?.positionName} {""}
                     {employee?.employeeName}님
                 </div>
-
-
                 </div>
-
-                {/* <AlertIcon/> */}
-               
+                <AlertIcon/>
                 <button onClick={onLogoutClick} className={styles.logoutBtn}>Logout</button>
             </div>
 

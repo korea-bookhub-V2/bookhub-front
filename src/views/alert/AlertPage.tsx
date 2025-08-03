@@ -63,9 +63,10 @@ function AlertPage() {
   const endPage = Math.min(startPage + pagesPerGroup, pageData?.totalPages ?? 0);
 
   return (
-    <div style={{ padding: "24px "}}>
+    <div>
       <h2>알림 목록</h2>
       <button
+        className="createBtn"
         onClick={handleMarkAsRead}
         disabled={selectedAlerts.length === 0}>
           읽음

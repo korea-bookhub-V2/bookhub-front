@@ -44,8 +44,7 @@ function CategoryMain() {
   return (
     <div>
       <div>
-        <button className="" onClick={() => setIsCreateModalOpen(true)}>등록</button>
-        <button className="" onClick={fetchCategories}>전체 조회</button>
+        <button className="createBtn" onClick={() => setIsCreateModalOpen(true)}>등록</button>
       </div>
 
       <CategoryTree onSelect={handleSelectCategory} onEdit={(cat) => setSelectedCategory(cat)} />
