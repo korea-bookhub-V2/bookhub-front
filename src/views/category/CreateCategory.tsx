@@ -3,6 +3,7 @@ import { CategoryCreateRequestDto } from '@/dtos/category/request/Category.reque
 import { CategoryTreeResponseDto } from '@/dtos/category/response/Category.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
+import "./CreateCategoryModal.css";
 
 interface CreateCategoryProps {
   onSuccess: () => Promise<void>;
@@ -80,24 +81,31 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
   };
 
   return (
-    <div>
-      <h2>카테고리 등록</h2>
+    <div className="modal-container">
+      <form className="modal-form" onSubmit={(e) => { e.preventDefault(); onCreateClick(); }}>
+      <h2 style={{ textAlign: "center" }}>카테고리 등록</h2>
+
+      <label className="modal-label">
       <input
         type="text"
         value={categoryName}
+        className="modal-input"
         onChange={(e) => setCategoryName(e.target.value)}
         placeholder="카테고리 이름"/>
+      </label>
 
+      <label className="modal-label">
         <select
           value={categoryType}
           onChange={(e) => setCategoryType(e.target.value as "DOMESTIC" | "FOREIGN")}
-          className="de-input">
+          className="modal-select">
             <option value="DOMESTIC">국내도서</option>
             <option value="FOREIGN">해외도서</option>
           </select>
+      </label>
 
-          <div>
-            <label>
+      <div className="modal-radio-group">
+        <label>
               <input
                 type="radio"
                 name="categoryLevel"
@@ -119,6 +127,7 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
 
           {categoryLevel === 2 && (
             <select
+              className="modal-select"
               value={parentCategoryId ?? ""}
               onChange={(e) => setParentCategoryId(Number(e.target.value))}
               required>
@@ -133,10 +142,9 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
 
           {message && <p>{message}</p>}
 
-          <div>
-            <button onClick={onCreateClick}>등록</button>
-          </div>
-    </div>
+            <button type="submit" className="modal-submit-btn" onClick={onCreateClick}>등록</button>
+        </form>
+      </div>
   );
 }
 

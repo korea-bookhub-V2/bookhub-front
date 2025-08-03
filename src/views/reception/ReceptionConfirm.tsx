@@ -79,8 +79,8 @@ function ReceptionConfirm() {
               setDateForm({...dateForm, endDate: e.target.value})
             }
           />
-          <button onClick={handleFilter}>조회</button>
-          <button onClick={handleAll}>전체 조회</button>
+          <button className="searchBtn" onClick={handleFilter}>조회</button>
+          <button className="searchAll" onClick={handleAll}>전체 조회</button>
         </div>
       </div>
       <div>

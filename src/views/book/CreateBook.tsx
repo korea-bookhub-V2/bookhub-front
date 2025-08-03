@@ -11,6 +11,7 @@ import { PageResponseDto } from '@/dtos/PageResponseDto';
 import { PublisherResponseDto } from '@/dtos/publishers/publisher.response.dto';
 import { getAllAuthorsByName } from '@/apis/author/author';
 import { AuthorResponseDto } from '@/dtos/author/response/Author.response.dto';
+import './CreateBookModal.css';
 
 interface CreateBookProps {
   onSuccess: () => Promise<void>;
@@ -135,113 +136,64 @@ function CreateBook({ onSuccess }: CreateBookProps) {
 
 
   return (
-    <form onSubmit={handleSubmit} className="create-book-form">
-      <h2>📘책 등록</h2>
-      <input
-        type="text"
-        value={isbn} 
-        onChange={(e) => setIsbn(e.target.value)} 
-        placeholder="책 ISBN" 
-        className="create-book-input" 
-        required />
-      <input
-        type="text" 
-        value={bookTitle} 
-        onChange={(e) => setBookTitle(e.target.value)} 
-        placeholder="책 제목" 
-        className="create-book-input" 
-        required />
-      <select 
-        value={categoryType} 
-        onChange={(e) => setCategoryType(e.target.value as 'DOMESTIC' | 'FOREIGN')} 
-        className="select">
-        <option value="DOMESTIC">국내도서</option>
-        <option value="FOREIGN">해외도서</option>
-      </select>
-      <select 
-        value={categoryId ?? ""} 
-        onChange={(e) => setCategoryId(Number(e.target.value))} 
-        className="select" 
-        required>
-        <option value="">카테고리 선택</option>
-        {categoryTree.flatMap((parent) =>
-          parent.subCategories?.map((child) => (
-            <option key={child.categoryId} value={child.categoryId}>
-              {parent.categoryName} &gt; {child.categoryName}
-            </option>
-          )) ?? []
-        )}
-      </select>
-      <Select
-        inputValue={authorName}
-        onInputChange={(input) => setAuthorName(input)}
-        options={authorOptions}
-        onChange={(option) => setSelectedAuthor(option)}
-        placeholder="저자 선택"
-        isClearable
-      />
-      <Select
-        inputValue={publisherName}
-        onInputChange={(input) => setPublisherName(input)}
-        options={publisherOptions}
-        onChange={(option) => setSelectedPublisher(option)}
-        placeholder="출판사 선택"
-        isClearable
-      />
-      <input 
-        type="number" 
-        value={bookPrice ?? ""} 
-        onChange={(e) => setBookPrice(Number(e.target.value))} 
-        placeholder="가격" 
-        className=""
-        required />
-      <input 
-        type="date" 
-        value={publishedDate} 
-        onChange={(e) => setPublishedDate(e.target.value)} 
-        placeholder="출판일" 
-        className="" 
-        required />
-      <div 
-        className="">
-        <label htmlFor="coverUpload" className="">
-          책 표지 업로드
-        </label>
-        <input
-          id="coverUpload"
-          type="file"
-          onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
-          className=""
+    <div className="modal-container">
+      <h2 className="modal-header">책 등록</h2>
+      <form onSubmit={handleSubmit} className="modal-form">
+        <input type="text" value={isbn} onChange={(e) => setIsbn(e.target.value)} placeholder="책 ISBN" className="modal-input" required />
+        <input type="text" value={bookTitle} onChange={(e) => setBookTitle(e.target.value)} placeholder="책 제목" className="modal-input" required />
+        <select value={categoryType} onChange={(e) => setCategoryType(e.target.value as 'DOMESTIC' | 'FOREIGN')} className="modal-input">
+          <option value="DOMESTIC">국내도서</option>
+          <option value="FOREIGN">해외도서</option>
+        </select>
+        <select value={categoryId ?? ""} onChange={(e) => setCategoryId(Number(e.target.value))} className="modal-input" required>
+          <option value="">카테고리 선택</option>
+          {categoryTree.flatMap((parent) =>
+            parent.subCategories?.map((child) => (
+              <option key={child.categoryId} value={child.categoryId}>
+                {parent.categoryName} &gt; {child.categoryName}
+              </option>
+            )) ?? []
+          )}
+        </select>
+        <Select
+          inputValue={authorName}
+          onInputChange={(input) => setAuthorName(input)}
+          options={authorOptions}
+          onChange={(option) => setSelectedAuthor(option)}
+          placeholder="저자 선택"
+          isClearable
+        />
+        <Select
+          inputValue={publisherName}
+          onInputChange={(input) => setPublisherName(input)}
+          options={publisherOptions}
+          onChange={(option) => setSelectedPublisher(option)}
+          placeholder="출판사 선택"
+          isClearable
+        />
+        <input type="number" value={bookPrice ?? ""} onChange={(e) => setBookPrice(Number(e.target.value))} placeholder="가격" className="modal-input" required />
+        <input type="date" value={publishedDate} onChange={(e) => setPublishedDate(e.target.value)} className="modal-input" required />
+        <div className="file-upload-wrapper">
+          <label htmlFor="coverFile" className="file-upload-label">
+            {coverFile ? coverFile.name : "책 표지 선택하기"}
+          </label>
+          <input
+            id="coverFile"
+            type="file"
+            className="file-upload-input"
+            onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
           />
-        {coverFile && <p className="">선택된 파일: {coverFile.name}</p>}
-      </div>
-
-
-      <input 
-        type="text" 
-        value={pageCount} 
-        onChange={(e) => setPageCount(e.target.value)} 
-        placeholder="총 페이지수" 
-        className="create-book-input" 
-        required />
-      <input 
-      type="text" 
-      value={language} 
-      onChange={(e) => setLanguage(e.target.value)} 
-      placeholder="언어" 
-      className="" 
-      required />
-      <textarea 
-      value={description} 
-      onChange={(e) => setDescription(e.target.value)} 
-      placeholder="설명" 
-      className="" 
-      required />
-      <button 
-        type="submit" 
-        className="">등록</button>
-    </form>
+        </div>
+        <input type="text" value={pageCount} onChange={(e) => setPageCount(e.target.value)} placeholder="총 페이지수" className="modal-input" required />
+        <input type="text" value={language} onChange={(e) => setLanguage(e.target.value)} placeholder="언어" className="modal-input" required />
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="설명" className="modal-textarea" required />
+        <div className="modal-footer">
+          <button type="submit" className="modal-button-primary">등록</button>
+        </div>
+      </form>
+    </div>
   );
+
 }
 
 export default CreateBook;
