@@ -38,7 +38,7 @@ function EmployeeSignUpApprovalsSearch() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setSearchForm({ ...searchForm, [name]: value});
+    setSearchForm({ ...searchForm, [name]: value });
   };
 
   const onSearchClick = async (page: number) => {
@@ -118,65 +118,68 @@ function EmployeeSignUpApprovalsSearch() {
     <div>
       <div>
         <h2>회원 가입 승인 로그 조회</h2>
-        <div>
-          <input
-            type="text"
-            name="employeeName"
-            value={searchForm.employeeName}
-            placeholder="사원 명"
-            onChange={onInputChange}
-          />
-          <input
-            type="text"
-            name="authorizerName"
-            value={searchForm.authorizerName}
-            placeholder="관리자 명"
-            onChange={onInputChange}
-          />
-          <select
-            name="isApproved"
-            value={searchForm.isApproved}
-            onChange={onInputChange}
-          >
-            <option value="">승인 상태를 선택하세요.</option>
-            {ApprovalStatusT.map((approved) => (
-              <option key={approved} value={approved}>
-                {approved == "APPROVED" ? "승인" : "거절"}
+        <div className="filters">
+          <div className="filter-left">
+            <input
+              type="text"
+              name="employeeName"
+              value={searchForm.employeeName}
+              placeholder="사원 명"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <input
+              type="text"
+              name="authorizerName"
+              value={searchForm.authorizerName}
+              placeholder="관리자 명"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <select
+              name="isApproved"
+              value={searchForm.isApproved}
+              onChange={onInputChange}
+              className="input-search"
+            >
+              <option value="">승인 상태를 선택하세요.</option>
+              {ApprovalStatusT.map((approved) => (
+                <option key={approved} value={approved}>
+                  {approved == "APPROVED" ? "승인" : "거절"}
+                </option>
+              ))}
+            </select>
+            <select
+              name="deniedReason"
+              value={searchForm.deniedReason}
+              onChange={onInputChange}
+              className="input-search"
+            >
+              <option value="">거절 사유를 선택하세요.</option>
+              <option value="INVALID_EMPLOYEE_INFO">사원 정보 불일치</option>
+              <option value="ACCOUNT_ALREADY_EXISTS">
+                이미 계정이 발급된 사원
               </option>
-            ))}
-          </select>
-          <select
-            name="deniedReason"
-            value={searchForm.deniedReason}
-            onChange={onInputChange}
-          >
-            <option value="">거절 사유를 선택하세요.</option>
-            <option value="INVALID_EMPLOYEE_INFO">사원 정보 불일치</option>
-            <option value="ACCOUNT_ALREADY_EXISTS">
-              이미 계정이 발급된 사원
-            </option>
-            <option value="PENDING_RESIGNATION">퇴사 예정자</option>
-          </select>
-
-          <input
-            type="date"
-            name="startUpdatedAt"
-            value={searchForm.startUpdatedAt}
-            placeholder="시작 연도"
-            onChange={onInputChange}
-          />
-          <span>~</span>
-          <input
-            type="date"
-            name="endUpdatedAt"
-            value={searchForm.endUpdatedAt}
-            placeholder="끝 연도"
-            onChange={onInputChange}
-          />
-
-          <div>
-            <button onClick={() => onSearchClick(0)}>검색</button>
-            <button onClick={onResetClick}>초기화</button>
+              <option value="PENDING_RESIGNATION">퇴사 예정자</option>
+            </select>
+            <input
+              type="date"
+              name="startUpdatedAt"
+              value={searchForm.startUpdatedAt}
+              placeholder="시작 연도"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <input
+              type="date"
+              name="endUpdatedAt"
+              value={searchForm.endUpdatedAt}
+              placeholder="끝 연도"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <button onClick={() => onSearchClick(0)} className="searchBtn">검색</button>
+            <button onClick={onResetClick} className="searchBtn">초기화</button>
           </div>
         </div>
       </div>

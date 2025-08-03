@@ -11,6 +11,7 @@ import { BranchDetailResponseDto } from "@/dtos/branch/response/Branch-detail.re
 import { BranchSearchResponseDto } from "@/dtos/branch/response/Branch-search.response.dto";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
+import styles from "./Branch.module.css";
 
 function CreateBranch() {
   const [cookies] = useCookies(["accessToken"]);
@@ -138,23 +139,29 @@ function CreateBranch() {
   const modalContent = (
     <>
       <div>
-        <h1>지점 등록</h1>
-        <input
-          type="text"
-          name="branchName"
-          value={createBranch.branchName}
-          placeholder="지점 명"
-          onChange={onCreateInputChange}
-        />
-        <input
-          type="text"
-          name="branchLocation"
-          value={createBranch.branchLocation}
-          placeholder="지점 위치"
-          onChange={onCreateInputChange}
-        />
-        {createErrorMessage && <p>{createErrorMessage}</p>}
-        <button onClick={onCreateClick}>등록</button>
+        <div className={styles.create}>
+          <h2>지점 등록</h2>
+          <input
+            type="text"
+            name="branchName"
+            value={createBranch.branchName}
+            placeholder="지점 명"
+            onChange={onCreateInputChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="branchLocation"
+            value={createBranch.branchLocation}
+            placeholder="지점 위치"
+            onChange={onCreateInputChange}
+            className={styles.input}
+          />
+          {createErrorMessage && <p>{createErrorMessage}</p>}
+          <button onClick={onCreateClick} className={styles.button}>
+            등록
+          </button>
+        </div>
       </div>
     </>
   );
@@ -180,25 +187,32 @@ function CreateBranch() {
   const modalUpdateContent = (
     <>
       <div>
-        <h1>지점 수정</h1>
-        <input
-          type="text"
-          name="branchName"
-          value={branchDetail.branchName}
-          placeholder="지점 명"
-          onChange={onUpdateInputChange}
-        />
-        <input
-          type="text"
-          name="branchLocation"
-          value={branchDetail.branchLocation}
-          placeholder="지점 위치"
-          onChange={onUpdateInputChange}
-        />
-        {updateErrorMessage && <p>{updateErrorMessage}</p>}
-        <button onClick={() => onUpdateClick(branchDetail.branchId)}>
-          수정
-        </button>
+        <div className={styles.create}>
+          <h2>지점 수정</h2>
+          <input
+            type="text"
+            name="branchName"
+            value={branchDetail.branchName}
+            placeholder="지점 명"
+            onChange={onUpdateInputChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="branchLocation"
+            value={branchDetail.branchLocation}
+            placeholder="지점 위치"
+            onChange={onUpdateInputChange}
+            className={styles.input}
+          />
+          {updateErrorMessage && <p>{updateErrorMessage}</p>}
+          <button
+            onClick={() => onUpdateClick(branchDetail.branchId)}
+            className={styles.button}
+          >
+            수정
+          </button>
+        </div>
       </div>
     </>
   );
@@ -241,20 +255,27 @@ function CreateBranch() {
 
   return (
     <div>
-      <h2>지점 괸리</h2>
-      <div>
-        <input
-          type="text"
-          name="branchLocation"
-          value={searchForm.branchLocation}
-          placeholder="지점 주소"
-          onChange={onInputChange}
-        />
-        <div className="search-button">
-          <button onClick={() => onSearchClick(0)}>검색</button>
-          <button onClick={onResetClick}>최기화</button>
-          <button onClick={onOpenCreateModal}>등록</button>
+      <h2>지점 관리</h2>
+      <div className="filters">
+        <div className="filter-left">
+          <input
+            type="text"
+            name="branchLocation"
+            value={searchForm.branchLocation}
+            placeholder="지점 주소"
+            onChange={onInputChange}
+            className="input-search"
+          />
+          <button onClick={() => onSearchClick(0)} className="searchBtn">
+            검색
+          </button>
+          <button onClick={onResetClick} className="searchBtn">
+            최기화
+          </button>
         </div>
+        <button onClick={onOpenCreateModal} className="createBtn">
+          등록
+        </button>
         {message && <p>{message}</p>}
         <table>
           <thead>
@@ -276,7 +297,7 @@ function CreateBranch() {
                 <td>
                   <button
                     onClick={() => onOpenUpdateModal(branch)}
-                    className="approval-button"
+                    className="modifyBtn"
                   >
                     수정
                   </button>
@@ -285,52 +306,52 @@ function CreateBranch() {
             ))}
           </tbody>
         </table>
-        <div className="footer">
-          <button
-            className="pageBtn"
-            onClick={goPrev}
-            disabled={currentPage === 0}
-          >
-            {"<"}
-          </button>
-          {Array.from(
-            { length: endPage - startPage },
-            (_, i) => startPage + i
-          ).map((i) => (
-            <button
-              key={i}
-              className={`pageBtn${i === currentPage ? " current" : ""}`}
-              onClick={() => goToPage(i)}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            className="pageBtn"
-            onClick={goNext}
-            disabled={currentPage >= totalPage - 1}
-          >
-            {">"}
-          </button>
-          <span className="pageText">
-            {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
-          </span>
-        </div>
+        {modalStatus && (
+          <Modal
+            isOpen={modalStatus}
+            onClose={() => setModalStatus(false)}
+            children={modalContent}
+          />
+        )}
+        {modalUpdateStatus && (
+          <Modal
+            isOpen={modalUpdateStatus}
+            onClose={() => setModalUpdateStatus(false)}
+            children={modalUpdateContent}
+          />
+        )}
       </div>
-      {modalStatus && (
-        <Modal
-          isOpen={modalStatus}
-          onClose={() => setModalStatus(false)}
-          children={modalContent}
-        />
-      )}
-      {modalUpdateStatus && (
-        <Modal
-          isOpen={modalUpdateStatus}
-          onClose={() => setModalUpdateStatus(false)}
-          children={modalUpdateContent}
-        />
-      )}
+      <div className="footer">
+        <button
+          className="pageBtn"
+          onClick={goPrev}
+          disabled={currentPage === 0}
+        >
+          {"<"}
+        </button>
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
+          <button
+            key={i}
+            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            onClick={() => goToPage(i)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          className="pageBtn"
+          onClick={goNext}
+          disabled={currentPage >= totalPage - 1}
+        >
+          {">"}
+        </button>
+        <span className="pageText">
+          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
+        </span>
+      </div>
     </div>
   );
 }

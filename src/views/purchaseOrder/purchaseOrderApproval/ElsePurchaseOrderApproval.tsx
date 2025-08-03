@@ -128,14 +128,16 @@ function ElsePurchaseOrderApproval() {
 
   return (
     <div>
-      <div>
-        <div>
+      <h2>발주 승인 로그</h2>
+      <div className="filters">
+        <div className="filter-left">
           <input
             type="text"
             name="employeeName"
             value={searchForm.employeeName}
             placeholder="승인담당자"
             onChange={onInputChange}
+            className="input-search"
           />
           <select
             name="isApproved"
@@ -143,6 +145,7 @@ function ElsePurchaseOrderApproval() {
               searchForm.isApproved == null ? "" : String(searchForm.isApproved)
             }
             onChange={onInputChange}
+            className="input-search"
           >
             <option value="">전체 (승인여부)</option>
             <option value="true">승인</option>
@@ -154,19 +157,18 @@ function ElsePurchaseOrderApproval() {
             value={searchForm.startUpdatedAt}
             placeholder="시작 일자"
             onChange={onInputChange}
+            className="input-search"
           />
-          <span>~</span>
           <input
             type="date"
             name="endUpdatedAt"
             value={searchForm.endUpdatedAt}
             placeholder="마지막 일자"
             onChange={onInputChange}
+            className="input-search"
           />
-          <div>
-            <button onClick={() => onSearchClick(0)}>검색</button>
-            <button onClick={onResetClick}>초기화</button>
-          </div>
+          <button onClick={() => onSearchClick(0)} className="searchBtn">검색</button>
+          <button onClick={onResetClick} className="searchBtn">초기화</button>
         </div>
       </div>
 

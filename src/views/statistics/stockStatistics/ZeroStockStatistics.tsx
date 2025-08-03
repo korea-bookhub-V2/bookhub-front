@@ -54,7 +54,19 @@ function ZeroStockStatistics() {
             },
             { to: "/statistics/stocks/zero", label: "재고 개수별" },
           ].map(({ to, label }) => (
-            <NavLink key={to} to={to}>
+            <NavLink
+              key={to}
+              to={to}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#265185" : "#f0f0f0",
+                color: isActive ? "white" : "#333",
+                padding: "10px 20px",
+                borderRadius: 6,
+                textDecoration: "none",
+                fontWeight: isActive ? "bold" : "normal",
+                transition: "background-color 0.3s",
+              })}
+            >
               {label}
             </NavLink>
           ))}
@@ -62,7 +74,13 @@ function ZeroStockStatistics() {
       </div>
       <div>
         <h3>재고가 0인 책 개수</h3>
-        <button onClick={onFetchZeroStockCountChart}>새로고침</button>
+        <div className="filters">
+          <div className="filter-left">
+            <button onClick={onFetchZeroStockCountChart} className="searchBtn">
+              새로고침
+            </button>
+          </div>
+        </div>
       </div>
 
       <div>

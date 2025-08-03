@@ -18,9 +18,9 @@ h2{
 }
 
 .filter-left {
-  display: flex;
-  flex-wrap: wrap;
-  gap:2px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:2px;
 }
 
 
@@ -37,7 +37,7 @@ h2{
     background-color: #265185;
     color: white;
     font-weight: bold;
-    padding: 12px 24px;
+    padding: 8px 16px;
     cursor: pointer;
     border: none;
     border-radius: 4px;
