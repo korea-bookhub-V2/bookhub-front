@@ -98,8 +98,9 @@ function StockLogPage({
 
     
     <div>
+      <h2>재고 로그</h2>
       <div>
-        <select className='' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
+        <select className='input-search' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
           <option value="">전체</option>
           <option value={StockActionType.IN}>입고</option>
           <option value={StockActionType.OUT}>출고</option>
@@ -109,7 +110,7 @@ function StockLogPage({
         <input className='input-search' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
         <input className='input-search' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
         <input className = 'input-search' type="text" placeholder='책 제목 검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
-        <select className='' value={branchId ?? ''} onChange={e=> {
+        <select className='input-search' value={branchId ?? ''} onChange={e=> {
           const v = e.target.value
           setBranchId(v === ''? undefined : Number(v))
         }}>
@@ -120,7 +121,7 @@ function StockLogPage({
 
         </select>
 
-        <button className='' onClick={() => goToPage(0)}>검색</button>
+        <button className='searchBtn' onClick={() => goToPage(0)}>검색</button>
         <div>
           <table className=''>
             <thead>

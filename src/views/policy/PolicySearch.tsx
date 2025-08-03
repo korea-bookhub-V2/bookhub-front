@@ -93,7 +93,8 @@ function PolicySearch() {
 
  
   return (
-    <div className='policy-page-container'>
+    <div >
+        <h2>정책 조회</h2>
         <div className='filter-bar'>
             <select className='input-search' value={policyType} onChange={(e) => setPolicyType(e.target.value as PolicyType)}>
                 <option value="">전체</option>
@@ -106,7 +107,7 @@ function PolicySearch() {
         <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
         <input className = 'input-search' type="number" placeholder='할인율(%)' value={discountPercent} onChange={(e) => setDiscountPercent(e.target.value=== ""?"":Number(e.target.value)) } />
 
-    <button className='' onClick={() => goToPage(0)}>검색</button>
+    <button className='searchBtn' onClick={() => goToPage(0)}>검색</button>
         </div>
         <table className='table-policy'>
             <thead>
@@ -120,9 +121,9 @@ function PolicySearch() {
                 </tr>
             </thead>
             <tbody>
-                {policies.map((p) => (
+                {policies.map((p,index) => (
                     <tr key = {p.policyId}>
-                        <td></td>
+                        <td>{currentPage * PAGE_SIZE + index + 1}</td>
                         <td>{p.policyTitle}</td>
                         <td>{p.policyType}</td>
                         <td>{p.startDate}</td>

@@ -106,16 +106,26 @@ function Publisherpage() {
     fetchPage(page);
   };
 
+  const goPrev = () => {
+    if (currentPage > 0) goToPage(currentPage - 1);
+  };
+  const goNext = () => {
+    if (currentPage < totalPage - 1) goToPage(currentPage + 1);
+  };
+
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
+
     return (
       <div className=''>
-        <div>
-            <button onClick={() => setIsCreateOpen(true)} className=''> 출판사 등록</button>
-        </div>
+        <h2>출판사 등록</h2>
 
-        <div className=''>
-            <input type="text" value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
+        <div className='filters'>
+            <div className='filter-left'>
+            <input type="text" placeholder='출판사명 검색' value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
             
-            <button className='' onClick={() => goToPage(0)}>검색</button>
+            <button className='searchBtn'  onClick={() => goToPage(0)}>검색</button></div>
+            <button onClick={() => setIsCreateOpen(true)} className='createBtn'> 출판사 등록</button>
             </div>
                 <table>
                     <thead>
@@ -140,11 +150,37 @@ function Publisherpage() {
                         ))}
                     </tbody>
                 </table>
-                 <div className='pagination'>
-            <button className='' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
-            <span>{currentPage+1}/{totalPage}</span>
-            <button className='' disabled={currentPage +1 >= totalPage} onClick={() => goToPage(currentPage+1)}>다음</button>
-        </div>
+                  <div className="footer">
+        <button
+          className="pageBtn"
+          onClick={goPrev}
+          disabled={currentPage === 0}
+        >
+          {"<"}
+        </button>
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
+          <button
+            key={i}
+            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            onClick={() => goToPage(i)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          className="pageBtn"
+          onClick={goNext}
+          disabled={currentPage >= totalPage - 1}
+        >
+          {">"}
+        </button>
+        <span className="pageText">
+          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
+        </span>
+      </div>
 
         {isCreateOpen &&(<Createpublisher
         isOpen = {isCreateOpen}

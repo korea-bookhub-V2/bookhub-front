@@ -114,11 +114,6 @@ function PolicyPage() {
     fetchPage(page);
   };
 
-//   const goToPage = (page: number) => {
-//     if (page < 0 || page >= totalPage) return;
-
-//     onSearchClick(page);
-//   };
 
   const goPrev = () => {
     if (currentPage > 0) goToPage(currentPage - 1);
@@ -180,11 +175,7 @@ function PolicyPage() {
                 ))}
             </tbody>
         </table>
-        {/* <div className='footer'>
-            <button className='pageBtn' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
-            <span>{currentPage+1}/{totalPage}</span>
-            <button className='pageBtn' disabled={currentPage +1 >= totalPage} onClick={() => goToPage(currentPage+1)}>다음</button>
-        </div> */}
+
 
          <div className="footer">
         <button
