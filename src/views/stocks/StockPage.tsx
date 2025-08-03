@@ -1,7 +1,7 @@
 import { StockActionType } from '@/apis/enums/StockActionType';
 import { getStockById, getStocks } from '@/apis/stocks/Stock';
 import { StockProps } from '@/components/types/StockProps';
-import { StockResponseDto } from '@/dtos/stock/Stock.response.dto';
+import { StockResponseDto, StockUpdateResponseDto } from '@/dtos/stock/Stock.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import StockUpdate from './StockUpdate';
@@ -23,7 +23,7 @@ function StockPage({
      const [totalPage, setTotalPage] = useState<number>(0);
      const [stocks, setStocks] = useState<StockResponseDto[]>([]);
      const [selectedStockId, setSelectedStockId] = useState<number | null>(null);
-     const [selectedDetail, setSelectedDetail] = useState<StockResponseDto | null>(null);
+     const [selectedDetail, setSelectedDetail] = useState<StockUpdateResponseDto | null>(null);
    
      const [isUpdateOpen, setIsUpdateOpen] = useState(false);
    
@@ -93,14 +93,26 @@ function StockPage({
        if(page<0 || page >=totalPage) return;
        fetchPage(page);
      };
+       const goPrev = () => {
+    if (currentPage > 0) goToPage(currentPage - 1);
+  };
+  const goNext = () => {
+    if (currentPage < totalPage - 1) goToPage(currentPage + 1);
+  };
+
+
+       const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
   return (
-    <div className='policy-page-container'>
-        <div className='filters'>
+    
+    <div >
+      <h2>재고 관리</h2>
+        <div className=''>
             
            
         <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
-        <select className='' value={branchId ?? ''} onChange={e=> {
+        <select className='input-search' value={branchId ?? ''} onChange={e=> {
           const v = e.target.value
           setBranchId(v === ''? undefined : Number(v))
         }}>
@@ -112,9 +124,9 @@ function StockPage({
         </select>
        
 
-    <button className='' onClick={() => goToPage(0)}>검색</button>
+    <button className='searchBtn' onClick={() => goToPage(0)}>검색</button>
         </div>
-        <table className='table-policy'>
+        <table >
             <thead>
                 <tr>
                     <th>IDX</th>
@@ -140,13 +152,37 @@ function StockPage({
                 ))}
             </tbody>
         </table>
-        <div className='pagination'>
-            <button className='' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
-            <span>{currentPage+1}/{totalPage}</span>
-            <button className='' disabled={currentPage +1 >= totalPage} onClick={() => goToPage(currentPage+1)}>다음</button>
-        </div>
-
-       
+  <div className="footer">
+        <button
+          className="pageBtn"
+          onClick={goPrev}
+          disabled={currentPage === 0}
+        >
+          {"<"}
+        </button>
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
+          <button
+            key={i}
+            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            onClick={() => goToPage(i)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          className="pageBtn"
+          onClick={goNext}
+          disabled={currentPage >= totalPage - 1}
+        >
+          {">"}
+        </button>
+        <span className="pageText">
+          {totalPage > 0 ? `${currentPage + 1} / ${totalPage}` : "0 / 0"}
+        </span>
+      </div>
 
         {isUpdateOpen && selectedDetail && selectedStockId != null && (
             <StockUpdate

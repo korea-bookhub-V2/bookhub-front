@@ -93,12 +93,13 @@ function StockSearch({
      };
 
   return (
-    <div className='policy-page-container'>
-        <div className='filters'>
+    <div >
+        <h2>재고 검색</h2>
+        <div className=''>
             
            
         <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
-        <select className='' value={branchId ?? ''} onChange={e=> {
+        <select className='input-search' value={branchId ?? ''} onChange={e=> {
           const v = e.target.value
           setBranchId(v === ''? undefined : Number(v))
         }}>
@@ -110,7 +111,7 @@ function StockSearch({
         </select>
        
 
-    <button className='' onClick={() => goToPage(0)}>검색</button>
+    <button className='searchBtn' onClick={() => goToPage(0)}>검색</button>
         </div>
         <table className='table-policy'>
             <thead>
@@ -123,14 +124,14 @@ function StockSearch({
                 </tr>
             </thead>
             <tbody>
-                {stocks.map((s) => (
+                {stocks.map((s,index) => (
                     <tr key = {s.stockId}>
-                        <td></td>
+                        <td>{currentPage * PAGE_SIZE + index + 1}</td>
                         <td>{s.bookTitle}</td>
                         <td>{s.branchName}</td>
                         <td>{s.amount}</td>
                         <td>
-                            <button className = "" onClick={() => openDetailModal(s.stockId)}>보기</button>
+                            <button className = "modifyBtn" onClick={() => openDetailModal(s.stockId)}>보기</button>
                             
                         </td>
                     </tr>

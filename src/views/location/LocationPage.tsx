@@ -104,6 +104,9 @@ function LocationPage() {
     fetchPage(currentPage);
   };
 
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
+
   const openUpdateModal = async (id: number) => {
     if (!token) return;
     const res = await getLocationDetail(id, token);
@@ -131,11 +134,10 @@ function LocationPage() {
   return (
     <div>
       <h2>도서 위치 조회</h2>
-      <div className="topBar">
-        <button onClick={() => setIsCreateOpen(true)}>위치 등록</button>
-      </div>
-      <div>
-        <select value={branchId} onChange={(e) => setBranchId(e.target.value)}>
+      
+      <div className="filters">
+        <div className="filter-left">
+        <select className="input-search" value={branchId} onChange={(e) => setBranchId(e.target.value)}>
           <option value="">전체 지점</option>
           {branches.map((b) => (
             <option key={b.branchId} value={b.branchId}>
@@ -144,19 +146,24 @@ function LocationPage() {
           ))}
         </select>
         <input
+        className="input-search"
           type="text"
           placeholder="도서 제목"
           value={bookTitle}
           onChange={(e) => setBookTitle(e.target.value)}
         />
         <input
+        className="input-search"
           type="text"
           placeholder="ISBN"
           value={isbn}
           onChange={(e) => setIsbn(e.target.value)}
         />
-        <button onClick={() => fetchPage(0)}>검색</button>
-        <button onClick={reset}>초기화</button>
+        <button  className='searchBtn' onClick={() => fetchPage(0)}>검색</button>
+        <button  className='searchBtn' onClick={reset}>초기화</button></div>
+        
+        <button className='createBtn' onClick={() => setIsCreateOpen(true)}>위치 등록</button>
+      
       </div>
       {message && <p>{message}</p>}
       <table>

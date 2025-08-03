@@ -51,7 +51,7 @@ export const getStockById= async(
     stockId:number,
     accessToken: string
     
-):Promise<ResponseDto<StockResponseDto>> => {
+):Promise<ResponseDto<StockUpdateResponseDto>> => {
     try{
         const response = await axiosInstance.get(
             GET_STOCK_URL(stockId),
@@ -59,6 +59,6 @@ export const getStockById= async(
         );
         return responseSuccessHandler(response);
     }catch(error){
-        return responseErrorHandler(error as AxiosError<ResponseDto<StockResponseDto>>);
+        return responseErrorHandler(error as AxiosError<ResponseDto<StockUpdateResponseDto>>);
     }
 }

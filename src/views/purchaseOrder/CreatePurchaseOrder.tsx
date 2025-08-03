@@ -64,7 +64,7 @@ function CreatePurchaseOrder() {
 
   return (
     <div>
-      <h3>발주 요청</h3>
+      <h2>발주 요청</h2>
       <button onClick={onCreateOrders}>등록</button>
       {message && <p>{message}</p>}
       <table>
@@ -72,7 +72,7 @@ function CreatePurchaseOrder() {
           <tr>
             <th>ISBN</th>
             <th>수량</th>
-            <th></th>
+            <th>추가</th>
           </tr>
         </thead>
         <tbody>
@@ -96,7 +96,7 @@ function CreatePurchaseOrder() {
               />
             </td>
             <td>
-              <button onClick={onAddOrder}>추가</button>
+              <button className='modifyBtn' onClick={onAddOrder}>추가</button>
             </td>
           </tr>
           {orderList}
