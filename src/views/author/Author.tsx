@@ -250,7 +250,7 @@ function Author() {
     <div>
       <h2>저자 조회</h2>
       <div className="filters">
-        <div className="filters-left">
+        <div className="filter-left">
           <input
             type="text"
             name="authorName"
@@ -263,7 +263,7 @@ function Author() {
             조회
           </button>
         </div>
-        <div>
+        <div className="filter-right">
           <button onClick={openCreateModal} className="createBtn">
             등록
           </button>

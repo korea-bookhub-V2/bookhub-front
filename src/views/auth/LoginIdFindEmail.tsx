@@ -2,6 +2,7 @@ import { loginIdFindSendEmailRequest } from "@/apis/auth/auth";
 import { LoginIdFindSendEmailRequestDto } from "@/dtos/auth/request/Login-id-find-send-email.request.dto";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 function LoginIdFindEmail() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function LoginIdFindEmail() {
 
     if (code !== "SU") {
       setMessage("이메일 전송 실패: " + message);
+      setSendEmailMessage("");
       return;
     } else {
       alert(message);
@@ -48,14 +50,15 @@ function LoginIdFindEmail() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <img
-        src="src/apis/constants/북허브_svg_black1.png"
+        src="/북허브_로그_로그인창.png"
         alt="BookHub 로고"
         onClick={onLogoClick}
+        className={styles.logoImg}
       />
-      <div>
-        <h2>아이디 찾기</h2>
+      <div className={styles.formBox}>
+        <h1>아이디 찾기</h1>
         <input
           type="email"
           placeholder="이메일"
@@ -63,7 +66,6 @@ function LoginIdFindEmail() {
           value={form.email}
           onChange={onInputChange}
         />
-        <br />
         <input
           type="tel"
           placeholder="전화번호"
@@ -71,8 +73,10 @@ function LoginIdFindEmail() {
           value={form.phoneNumber}
           onChange={onInputChange}
         />
-        {message && <p>{message}</p>}
-        {sendEmailMessage && <p>{sendEmailMessage}</p>}
+        {message && <p className={styles.failP}>{message}</p>}
+        {sendEmailMessage && (
+          <p className={styles.successP}>{sendEmailMessage}</p>
+        )}
         <button onClick={onSendEmailClick}>이메일 전송</button>
       </div>
     </div>

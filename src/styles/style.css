@@ -23,6 +23,10 @@ h2{
     gap:2px;
 }
 
+.filter-right {
+    display: flex;
+    height: 38.06px;
+}
 
 /* .topBar{
     display: flex;

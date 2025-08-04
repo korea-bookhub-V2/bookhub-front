@@ -15,6 +15,7 @@ import { EmployeeListResponseDto } from "@/dtos/employee/response/Employee-list.
 import { PositionListResponseDto } from "@/dtos/position/Position-list.response.dto";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import styles from "./Employee.module.css";
 
 function EmployeeSearch() {
   const [cookies] = useCookies(["accessToken"]);
@@ -172,51 +173,51 @@ function EmployeeSearch() {
 
   const modalContent: React.ReactNode = (
     <>
-      <div>
-        <h1>사원 세부 사항</h1>
-        <div>
-          <div>
-            <div>
+      <div className={styles.container}>
+        <h2>사원 세부 사항</h2>
+        <div className={styles.section}>
+          <div className={styles.column}>
+            <div className={styles.field}>
               <label>사원 번호</label>
               <span>{employee?.employeeNumber}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>사원 이름</label>
               <span>{employee?.employeeName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>지점 명</label>
               <span>{employee?.branchName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>지급 명</label>
               <span>{employee?.positionName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>권한 명</label>
               <span>{employee?.authorityName}</span>
             </div>
           </div>
-          <div>
-            <div>
+          <div className={styles.column}>
+            <div className={styles.field}>
               <label>이메일</label>
               <span>{employee?.email}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>전화 번호</label>
               <span>{employee?.phoneNumber}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>생년월일: </label>
               <span>
                 {new Date(employee?.birthDate || "").toLocaleDateString()}
               </span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>재직 상태</label>
               <span>{employee?.status === "EXITED" ? "퇴사" : "재직"}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>입사 일자:</label>
               <span>
                 {new Date(employee?.createdAt || "").toLocaleString()}
@@ -346,7 +347,12 @@ function EmployeeSearch() {
               <td>{emp.authorityName}</td>
               <td>{emp.status === "EXITED" ? "퇴사" : "재직"}</td>
               <td>
-                <button onClick={() => onOpenModalClick(emp)} className="modifyBtn">세부 사항</button>
+                <button
+                  onClick={() => onOpenModalClick(emp)}
+                  className="modifyBtn"
+                >
+                  세부 사항
+                </button>
               </td>
             </tr>
           ))}

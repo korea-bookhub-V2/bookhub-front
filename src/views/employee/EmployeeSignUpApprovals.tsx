@@ -17,6 +17,7 @@ function EmployeeSignUpApprovals() {
   >([]);
   const [employee, setEmployee] = useState({ employeeId: 0, approvalId: 0 });
   const [message, setMessage] = useState("");
+  const [sendEmailMessage, setSendEmailMessage] = useState("");
   const [deniedErrorMessage, setDeniedErrorMessage] = useState("");
   const [modalStatus, setModalStatus] = useState(false);
   const [deniedReason, setDeniedReason] = useState("");
@@ -115,6 +116,8 @@ function EmployeeSignUpApprovals() {
       return;
     }
 
+    setSendEmailMessage("이메일 전송 중입니다. 잠시만 기다려 주세요");
+
     const response = await employeeSignUpApprovalRequest(
       employee.employeeId,
       { isApproved: "DENIED", deniedReason: deniedReason },
@@ -130,6 +133,7 @@ function EmployeeSignUpApprovals() {
       fetchEmployeeSignUpList(0);
     } else {
       alert(message + "\n이메일 전송 실패: " + responseBody.message);
+      setSendEmailMessage("");
       fetchEmployeeSignUpList(0);
     }
 
@@ -153,8 +157,15 @@ function EmployeeSignUpApprovals() {
             </option>
             <option value="PENDING_RESIGNATION">퇴사 예정자</option>
           </select>
-          {deniedErrorMessage && <p>{deniedErrorMessage}</p>}
-          <button onClick={onSubmitClick} className={styles.button}>확인</button>
+          {deniedErrorMessage && (
+            <p className="modal-error-message ">{deniedErrorMessage}</p>
+          )}
+          {sendEmailMessage && (
+            <p className={styles.successP}>{sendEmailMessage}</p>
+          )}
+          <button onClick={onSubmitClick} className={styles.button}>
+            확인
+          </button>
         </div>
       </div>
     </>

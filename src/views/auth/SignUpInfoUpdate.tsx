@@ -3,6 +3,7 @@ import { branchRequest } from "@/apis/branch/branch";
 import { BranchSearchResponseDto } from "@/dtos/branch/response/Branch-search.response.dto";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 function SignUpInfoUpdate() {
   const [searchParams] = useSearchParams();
@@ -102,11 +103,15 @@ function SignUpInfoUpdate() {
   };
 
   return (
-    <div>
-      <p>dofwoj</p>
+    <div className={styles.container}>
+      <img
+        src="/북허브_로그_로그인창.png"
+        alt="BookHub 로고"
+        className={styles.logoImg}
+      />
       {verified && (
-        <div>
-          <h2>회원 가입 정보 변경</h2>
+        <div className={styles.formBox}>
+          <h1>회원 가입 정보 변경</h1>
           <input
             type="tel"
             placeholder="전화번호"
@@ -130,11 +135,11 @@ function SignUpInfoUpdate() {
               </option>
             ))}
           </select>
-          {message && <p>{message}</p>}
+          {message && <p className={styles.failP}>{message}</p>}
           <button onClick={onButtonClick}>변경</button>
         </div>
       )}
-      {!verified && <p>{message}</p>}
+      {!verified && <p className={styles.failP}>{message}</p>}
     </div>
   );
 }

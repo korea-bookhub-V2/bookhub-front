@@ -4,6 +4,7 @@ import { useEmployeeStore } from "@/stores/employee.store";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -40,7 +41,6 @@ function SignIn() {
     const { code, message, data } = response;
 
     if (code !== "SU" || !data) {
-      alert("로그인에 실패하였습니다.");
       setMessage(message);
       return;
     }
@@ -70,35 +70,41 @@ function SignIn() {
   };
 
   return (
-    <div>
-      <img src="src/apis/constants/북허브_svg_black1.png" alt="BookHub 로고" />
-      <div>
-        <form onSubmit={onSubmit}>
-          <h2>LOGIN</h2>
-          <input
-            type="text"
-            name="loginId"
-            value={form.loginId}
-            placeholder="아이디"
-            onChange={onInputChange}
-          />
-          <input
-            type="password"
-            name="password"
-            value={form.password}
-            placeholder="비밀번호"
-            onChange={onInputChange}
-          />
-          {message && <p>{message}</p>}
-          <button type="submit">로그인</button>
-        </form>
-        <p>
-          <a href="/auth/sign-up">회원가입</a>
-          <a href="/auth/login-id-find/email">아이디 찾기</a>
-          <a href="/auth/password-change/email">비밀번호 변경</a>
-        </p>
+    <>
+      <div className={styles.container}>
+        <img
+          src="/북허브_로그_로그인창.png"
+          alt="BookHub 로고"
+          className={styles.logoImg}
+        />
+        <div className={styles.formBox}>
+          <form onSubmit={onSubmit}>
+            <h1>LOGIN</h1>
+            <input
+              type="text"
+              name="loginId"
+              value={form.loginId}
+              placeholder="아이디"
+              onChange={onInputChange}
+            />
+            <input
+              type="password"
+              name="password"
+              value={form.password}
+              placeholder="비밀번호"
+              onChange={onInputChange}
+            />
+            {message && <p className={styles.failP}>{message}</p>}
+            <button type="submit">로그인</button>
+          </form>
+          <p className={styles.selectP}>
+            <a href="/auth/sign-up">회원가입</a>
+            <a href="/auth/login-id-find/email">아이디 찾기</a>
+            <a href="/auth/password-change/email">비밀번호 변경</a>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

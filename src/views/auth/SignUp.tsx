@@ -9,6 +9,7 @@ import { SignUpRequestDto } from "@/dtos/auth/request/Sign-up.request.dto";
 import { BranchDetailResponseDto } from "@/dtos/branch/response/Branch-detail.response.dto";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -172,20 +173,20 @@ function SignUp() {
 
   const onSignUpClick = async () => {
     if (
-      !form.name &&
-      !form.birthDate &&
-      (!form.branchId || form.branchId === 0)
+      !form.name ||
+      !form.birthDate ||
+      !form.branchId ||
+      form.branchId === 0
     ) {
       setMessage("모든 항목을 입력해주세요.");
       return;
     }
 
     const response = await signUpRequest(form);
-    const { code, message } = response;
+    const { code } = response;
 
     if (code !== "SU") {
       alert("회원가입에 실패하였습니다.");
-      setMessage(message);
     } else {
       alert("회원가입에 성공하였습니다.");
       navigate(LoginUrl);
@@ -197,14 +198,15 @@ function SignUp() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <img
-        src="src/apis/constants/북허브_svg_black1.png"
+        src="/북허브_로그_로그인창.png"
         alt="BookHub 로고"
         onClick={onLogoClick}
+        className={styles.logoImg}
       />
-      <div>
-        <h2>SIGN UP</h2>
+      <div className={styles.formBox}>
+        <h1>SIGN UP</h1>
         <input
           type="text"
           placeholder="아이디 (영문으로 시작, 4~12자 영문/숫자 조합)"
@@ -213,9 +215,12 @@ function SignUp() {
           onChange={onInputOrSelectChange}
           onBlur={onCheckLoginIdBlur}
         />
-        <br />
-        {loginIdExistsMessage && <p>{loginIdExistsMessage}</p>}
-        {loginIdNotExistsMessage && <p>{loginIdNotExistsMessage}</p>}
+        {loginIdExistsMessage && (
+          <p className={styles.failP}>{loginIdExistsMessage}</p>
+        )}
+        {loginIdNotExistsMessage && (
+          <p className={styles.successP}>{loginIdNotExistsMessage}</p>
+        )}
         <input
           type="password"
           placeholder="비밀번호 (8~16자 영문, 숫자, 특수문자 모두 포함)"
@@ -224,7 +229,6 @@ function SignUp() {
           onChange={onInputOrSelectChange}
           onBlur={onPasswordBlur}
         />
-        <br />
         <input
           type="password"
           placeholder="비밀번호 확인"
@@ -233,9 +237,12 @@ function SignUp() {
           onChange={onInputOrSelectChange}
           onBlur={onPasswordBlur}
         />
-        <br />
-        {passwordFailCheckMessage && <p>{passwordFailCheckMessage}</p>}
-        {passwordSuccessCheckMessage && <p>{passwordSuccessCheckMessage}</p>}
+        {passwordFailCheckMessage && (
+          <p className={styles.failP}>{passwordFailCheckMessage}</p>
+        )}
+        {passwordSuccessCheckMessage && (
+          <p className={styles.successP}>{passwordSuccessCheckMessage}</p>
+        )}
         <input
           type="name"
           placeholder="이름"
@@ -243,7 +250,6 @@ function SignUp() {
           value={form.name}
           onChange={onInputOrSelectChange}
         />
-        <br />
         <input
           type="email"
           placeholder="이메일"
@@ -252,9 +258,12 @@ function SignUp() {
           onChange={onInputOrSelectChange}
           onBlur={onCheckEmailBlur}
         />
-        <br />
-        {emailExistsMessage && <p>{emailExistsMessage}</p>}
-        {emailNotExistsMessage && <p>{emailNotExistsMessage}</p>}
+        {emailExistsMessage && (
+          <p className={styles.failP}>{emailExistsMessage}</p>
+        )}
+        {emailNotExistsMessage && (
+          <p className={styles.successP}>{emailNotExistsMessage}</p>
+        )}
         <input
           type="tel"
           placeholder="전화번호"
@@ -263,9 +272,12 @@ function SignUp() {
           onChange={onInputOrSelectChange}
           onBlur={onCheckPhoneNumberBlur}
         />
-        <br />
-        {phoneNumberExistsMessage && <p>{phoneNumberExistsMessage}</p>}
-        {phoneNumberNotExistsMessage && <p>{phoneNumberNotExistsMessage}</p>}
+        {phoneNumberExistsMessage && (
+          <p className={styles.failP}>{phoneNumberExistsMessage}</p>
+        )}
+        {phoneNumberNotExistsMessage && (
+          <p className={styles.successP}>{phoneNumberNotExistsMessage}</p>
+        )}
         <input
           type="date"
           placeholder="생년월일"
@@ -273,8 +285,11 @@ function SignUp() {
           value={form.birthDate}
           onChange={onInputOrSelectChange}
         />
-        <br />
-        <select name="branchId" value={form.branchId} onChange={onInputOrSelectChange}>
+        <select
+          name="branchId"
+          value={form.branchId}
+          onChange={onInputOrSelectChange}
+        >
           <option value={0}>지점을 선택하세요</option>
           {branches.map((branch) => (
             <option key={branch.branchId} value={branch.branchId}>
@@ -282,8 +297,7 @@ function SignUp() {
             </option>
           ))}
         </select>
-        <br />
-        {message && <p>{message}</p>}
+        {message && <p className={styles.failP}>{message}</p>}
         <button onClick={onSignUpClick}>회원가입</button>
       </div>
     </div>

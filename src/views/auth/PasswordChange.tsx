@@ -5,6 +5,7 @@ import {
 import { PasswordChangeRequestDto } from "@/dtos/auth/request/Password-change.request.dto";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 function PasswordChange() {
   const [searchParams] = useSearchParams();
@@ -76,11 +77,15 @@ function PasswordChange() {
   };
 
   return (
-    <div>
-      <img src="src/apis/constants/북허브_svg_black1.png" alt="BookHub 로고" />
+    <div className={styles.container}>
+      <img
+        src="/북허브_로그_로그인창.png"
+        alt="BookHub 로고"
+        className={styles.logoImg}
+      />
       {verified && (
-        <div>
-          <h2>비밀번호 변경</h2>
+        <div className={styles.formBox}>
+          <h1>비밀번호 변경</h1>
           <input
             type="password"
             placeholder="비밀번호"
@@ -95,11 +100,11 @@ function PasswordChange() {
             value={form.confirmPassword}
             onChange={onInputChange}
           />
-          {message && <p>{message}</p>}
+          {message && <p className={styles.failP}>{message}</p>}
           <button onClick={onPasswordChangeButtonClick}>비밀번호 변경</button>
         </div>
       )}
-      {!verified && <p>{message}</p>}
+      {!verified && <p className={styles.failP}>{message}</p>}
     </div>
   );
 }
