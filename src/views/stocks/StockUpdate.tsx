@@ -5,6 +5,8 @@ import { StockResponseDto, StockUpdateResponseDto } from '@/dtos/stock/Stock.res
 import { useEmployeeStore } from '@/stores/employee.store';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
+import styles from '@/styles/stock/stockModal.module.css'
+
 interface UpdateStockProps {
     isOpen: boolean;
     onClose: () => void;
@@ -71,10 +73,10 @@ function StockUpdate({isOpen, onClose, onUpdate, stockDetail, stockId}:UpdateSto
 
 
     return (
-        <div className="modal-overlay">
-            <div className="policy-detail-modal">
-                <button className="modal-close-button" onClick={onClose}>x</button>
-                <h2 className="modal-title">재고 수정</h2>
+        <div className={`${styles['modal-overlay']}`}>
+            <div className={`${styles['policy-detail-modal']}`}>
+                <button className={`${styles['modal-close-button']}`} onClick={onClose}>x</button>
+                <h2>재고 수정</h2>
                 <div className="form-group">
                     <label>재고 타입</label>
                     <select value={type} onChange={e=>setType(e.target.value as StockActionType)}>

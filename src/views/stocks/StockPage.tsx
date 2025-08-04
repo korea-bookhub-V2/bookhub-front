@@ -137,9 +137,9 @@ function StockPage({
                 </tr>
             </thead>
             <tbody>
-                {stocks.map((s) => (
+                {stocks.map((s,index) => (
                     <tr key = {s.stockId}>
-                        <td></td>
+                        <td>{currentPage * PAGE_SIZE + index + 1}</td>
                         <td>{s.bookTitle}</td>
                         <td>{s.branchName}</td>
                         <td>{s.amount}</td>
