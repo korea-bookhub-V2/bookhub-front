@@ -4,9 +4,7 @@ import { useCookies } from "react-cookie";
 import { useState } from "react";
 import { AuthorRequestDto } from "@/dtos/author/request/Author.request.dto";
 import { AuthorCreateRequestDto } from "@/dtos/author/request/Author-create.request.dto";
-import Author from "./Author";
 
-// 여러건 동시 등록
 function CreateAuthor() {
   const [form, setForm] = useState({
     authorName: "",
@@ -22,7 +20,6 @@ function CreateAuthor() {
     setForm({ ...form, [name]: value });
   };
 
-  // 추가 버튼 클릭 -> 리스트에 추가됨
   const onAddAuthor = async () => {
     const { authorName, authorEmail } = form;
     const token = cookies.accessToken;
@@ -37,9 +34,9 @@ function CreateAuthor() {
     }
 
     if (!emailRegex.test(authorEmail)) {
-        setMessage("이메일 형식이 아닙니다.");
-        return;
-      }
+      setMessage("이메일 형식이 아닙니다.");
+      return;
+    }
 
     const response = await checkDuplicateAuthorEmail(form.authorEmail, token);
     const { code, message } = response;
@@ -86,7 +83,6 @@ function CreateAuthor() {
     );
   });
 
-  // 등록 버튼 클릭 -> 저자 리스트 등록(저장)
   const onCreateAuthorClick = async () => {
     if (authors.length === 0) {
       setMessage("등록하실 저자를 입력 후 추가 버튼을 눌러주세요.");
@@ -122,14 +118,16 @@ function CreateAuthor() {
     <div>
       <div>
         <h2>저자 등록</h2>
-        <button onClick={onCreateAuthorClick}>등록</button>
+        <button onClick={onCreateAuthorClick} className="createBtn">
+          등록
+        </button>
         {message && <p>{message}</p>}
-
         <table>
           <thead>
             <tr>
               <th>저자 이름</th>
               <th>저자 이메일</th>
+              <th>추가</th>
             </tr>
           </thead>
           <tbody>
@@ -137,23 +135,27 @@ function CreateAuthor() {
               <td>
                 <input
                   type="text"
-                  placeholder="등록하실 저자 이름을 입력하세요."
+                  placeholder="저자 이름을 입력하세요."
                   name="authorName"
                   value={form.authorName}
                   onChange={onInputChange}
+                  className="input-search"
                 />
               </td>
               <td>
                 <input
                   type="email"
-                  placeholder="등록하실 저자 이메일을 입력하세요."
+                  placeholder="저자 이메일을 입력하세요."
                   name="authorEmail"
                   value={form.authorEmail}
                   onChange={onInputChange}
+                  className="input-search"
                 />
               </td>
               <td>
-                <button onClick={onAddAuthor}>추가</button>
+                <button onClick={onAddAuthor} className="createBtn">
+                  추가
+                </button>
               </td>
             </tr>
             {authorList}
@@ -161,9 +163,7 @@ function CreateAuthor() {
         </table>
       </div>
       <div></div>
-      <div>
-        <Author />
-      </div>
+      <div></div>
     </div>
   );
 }

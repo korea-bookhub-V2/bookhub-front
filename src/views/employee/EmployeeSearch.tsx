@@ -15,6 +15,7 @@ import { EmployeeListResponseDto } from "@/dtos/employee/response/Employee-list.
 import { PositionListResponseDto } from "@/dtos/position/Position-list.response.dto";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import styles from "./Employee.module.css";
 
 function EmployeeSearch() {
   const [cookies] = useCookies(["accessToken"]);
@@ -172,51 +173,51 @@ function EmployeeSearch() {
 
   const modalContent: React.ReactNode = (
     <>
-      <div>
-        <h1>사원 세부 사항</h1>
-        <div>
-          <div>
-            <div>
+      <div className={styles.container}>
+        <h2>사원 세부 사항</h2>
+        <div className={styles.section}>
+          <div className={styles.column}>
+            <div className={styles.field}>
               <label>사원 번호</label>
               <span>{employee?.employeeNumber}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>사원 이름</label>
               <span>{employee?.employeeName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>지점 명</label>
               <span>{employee?.branchName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>지급 명</label>
               <span>{employee?.positionName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>권한 명</label>
               <span>{employee?.authorityName}</span>
             </div>
           </div>
-          <div>
-            <div>
+          <div className={styles.column}>
+            <div className={styles.field}>
               <label>이메일</label>
               <span>{employee?.email}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>전화 번호</label>
               <span>{employee?.phoneNumber}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>생년월일: </label>
               <span>
                 {new Date(employee?.birthDate || "").toLocaleDateString()}
               </span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>재직 상태</label>
               <span>{employee?.status === "EXITED" ? "퇴사" : "재직"}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>입사 일자:</label>
               <span>
                 {new Date(employee?.createdAt || "").toLocaleString()}
@@ -248,69 +249,74 @@ function EmployeeSearch() {
     <div>
       <div>
         <h2>사원 정보 조회</h2>
-        <div>
-          <input
-            type="text"
-            name="name"
-            placeholder="이름"
-            value={searchForm.name}
-            onChange={onInputChange}
-          />
-
-          <select
-            name="branchId"
-            value={searchForm.branchId}
-            onChange={onSelectChange}
-          >
-            <option value="">지점 선택</option>
-            {branches.map((branch) => (
-              <option key={branch.branchId} value={branch.branchId}>
-                {branch.branchName}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="positionId"
-            value={searchForm.positionId}
-            onChange={onSelectChange}
-          >
-            <option value="">직급 선택</option>
-            {positions.map((p) => (
-              <option key={p.positionId} value={p.positionId}>
-                {p.positionName}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="authorityId"
-            value={searchForm.authorityId}
-            onChange={onSelectChange}
-          >
-            <option value={""}>권한 선택</option>
-            {authorities.map((a) => (
-              <option key={a.authorityId} value={a.authorityId}>
-                {a.authorityName}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="status"
-            value={searchForm.status}
-            onChange={onInputChange}
-          >
-            <option value="">상태 선택</option>
-            {StatusT.map((s) => (
-              <option key={s} value={s}>
-                {s === "EXITED" ? "퇴사" : "재직"}
-              </option>
-            ))}
-          </select>
-          <div>
-            <button onClick={() => onSearchClick(0)}>검색</button>
-            <button onClick={onResetClick}>초기화</button>
+        <div className="filters">
+          <div className="filter-left">
+            <input
+              type="text"
+              name="name"
+              placeholder="이름"
+              value={searchForm.name}
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <select
+              name="branchId"
+              value={searchForm.branchId}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">지점 선택</option>
+              {branches.map((branch) => (
+                <option key={branch.branchId} value={branch.branchId}>
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="positionId"
+              value={searchForm.positionId}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">직급 선택</option>
+              {positions.map((p) => (
+                <option key={p.positionId} value={p.positionId}>
+                  {p.positionName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="authorityId"
+              value={searchForm.authorityId}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">권한 선택</option>
+              {authorities.map((a) => (
+                <option key={a.authorityId} value={a.authorityId}>
+                  {a.authorityName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="status"
+              value={searchForm.status}
+              onChange={onInputChange}
+              className="input-search"
+            >
+              <option value="">상태 선택</option>
+              {StatusT.map((s) => (
+                <option key={s} value={s}>
+                  {s === "EXITED" ? "퇴사" : "재직"}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => onSearchClick(0)} className="searchBtn">
+              검색
+            </button>
+            <button onClick={onResetClick} className="searchBtn">
+              초기화
+            </button>
           </div>
         </div>
       </div>
@@ -341,7 +347,12 @@ function EmployeeSearch() {
               <td>{emp.authorityName}</td>
               <td>{emp.status === "EXITED" ? "퇴사" : "재직"}</td>
               <td>
-                <button onClick={() => onOpenModalClick(emp)}>세부 사항</button>
+                <button
+                  onClick={() => onOpenModalClick(emp)}
+                  className="modifyBtn"
+                >
+                  세부 사항
+                </button>
               </td>
             </tr>
           ))}

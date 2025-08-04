@@ -101,7 +101,19 @@ function CategoryStockStatistics() {
             },
             { to: "/statistics/stocks/zero", label: "재고 개수별" },
           ].map(({ to, label }) => (
-            <NavLink key={to} to={to}>
+            <NavLink
+              key={to}
+              to={to}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#265185" : "#f0f0f0",
+                color: isActive ? "white" : "#333",
+                padding: "10px 20px",
+                borderRadius: 6,
+                textDecoration: "none",
+                fontWeight: isActive ? "bold" : "normal",
+                transition: "background-color 0.3s",
+              })}
+            >
               {label}
             </NavLink>
           ))}
@@ -109,19 +121,24 @@ function CategoryStockStatistics() {
       </div>
       <div>
         <h3>지점별 각 카테고리의 재고 비율</h3>
-        <select
-          name="branchName"
-          value={searchForm.branchName}
-          onChange={onSelectChange}
-        >
-          <option value="">지점을 선택하세요.</option>
-          {branches.map((branch) => (
-            <option key={branch.branchId} value={branch.branchName}>
-              {branch.branchName}
-            </option>
-          ))}
-        </select>
-        <button onClick={onSearchClick}>조회</button>
+        <div className="filters">
+          <div className="filter-left">
+            <select
+              name="branchName"
+              value={searchForm.branchName}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">지점을 선택하세요.</option>
+              {branches.map((branch) => (
+                <option key={branch.branchId} value={branch.branchName}>
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+            <button onClick={onSearchClick} className="searchBtn">조회</button>
+          </div>
+        </div>
       </div>
       {message && <p>{message}</p>}
       <div>

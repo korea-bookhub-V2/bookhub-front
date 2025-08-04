@@ -19,6 +19,7 @@ import { EmployeeListResponseDto } from "@/dtos/employee/response/Employee-list.
 import { PositionListResponseDto } from "@/dtos/position/Position-list.response.dto";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import styles from "./Employee.module.css";
 
 function EmployeeChange() {
   const [cookies] = useCookies(["accessToken"]);
@@ -291,19 +292,19 @@ function EmployeeChange() {
 
   const modalContent: React.ReactNode = (
     <>
-      <div>
-        <h1>사원 세부 사항</h1>
-        <div>
-          <div>
-            <div>
+      <div className={styles.container}>
+        <h2>사원 세부 사항</h2>
+        <div className={styles.section}>
+          <div className={styles.column}>
+            <div className={styles.field}>
               <label>사원 번호</label>
               <span>{employee?.employeeNumber}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>사원 이름</label>
               <span>{employee?.employeeName}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>지점 명</label>
               <select
                 name="branchId"
@@ -318,7 +319,7 @@ function EmployeeChange() {
                 ))}
               </select>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>직급 명</label>
               <select
                 name="positionId"
@@ -333,7 +334,7 @@ function EmployeeChange() {
                 ))}
               </select>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>권한 명</label>
               <select
                 name="authorityId"
@@ -349,26 +350,26 @@ function EmployeeChange() {
               </select>
             </div>
           </div>
-          <div>
-            <div>
+          <div className={styles.column}>
+            <div className={styles.field}>
               <label>이메일</label>
               <span>{employee?.email}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>전화 번호</label>
               <span>{employee?.phoneNumber}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>생년월일</label>
               <span>
                 {new Date(employee?.birthDate || "").toLocaleDateString()}
               </span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>재직 상태</label>
               <span>{employee?.status === "EXITED" ? "퇴사" : "재직"}</span>
             </div>
-            <div>
+            <div className={styles.field}>
               <label>입사 일자</label>
               <span>
                 {new Date(employee?.createdAt || "").toLocaleString()}
@@ -376,8 +377,10 @@ function EmployeeChange() {
             </div>
           </div>
         </div>
-        <div>
-          <button onClick={onUpdateClick}>수정</button>
+        <div className={styles.buttonWrapper}>
+          <button onClick={onUpdateClick} className={styles.button}>
+            수정
+          </button>
         </div>
       </div>
     </>
@@ -385,12 +388,13 @@ function EmployeeChange() {
 
   const modalExitContent: React.ReactNode = (
     <>
-      <div>
-        <h1>퇴직 처리</h1>
+      <div className={styles.create}>
+        <h2>퇴직 처리</h2>
         <select
           name="exitReason"
           value={exit.exitReason}
           onChange={onExitReasonSelectChange}
+          className={styles.input}
         >
           <option value="">퇴직 사유를 선택하세요</option>
           <option value="RETIREMENT">정년 퇴직</option>
@@ -398,7 +402,9 @@ function EmployeeChange() {
           <option value="FORCED">권고 사직</option>
           <option value="TERMINATED">해고</option>
         </select>
-        <button onClick={onExitUpdateClick}>퇴사</button>
+        <button onClick={onExitUpdateClick} className={styles.button}>
+          퇴사
+        </button>
       </div>
     </>
   );
@@ -423,66 +429,74 @@ function EmployeeChange() {
     <div>
       <div>
         <h2>사원 정보 수정</h2>
-        <div>
-          <input
-            type="text"
-            name="name"
-            placeholder="이름"
-            value={searchForm.name}
-            onChange={onInputChange}
-          />
-          <select
-            name="branchId"
-            value={searchForm.branchId}
-            onChange={onSelectChange}
-          >
-            <option value="">지점 선택</option>
-            {branches.map((branch) => (
-              <option key={branch.branchId} value={branch.branchId}>
-                {branch.branchName}
-              </option>
-            ))}
-          </select>
-          <select
-            name="positionId"
-            value={searchForm.positionId}
-            onChange={onSelectChange}
-          >
-            <option value="">직급 선택</option>
-            {positions.map((p) => (
-              <option key={p.positionId} value={p.positionId}>
-                {p.positionName}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="authorityId"
-            value={searchForm.authorityId}
-            onChange={onSelectChange}
-          >
-            <option value="">권한 선택</option>
-            {authorities.map((a) => (
-              <option key={a.authorityId} value={a.authorityId}>
-                {a.authorityName}
-              </option>
-            ))}
-          </select>
-          <select
-            name="status"
-            value={searchForm.status}
-            onChange={onInputChange}
-          >
-            <option value="">상태 선택</option>
-            {StatusT.map((s) => (
-              <option key={s} value={s}>
-                {s === "EXITED" ? "퇴사" : "재직"}
-              </option>
-            ))}
-          </select>
-          <div className="search-button">
-            <button onClick={() => onSearchClick(0)}>검색</button>
-            <button onClick={onResetClick}>초기화</button>
+        <div className="filters">
+          <div className="filter-left">
+            <input
+              type="text"
+              name="name"
+              placeholder="이름"
+              value={searchForm.name}
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <select
+              name="branchId"
+              value={searchForm.branchId}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">지점 선택</option>
+              {branches.map((branch) => (
+                <option key={branch.branchId} value={branch.branchId}>
+                  {branch.branchName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="positionId"
+              value={searchForm.positionId}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">직급 선택</option>
+              {positions.map((p) => (
+                <option key={p.positionId} value={p.positionId}>
+                  {p.positionName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="authorityId"
+              value={searchForm.authorityId}
+              onChange={onSelectChange}
+              className="input-search"
+            >
+              <option value="">권한 선택</option>
+              {authorities.map((a) => (
+                <option key={a.authorityId} value={a.authorityId}>
+                  {a.authorityName}
+                </option>
+              ))}
+            </select>
+            <select
+              name="status"
+              value={searchForm.status}
+              onChange={onInputChange}
+              className="input-search"
+            >
+              <option value="">상태 선택</option>
+              {StatusT.map((s) => (
+                <option key={s} value={s}>
+                  {s === "EXITED" ? "퇴사" : "재직"}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => onSearchClick(0)} className="searchBtn">
+              검색
+            </button>
+            <button onClick={onResetClick} className="searchBtn">
+              초기화
+            </button>
           </div>
         </div>
       </div>
@@ -514,7 +528,7 @@ function EmployeeChange() {
               <td>
                 <button
                   onClick={() => onOpenModalUpdateClick(emp)}
-                  className="approval-button"
+                  className="modifyBtn"
                 >
                   정보 수정
                 </button>
@@ -522,7 +536,7 @@ function EmployeeChange() {
               <td>
                 <button
                   onClick={() => onOpenModalExitUpdateClick(emp)}
-                  className="approval-button"
+                  className="deleteBtn"
                 >
                   퇴사 처리
                 </button>

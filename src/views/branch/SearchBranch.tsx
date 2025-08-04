@@ -87,17 +87,22 @@ function SearchBranch() {
   return (
     <div>
       <h2>지점 조회</h2>
-      <div>
-        <input
-          type="text"
-          name="branchLocation"
-          value={searchForm.branchLocation}
-          placeholder="지점 주소"
-          onChange={onInputChange}
-        />
-        <div>
-          <button onClick={() => onSearchClick(0)}>검색</button>
-          <button onClick={onResetClick}>초기화</button>
+      <div className="filters">
+        <div className="filter-left">
+          <input
+            type="text"
+            name="branchLocation"
+            value={searchForm.branchLocation}
+            placeholder="지점 주소를 입력하세요"
+            onChange={onInputChange}
+            className="input-search"
+          />
+          <button onClick={() => onSearchClick(0)} className="searchBtn">
+            검색
+          </button>
+          <button onClick={onResetClick} className="searchBtn">
+            초기화
+          </button>
         </div>
       </div>
       {message && <p>{message}</p>}

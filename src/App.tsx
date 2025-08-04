@@ -13,7 +13,6 @@ import LoginIdGet from "./views/auth/LoginIdGet";
 import PasswordChangeSendEmail from "./views/auth/PasswordChangeSendEmail";
 import PasswordChange from "./views/auth/PasswordChange";
 import Author from "./views/author/Author";
-import CreateAuthor from "./views/author/CreateAuthor";
 import Publisher from "./views/publisher";
 import Policy from "./views/policy";
 import StockLog from "./views/stock-logs";
@@ -38,7 +37,6 @@ import TimeStockStatistics from "./views/statistics/stockStatistics/TimeStockSta
 import ZeroStockStatistics from "./views/statistics/stockStatistics/ZeroStockStatistics";
 import BookLogs from "./views/book/book-logs/BookLogs";
 import AdminReceptionList from "./views/reception/AdminReceptionList";
-import Book from "./views/book/AdminBook";
 import AdminBook from "./views/book/AdminBook";
 import ElsePurchaseOrderApproval from "./views/purchaseOrder/purchaseOrderApproval/ElsePurchaseOrderApproval";
 import ElsePurchaseOrder from "./views/purchaseOrder/ElsePurchaseOrder";
@@ -126,10 +124,10 @@ function App() {
               }
               /> */}
               <Route
-                path="/author/create"
+                path="/author"
                 element={
                   <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
-                    <CreateAuthor />
+                    <Author />
                   </RequireAuth>
                 }
               />
@@ -180,12 +178,6 @@ function App() {
                 </RequireAuth>
               }
               />
-              {/* <Route path="/author/create" element={
-                <RequireAuth allowedRoles={["ADMIN"]}>
-                  <CreateAuthor />
-                </RequireAuth>
-              }
-              /> */}
 
               <Route
                 path="/statistics/stocks/time"

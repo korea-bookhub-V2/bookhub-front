@@ -61,7 +61,19 @@ function BranchStockStatistics() {
             },
             { to: "/statistics/stocks/zero", label: "재고 개수별" },
           ].map(({ to, label }) => (
-            <NavLink key={to} to={to}>
+            <NavLink
+              key={to}
+              to={to}
+              style={({ isActive }) => ({
+                backgroundColor: isActive ? "#265185" : "#f0f0f0",
+                color: isActive ? "white" : "#333",
+                padding: "10px 20px",
+                borderRadius: 6,
+                textDecoration: "none",
+                fontWeight: isActive ? "bold" : "normal",
+                transition: "background-color 0.3s",
+              })}
+            >
               {label}
             </NavLink>
           ))}
@@ -69,14 +81,21 @@ function BranchStockStatistics() {
       </div>
       <div>
         <h3>지점별 입고량 및 출고량</h3>
-        <input
-          type="month"
-          value={`${searchForm.year}-${searchForm.month
-            .toString()
-            .padStart(2, "0")}`}
-          onChange={onInputChange}
-        />
-        <button onClick={onSearchClick}>검색</button>
+        <div className="filters">
+          <div className="filter-left">
+            <input
+              type="month"
+              value={`${searchForm.year}-${searchForm.month
+                .toString()
+                .padStart(2, "0")}`}
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <button onClick={onSearchClick} className="searchBtn">
+              검색
+            </button>
+          </div>
+        </div>
       </div>
 
       <div>

@@ -111,49 +111,53 @@ function EmployeeChangeLog() {
     <div>
       <div>
         <h2>회원정보 로그 조회</h2>
-        <div>
-          <input
-            type="text"
-            name="employeeName"
-            value={searchForm.employeeName}
-            placeholder="사원 명"
-            onChange={onInputChange}
-          />
-          <input
-            type="text"
-            name="authorizerName"
-            value={searchForm.authorizerName}
-            placeholder="관리자 명"
-            onChange={onInputChange}
-          />
-          <select
-            name="changeType"
-            value={searchForm.changeType}
-            onChange={onInputChange}
-          >
-            <option value="">변경 종류를 선택하세요</option>
-            <option value="POSITION_CHANGE">직급 변경</option>
-            <option value="AUTHORITY_CHANGE">권한 변경</option>
-            <option value="BRANCH_CHANGE">지점 변경</option>
-          </select>
-          <input
-            type="date"
-            name="startUpdatedAt"
-            value={searchForm.startUpdatedAt}
-            placeholder="시작 일자"
-            onChange={onInputChange}
-          />
-          <span>~</span>
-          <input
-            type="date"
-            name="endUpdatedAt"
-            value={searchForm.endUpdatedAt}
-            placeholder="마지막 일자"
-            onChange={onInputChange}
-          />
-          <div>
-            <button onClick={() => onSearchClick(0)}>검색</button>
-            <button onClick={onResetClick}>초기화</button>
+        <div className="filters">
+          <div className="filter-left">
+            <input
+              type="text"
+              name="employeeName"
+              value={searchForm.employeeName}
+              placeholder="사원 명"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <input
+              type="text"
+              name="authorizerName"
+              value={searchForm.authorizerName}
+              placeholder="관리자 명"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <select
+              name="changeType"
+              value={searchForm.changeType}
+              onChange={onInputChange}
+              className="input-search"
+            >
+              <option value="">변경 종류를 선택하세요</option>
+              <option value="POSITION_CHANGE">직급 변경</option>
+              <option value="AUTHORITY_CHANGE">권한 변경</option>
+              <option value="BRANCH_CHANGE">지점 변경</option>
+            </select>
+            <input
+              type="date"
+              name="startUpdatedAt"
+              value={searchForm.startUpdatedAt}
+              placeholder="시작 일자"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <input
+              type="date"
+              name="endUpdatedAt"
+              value={searchForm.endUpdatedAt}
+              placeholder="마지막 일자"
+              onChange={onInputChange}
+              className="input-search"
+            />
+            <button onClick={() => onSearchClick(0)} className="searchBtn">검색</button>
+            <button onClick={onResetClick} className="searchBtn">초기화</button>
           </div>
         </div>
       </div>

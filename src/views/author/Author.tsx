@@ -9,6 +9,8 @@ import { AuthorRequestDto } from "@/dtos/author/request/Author.request.dto";
 import { AuthorResponseDto } from "@/dtos/author/response/Author.response.dto";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
+import CreateAuthor from "./CreateAuthor";
+import styles from "./Author.module.css";
 
 function Author() {
   const [searchForm, setSearchForm] = useState({ authorName: "" });
@@ -21,6 +23,7 @@ function Author() {
   const [message, setMessage] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const [modalStatus, setModalStatus] = useState(false);
+  const [modalCreateStatus, setModalCreateStatus] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const PAGE_SIZE = 10;
@@ -77,6 +80,10 @@ function Author() {
       authorEmail: author.authorEmail,
     });
     setModalStatus(true);
+  };
+
+  const openCreateModal = () => {
+    setModalCreateStatus(true);
   };
 
   const onUpdateClick = async (authorId: number) => {
@@ -182,8 +189,17 @@ function Author() {
         <td>{author.authorName}</td>
         <td>{author.authorEmail}</td>
         <td>
-          <button onClick={() => openUpdateModal(author)}>수정</button>
-          <button onClick={() => onDeleteClick(author.authorId)}>삭제</button>
+          <button onClick={() => openUpdateModal(author)} className="modifyBtn">
+            수정
+          </button>
+        </td>
+        <td>
+          <button
+            onClick={() => onDeleteClick(author.authorId)}
+            className="deleteBtn"
+          >
+            삭제
+          </button>
         </td>
       </tr>
     );
@@ -192,33 +208,40 @@ function Author() {
   const modalContent: React.ReactNode = (
     <>
       <div>
-        <div>
+        <div className={styles.create}>
           <h2>저자 수정</h2>
-
-          <div>
-            <p>저자 이름</p>
-            <input
-              type="text"
-              name="authorName"
-              value={updateForm.authorName}
-              onChange={onUpdateInputChange}
-              placeholder={updateForm.authorName}
-            />
-          </div>
-
-          <div>
-            <p>저자 이메일</p>
-            <input
-              type="text"
-              name="authorEmail"
-              value={updateForm.authorEmail}
-              onChange={onUpdateInputChange}
-              placeholder={updateForm.authorEmail}
-            />
-          </div>
+          <input
+            type="text"
+            name="authorName"
+            value={updateForm.authorName}
+            onChange={onUpdateInputChange}
+            placeholder={updateForm.authorName}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="authorEmail"
+            value={updateForm.authorEmail}
+            onChange={onUpdateInputChange}
+            placeholder={updateForm.authorEmail}
+            className={styles.input}
+          />
           {modalMessage && <p>{modalMessage}</p>}
-          <button onClick={() => onUpdateClick(authorId)}>수정</button>
+          <button
+            onClick={() => onUpdateClick(authorId)}
+            className={styles.button}
+          >
+            수정
+          </button>
         </div>
+      </div>
+    </>
+  );
+
+  const modalCreateContent: React.ReactNode = (
+    <>
+      <div>
+        <CreateAuthor />
       </div>
     </>
   );
@@ -226,20 +249,33 @@ function Author() {
   return (
     <div>
       <h2>저자 조회</h2>
-      <input
-        type="text"
-        name="authorName"
-        value={searchForm.authorName}
-        placeholder="조회할 저자 이름을 입력하세요"
-        onChange={onSearchInputChange}
-      />
-      <button onClick={() => onSearchClick(0)}>조회</button>
+      <div className="filters">
+        <div className="filter-left">
+          <input
+            type="text"
+            name="authorName"
+            value={searchForm.authorName}
+            placeholder="저자 이름을 입력하세요"
+            onChange={onSearchInputChange}
+            className="input-search"
+          />
+          <button onClick={() => onSearchClick(0)} className="searchBtn">
+            조회
+          </button>
+        </div>
+        <div className="filter-right">
+          <button onClick={openCreateModal} className="createBtn">
+            등록
+          </button>
+        </div>
+      </div>
       <table>
         <thead>
           <tr>
             <th>저자 이름</th>
             <th>저자 이메일</th>
-            <th>작업</th>
+            <th>수정</th>
+            <th>삭제</th>
           </tr>
         </thead>
         <tbody>{authorList}</tbody>
@@ -253,6 +289,15 @@ function Author() {
             setModalStatus(false), setMessage("");
           }}
           children={modalContent}
+        ></Modal>
+      )}
+      {modalCreateStatus && (
+        <Modal
+          isOpen={modalCreateStatus}
+          onClose={() => {
+            setModalCreateStatus(false), setMessage("");
+          }}
+          children={modalCreateContent}
         ></Modal>
       )}
       <div className="footer">

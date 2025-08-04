@@ -7,6 +7,7 @@ import {
 import { EmployeeSignUpListResponseDto } from "@/dtos/employee/response/Employee-sign-up-list.response.dto";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import styles from "./Employee.module.css";
 
 function EmployeeSignUpApprovals() {
   const [cookies] = useCookies(["accessToken"]);
@@ -16,6 +17,7 @@ function EmployeeSignUpApprovals() {
   >([]);
   const [employee, setEmployee] = useState({ employeeId: 0, approvalId: 0 });
   const [message, setMessage] = useState("");
+  const [sendEmailMessage, setSendEmailMessage] = useState("");
   const [deniedErrorMessage, setDeniedErrorMessage] = useState("");
   const [modalStatus, setModalStatus] = useState(false);
   const [deniedReason, setDeniedReason] = useState("");
@@ -114,6 +116,8 @@ function EmployeeSignUpApprovals() {
       return;
     }
 
+    setSendEmailMessage("이메일 전송 중입니다. 잠시만 기다려 주세요");
+
     const response = await employeeSignUpApprovalRequest(
       employee.employeeId,
       { isApproved: "DENIED", deniedReason: deniedReason },
@@ -129,6 +133,7 @@ function EmployeeSignUpApprovals() {
       fetchEmployeeSignUpList(0);
     } else {
       alert(message + "\n이메일 전송 실패: " + responseBody.message);
+      setSendEmailMessage("");
       fetchEmployeeSignUpList(0);
     }
 
@@ -138,17 +143,30 @@ function EmployeeSignUpApprovals() {
   const modalContent: React.ReactNode = (
     <>
       <div>
-        <h1>거절 사유</h1>
-        <select value={deniedReason} onChange={onInputChange}>
-          <option value="">거절 사유 선택</option>
-          <option value="INVALID_EMPLOYEE_INFO">사원 정보 불일치</option>
-          <option value="ACCOUNT_ALREADY_EXISTS">
-            이미 계정이 발급된 사원
-          </option>
-          <option value="PENDING_RESIGNATION">퇴사 예정자</option>
-        </select>
-        {deniedErrorMessage && <p>{deniedErrorMessage}</p>}
-        <button onClick={onSubmitClick}>확인</button>
+        <div className={styles.create}>
+          <h2>거절 사유</h2>
+          <select
+            value={deniedReason}
+            onChange={onInputChange}
+            className={styles.input}
+          >
+            <option value="">거절 사유 선택</option>
+            <option value="INVALID_EMPLOYEE_INFO">사원 정보 불일치</option>
+            <option value="ACCOUNT_ALREADY_EXISTS">
+              이미 계정이 발급된 사원
+            </option>
+            <option value="PENDING_RESIGNATION">퇴사 예정자</option>
+          </select>
+          {deniedErrorMessage && (
+            <p className="modal-error-message ">{deniedErrorMessage}</p>
+          )}
+          {sendEmailMessage && (
+            <p className={styles.successP}>{sendEmailMessage}</p>
+          )}
+          <button onClick={onSubmitClick} className={styles.button}>
+            확인
+          </button>
+        </div>
       </div>
     </>
   );
@@ -200,10 +218,20 @@ function EmployeeSignUpApprovals() {
               <td>{employee.appliedAt}</td>
               <td>{employee.isApproved === "PENDING" ? "대기 중" : "오류"}</td>
               <td>
-                <button onClick={() => onApprovedClick(employee)}>승인</button>
+                <button
+                  onClick={() => onApprovedClick(employee)}
+                  className="modifyBtn"
+                >
+                  승인
+                </button>
               </td>
               <td>
-                <button onClick={() => onOpenModalClick(employee)}>거절</button>
+                <button
+                  onClick={() => onOpenModalClick(employee)}
+                  className="deleteBtn"
+                >
+                  거절
+                </button>
               </td>
             </tr>
           ))}

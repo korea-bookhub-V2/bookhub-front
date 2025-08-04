@@ -1,6 +1,7 @@
 import { loginIdFindRequest } from "@/apis/auth/auth";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import styles from "./Auth.module.css";
 
 function LoginIdGet() {
   const [searchParams] = useSearchParams();
@@ -41,14 +42,14 @@ function LoginIdGet() {
   };
 
   return (
-    <div>
-      <img src="src/apis/constants/북허브_svg_black1.png" alt="BookHub 로고" />
-      <div>
-        <h2>아이디 찾기</h2>
+    <div className={styles.container}>
+      <img src="/북허브_로그_로그인창.png" alt="BookHub 로고" className={styles.logoImg}/>
+      <div className={styles.formBox}>
+        <h1>아이디 찾기</h1>
         {message ? (
-          <p>{message}</p>
+          <p className={styles.failP}>{message}</p>
         ) : (
-          <p>
+          <p className={styles.getP}>
             사원의 아이디는 <strong>{loginId}</strong> 입니다.
           </p>
         )}
