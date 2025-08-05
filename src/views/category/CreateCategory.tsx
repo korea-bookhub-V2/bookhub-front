@@ -142,7 +142,7 @@ function CreateCategory({ onSuccess }: CreateCategoryProps) {
 
           {message && <p>{message}</p>}
 
-            <button type="submit" className="modal-submit-btn" onClick={onCreateClick}>등록</button>
+            <button type="submit" className="modal-submit-btn">등록</button>
         </form>
       </div>
   );

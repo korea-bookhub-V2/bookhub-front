@@ -50,6 +50,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow: hidden;
 `;
 
 const Container = styled.div`
@@ -57,11 +58,9 @@ const Container = styled.div`
   border-radius: 12px;
   padding: 2rem;
   width: 1000px;
-  height: 500px;
   max-width: 90%;
-  max-height: 80%;
+  max-height: 90%;
   position: relative;
-  overflow-y: auto;
 `;
 
 const CloseButton = styled.button`

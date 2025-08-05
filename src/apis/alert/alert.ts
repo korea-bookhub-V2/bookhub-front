@@ -12,7 +12,7 @@ export const getUnreadAlerts = async (
   size: number = 10
 ): Promise<ResponseDto<PageResponseDto<AlertResponseDto>>> => {
   try {
-    const url = GET_UNREAD_ALERT_URL.replace("{employeeId}", String(employeeId)) + `?page=${page}${size}`;
+    const url = GET_UNREAD_ALERT_URL.replace("{employeeId}", String(employeeId)) + `?page=${page}&size=${size}`;
     const response = await axiosInstance.get(url, bearerAuthorization(accessToken));
     return responseSuccessHandler(response);
   } catch(error) {
