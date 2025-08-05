@@ -12,10 +12,13 @@
 }
 
 .modal-container {
+  position: relative;
   max-width: 600px;
+  max-height: 90vh;
   width: 100%;
   margin: 0 auto;
   overflow-x: hidden;
+  overflow-y: auto;
   box-sizing: border-box;
   background-color: white;
   padding: 2rem;
@@ -23,6 +26,7 @@
 }
 
 .modal-header {
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,7 +58,7 @@
 }
 
 .modal-input {
-  width: auto;
+  width: 100%;
   padding: 5px;
   font-size: 16px;
   border-radius: 6px;
@@ -62,7 +66,7 @@
 }
 
 .modal-textarea {
-  width: auto;
+  width: 100%;
   padding: 10px;
   font-size: 14px;
   min-height: 80px;

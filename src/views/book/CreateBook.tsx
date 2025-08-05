@@ -118,7 +118,7 @@ function CreateBook({ onSuccess }: CreateBookProps) {
         authorId,
         publisherId,
         bookPrice: bookPrice!,
-        publishedDate,
+        publishedDate: publishedDate + "T00:00:00",
         pageCount,
         language,
         description,
@@ -137,8 +137,8 @@ function CreateBook({ onSuccess }: CreateBookProps) {
 
   return (
     <div className="modal-container">
-      <h2 className="modal-header">책 등록</h2>
       <form onSubmit={handleSubmit} className="modal-form">
+      <h2 className="modal-header">책 등록</h2>
         <input type="text" value={isbn} onChange={(e) => setIsbn(e.target.value)} placeholder="책 ISBN" className="modal-input" required />
         <input type="text" value={bookTitle} onChange={(e) => setBookTitle(e.target.value)} placeholder="책 제목" className="modal-input" required />
         <select value={categoryType} onChange={(e) => setCategoryType(e.target.value as 'DOMESTIC' | 'FOREIGN')} className="modal-input">
