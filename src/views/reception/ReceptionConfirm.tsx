@@ -34,7 +34,9 @@ function ReceptionConfirm() {
   };
 
   useEffect(() => {
-    fetchData(0);
+    if (dateForm.startDate && dateForm.endDate) {
+      fetchData(0);
+    }
   }, [cookies]);
 
   const goToPage = (page: number) => {
