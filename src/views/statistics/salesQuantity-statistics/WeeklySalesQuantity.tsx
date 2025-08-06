@@ -24,11 +24,11 @@ function WeeklySalesQuantity() {
     (a, b) => b - a
   );
 
-  const getKoreanWeekLabel = (weekNumber: number, month: number) => {
-    const label = ["첫째", "둘째", "셋째", "넷째", "다섯째", "여섯째"];
-    const weekLabel = label[weekNumber - 1] ?? `${weekNumber}번째`;
-    return `${weekLabel}주`;
-  };
+  // const getKoreanWeekLabel = (weekNumber: number, month: number) => {
+  //   const label = ["첫째", "둘째", "셋째", "넷째", "다섯째", "여섯째"];
+  //   const weekLabel = label[weekNumber - 1] ?? `${weekNumber}번째`;
+  //   return `${weekLabel}주`;
+  // };
 
   const [selectedYear, setSelectedYear] = useState<number>(thisYear);
   const [selectedMonth, setSelectedMonth] = useState<number>(
@@ -50,6 +50,7 @@ function WeeklySalesQuantity() {
 
     if (code != "SU") {
       alert(`${message}`);
+      setLoading(false);
       return;
     }
 
@@ -59,31 +60,43 @@ function WeeklySalesQuantity() {
       return;
     }
 
-    const lastDate = lastDayOfMonth(new Date(thisYear, selectedMonth! - 1));
-    const maxWeek = getWeekOfMonth(lastDate);
+    // const lastDate = lastDayOfMonth(new Date(thisYear, selectedMonth! - 1));
+    // const maxWeek = getWeekOfMonth(lastDate);
 
-    const fullWeeksMap = new Map<string, number>();
-    for (let weekNum = 1; weekNum <= maxWeek; weekNum++) {
-      const label = getKoreanWeekLabel(weekNum, selectedMonth!);
-      fullWeeksMap.set(label, 0);
-    }
+    // const fullWeeksMap = new Map<string, number>();
+    // for (let weekNum = 1; weekNum <= maxWeek; weekNum++) {
+    //   const label = getKoreanWeekLabel(weekNum, selectedMonth!);
+    //   fullWeeksMap.set(label, 0);
+    // }
 
-    data.forEach((item) => {
-      if (!item.orderDate) return;
+    // data.forEach((item) => {
+    //   if (!item.orderDate) return;
 
-      const date = parseISO(item.orderDate);
-      if (date.getMonth() + 1 !== selectedMonth) return;
+    //   const date = parseISO(item.orderDate);
+    //   if (date.getMonth() + 1 !== selectedMonth) return;
 
-      const week = getWeekOfMonth(date);
-      const label = getKoreanWeekLabel(week, selectedMonth);
+    //   const week = getWeekOfMonth(date);
+    //   const label = getKoreanWeekLabel(week, selectedMonth);
 
-      fullWeeksMap.set(label, (fullWeeksMap.get(label) ?? 0) + item.totalSales);
+    //   fullWeeksMap.set(label, (fullWeeksMap.get(label) ?? 0) + item.totalSales);
+    // });
+
+    // setChartData(
+    //   Array.from(fullWeeksMap, ([name, total]) => ({ name, total }))
+    // );
+
+    const newChartData = data.map((item: any) => {
+      const weekNum = String(item.yearWeek).slice(-2);
+      const start = item.weekStartDate?.slice(5);
+      const end = item.weekEndDate?.slice(5);
+      const name = `${weekNum}주차 (${start}~${end})`;
+      return {
+        name,
+        total: item.totalSales,
+      };
     });
 
-    setChartData(
-      Array.from(fullWeeksMap, ([name, total]) => ({ name, total }))
-    );
-
+    setChartData(newChartData);
     setLoading(false);
   };
 
