@@ -1,29 +1,25 @@
-import { StockActionType } from '@/apis/enums/StockActionType';
 import { getStockById, getStocks } from '@/apis/stocks/Stock';
 import { StockProps } from '@/components/types/StockProps';
-import { StockResponseDto, StockUpdateResponseDto } from '@/dtos/stock/Stock.response.dto';
-import React, { useEffect, useState } from 'react'
+import { StockResponseDto } from '@/dtos/stock/Stock.response.dto';
+import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import StockUpdate from './StockUpdate';
+import '@/styles/style.css';
 
 const PAGE_SIZE = 10;
 
-function StockPage({
-  branches = [],
-}: StockProps) {
-
+function StockPage({branches = []}: StockProps) {
      const [cookies] = useCookies(['accessToken']);
      const token = cookies.accessToken;
    
      const [keyword, setKeyword] = useState('');
-     const [stockActionType, setStockActionType] = useState<StockActionType | ''>('');
      const [branchId, setBranchId] = useState<number|undefined>(undefined);
 
-     const [currentPage, setCurrentPage] = useState<number>(0);
-     const [totalPage, setTotalPage] = useState<number>(0);
+     const [currentPage, setCurrentPage] = useState(0);
+     const [totalPage, setTotalPage] = useState(0);
      const [stocks, setStocks] = useState<StockResponseDto[]>([]);
      const [selectedStockId, setSelectedStockId] = useState<number | null>(null);
-     const [selectedDetail, setSelectedDetail] = useState<StockUpdateResponseDto | null>(null);
+     const [selectedDetail, setSelectedDetail] = useState<StockResponseDto | null>(null);
    
      const [isUpdateOpen, setIsUpdateOpen] = useState(false);
    
@@ -35,12 +31,13 @@ function StockPage({
                page,
                PAGE_SIZE,
                keyword.trim() || undefined,
-               stockActionType || undefined
+               undefined,
+               branchId || undefined
            );
    
-           if(response.code ==="SU" && response.data){
+           if(response.code ==='SU' && response.data){
                const data = response.data;
-               if("content" in data){
+               if('content' in data){
                    setStocks(data.content);
                    setTotalPage(data.totalPages);
                    setCurrentPage(data.currentPage);
@@ -59,14 +56,14 @@ function StockPage({
    
      useEffect(() => {
        fetchPage(0);
-     },[token,keyword,stockActionType]);
+     },[token,keyword,branchId]);
    
     
      const openUpdateModal = async (id : number) => {
        if(!token) return;
        try{
            const response = await getStockById(id, token);
-           if (response.code ==="SU" && response.data){
+           if (response.code ==='SU' && response.data){
                setSelectedDetail(response.data);
                setSelectedStockId(id);
                setIsUpdateOpen(true);
@@ -90,7 +87,7 @@ function StockPage({
      }
    
      const goToPage = (page : number) => {
-       if(page<0 || page >=totalPage) return;
+       if(page < 0 || page >= totalPage) return;
        fetchPage(page);
      };
        const goPrev = () => {
@@ -101,25 +98,29 @@ function StockPage({
   };
 
 
-       const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
   const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
   return (
     
     <div >
       <h2>재고 관리</h2>
-        <div className=''>
+        <div className='filter-bar'>
             
            
-        <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
-        <select className='input-search' value={branchId ?? ''} onChange={e=> {
+        <input className = 'input-search' 
+        type="text" placeholder='제목검색' 
+        value={keyword} onChange={(e) => setKeyword(e.target.value) } 
+        onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
+        <select className='input-search' value={branchId ?? ''} 
+        onChange={e=> {
           const v = e.target.value
           setBranchId(v === ''? undefined : Number(v))
         }}>
-          <option value="" disabled>지점을 선택하세요</option>
-          {branches.map(branch => {return(
-            <option key = {branch.id} value={branch.id}> {branch.name}</option>)
-          })}
+          <option value='' disabled>지점을 선택하세요</option>
+          {branches.map((branch) => (
+            <option key = {branch.branchId} value={branch.branchId}> {branch.branchName}</option>
+          ))}
 
         </select>
        

@@ -28,14 +28,6 @@ h2{
     height: 38.06px;
 }
 
-/* .topBar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-} */
 
 .createBtn{
     background-color: #265185;
@@ -166,6 +158,34 @@ th, td {
     color: #265185;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-modal {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 24px;
+  width: 700px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 400px;
+}
+
 .modal-input {
     width: 100%;
     padding: 8px;
@@ -173,6 +193,8 @@ th, td {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 8px;
+    text-align: center;
+    
 }
 
 .modal-error-message {
@@ -314,4 +336,59 @@ th, td {
 .category-root .arrow {
     margin-right: 10px;
     font-size: 16px;
+}
+
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.table-policy {
+    width: 100%;
+    margin: 16px auto;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.table-policy thead tr {
+    background-color: #2b5480;
+    color: white;
+}
+
+.table-policy th,
+.table-policy td {
+    border: 1px solid #eee;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.pagination button {
+    background-color: #265185;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    margin: 0 8px;
+    font-size: 14px;
 }

@@ -104,7 +104,7 @@ function CreateLocationPage({ isOpen, onClose, onCreated, branchId }: CreateLoca
         </div>
         {message && <p className="error-message">{message}</p>}
         <div className="modal-footer">
-          <button onClick={onCreateClick}>등록</button>
+          <button className = 'createBtn' onClick={onCreateClick}>등록</button>
         </div>
       </div>
     </div>

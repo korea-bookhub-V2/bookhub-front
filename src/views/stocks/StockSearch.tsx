@@ -4,8 +4,9 @@ import { StockProps } from '@/components/types/StockProps';
 import { StockResponseDto } from '@/dtos/stock/Stock.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
-import StockUpdate from './StockUpdate';
+
 import StockDetail from './StockDetail';
+import '@/styles/style.css';
 
 const PAGE_SIZE = 10;
 
@@ -64,6 +65,9 @@ function StockSearch({
 
 
    const openDetailModal =  async (id : number) => {
+    const response = await getStockById(id, token);
+console.log("🧾 getStockById 응답:", response.data);
+
        if(!token) return;
        try {
            const response = await getStockById(id,token);
@@ -81,6 +85,8 @@ function StockSearch({
      };
    
    
+
+
      const handleDetailClose = () => {
        setSelectedDetail(null);
        setIsDetailOpen(false);
@@ -95,7 +101,7 @@ function StockSearch({
   return (
     <div >
         <h2>재고 검색</h2>
-        <div className=''>
+        <div className='filter-bar'>
             
            
         <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
@@ -105,7 +111,7 @@ function StockSearch({
         }}>
           <option value="" disabled>지점을 선택하세요</option>
           {branches.map(branch => {return(
-            <option key = {branch.id} value={branch.id}> {branch.name}</option>)
+            <option key = {branch.branchId} value={branch.branchId}> {branch.branchName}</option>)
           })}
 
         </select>

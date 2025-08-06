@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { useCookies } from 'react-cookie';
 import Createpublisher from './Createpublisher';
 import UpdatePublisher from './UpdatePublisher';
+import '@/styles/style.css'
 
 const PAGE_SIZE = 10;
 
@@ -103,7 +104,7 @@ function Publisherpage() {
 
   const goToPage = (page : number) => {
     if(page<0 || page >=totalPage) return;
-    fetchPage(page);
+    fetchPage(page,keyword);
   };
 
   const goPrev = () => {
@@ -117,6 +118,7 @@ function Publisherpage() {
   const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
     return (
+      
       <div className=''>
         <h2>출판사 등록</h2>
 
@@ -130,7 +132,7 @@ function Publisherpage() {
                 <table>
                     <thead>
                         <tr>
-                            <th>IDX</th>
+                            
                             <th>출판사 이름</th>
                            
                             <th>수정</th>
@@ -140,7 +142,7 @@ function Publisherpage() {
                     <tbody>
                         {publishers.map((p) => (
                             <tr key = {p.publisherId}>
-                                <td>{p.publisherId}</td>
+                               
                                 <td>{p.publisherName}</td>
                             
                                 <td><button className = "modifyBtn" onClick={() => openUpdateModal(p.publisherId)}>수정</button></td>
