@@ -277,18 +277,19 @@ function ElsePurchaseOrder() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div >
         <div>
           <CreatePurchaseOrder />
         </div>
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div className="filters">
+          <div className="filter-left">
           <input
             type="text"
             name="employeeName"
             value={searchForm.employeeName}
             placeholder="발주담당자"
             onInput={onSearchInputChange}
-            style={{ border: "1px solid #ccc", textAlign: "center" }}
+            className="search-input"
           />
           <input
             type="text"
@@ -326,10 +327,10 @@ function ElsePurchaseOrder() {
           </select>
           <button
             onClick={onGetPurchaseOrderByCriteria}
-            style={{ border: "1px solid #ccc", width: "50px" }}
+           className="searchBtn"
           >
             검색
-          </button>
+          </button></div>
         </div>
       </div>
       {purchaseOrders && (

@@ -8,12 +8,12 @@ interface StockDetailProps {
     
 }
 
-function PolicyDetail({isOpen, onClose, stockDetail}:StockDetailProps) {
+function StockDetail({isOpen, onClose, stockDetail}:StockDetailProps) {
   if(!isOpen) return null;
 
   return (
     <div className="modal-overlay">
-        <div className="">
+        <div className='detail-modal'>
             <button className="modal-close-button" onClick={onClose}>x</button>
             <h2 className="modal-title">재고 상세 조회</h2>
             <table className="detail-table">
@@ -27,7 +27,7 @@ function PolicyDetail({isOpen, onClose, stockDetail}:StockDetailProps) {
                         <td>{stockDetail.branchName}</td>
                     </tr>
                     
-                
+
                     <tr>
                         <th>재고량</th>
                         <td>{stockDetail.amount}</td>
@@ -43,4 +43,4 @@ function PolicyDetail({isOpen, onClose, stockDetail}:StockDetailProps) {
   );
 };
 
-export default PolicyDetail;
+export default StockDetail;

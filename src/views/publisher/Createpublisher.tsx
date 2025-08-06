@@ -1,3 +1,4 @@
+import Modal from '@/apis/constants/Modal';
 import { createPublisher } from '@/apis/publisher/publisher';
 import { PublisherRequestDto } from '@/dtos/publishers/publisher.request.dto';
 import React, { useState } from 'react'
@@ -48,16 +49,25 @@ function Createpublisher({isOpen, onClose, onCreated}:CreatePublisherProps
       };
       if(!isOpen) return null
   return (
-    <div className='modal'>
-      <div><button className="modal-close-button" onClick={onClose}>x</button>
+    
+    <div className='modal-overlay'>
+      <div className='detail-modal'>
+      <div>
+        <button className="modal-close-button" onClick={onClose}>x</button>
       <h2 className='modal-title'>출판사 등록</h2>
-      <div><input type="text" value={publisherName} onChange={e => setPublisherName(e.target.value)} /></div>
-      {message && <p className="error-message">{message}</p>}
+      <div >
+      <input 
+      className='modal-input'
+      type="text" 
+      value={publisherName} 
+      onChange={e => setPublisherName(e.target.value)} />
+      </div>
+      {message && <p className="modal-error-message">{message}</p>}
       <div className="modal-footer">
-                    <button onClick={onCreateClick} className="">등록</button>
-                </div>
+     <button onClick={onCreateClick} className="createBtn">등록</button>
+       </div>
       
-      </div></div>
+      </div></div></div>
   )
 }
 

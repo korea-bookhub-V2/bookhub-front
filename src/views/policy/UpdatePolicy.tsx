@@ -83,7 +83,7 @@ function UpdatePolicy({ isOpen, onClose, onUpdate, policyDetail, policyId }: Upd
 
     return (
         <div className="modal-overlay">
-            <div className="policy-detail-modal">
+            <div className="detail-modal">
                 <button className="modal-close-button" onClick={onClose}>x</button>
                 <h2 className="modal-title">정책 수정</h2>
                 <div className="form-group">

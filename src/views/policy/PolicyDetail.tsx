@@ -1,5 +1,6 @@
 import { PolicyType } from '@/apis/enums/PolicyType';
 import { PolicyDetailResponseDto } from '@/dtos/policy/Policy.response.dto';
+import './policy.css';
 
 interface PolicyDetailProps {
     isOpen: boolean;
@@ -13,7 +14,7 @@ function PolicyDetail({isOpen, onClose, policyDetail}:PolicyDetailProps) {
 
   return (
     <div className="modal-overlay">
-        <div className="policy-detail-modal">
+        <div className="detail-modal">
             <button className="modal-close-button" onClick={onClose}>x</button>
             <h2 className="modal-title">정책 상세 조회</h2>
             <table className="detail-table">

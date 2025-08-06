@@ -5,33 +5,31 @@ import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import StockLogdetail from './StockLogdetail';
 import { StockProps } from '@/components/types/StockProps';
+import '@/styles/style.css';
 
 
 
 const PAGE_SIZE = 10;
-function StockLogPage({
-  branches = [],
-}: StockProps) {
+function StockLogPage({branches = []}: StockProps) {
   const [cookies] = useCookies(['accessToken']);
   const accessToken = cookies.accessToken;
 
   const [type, setType] = useState<StockActionType | ''>('');
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
-  const [keyword, setKeyword] = useState<string>('');
-  const [employeeName, setEmployeeName] = useState<string | ''>('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [branchId, setBranchId] = useState<number|undefined>(undefined);
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [stocklogs, setStocklogs] = useState<StockLogResponseDto[]>([]);
   const [selectedStockLogId, setSelectedStockLogId] = useState<number | null>(null);
   const [selectedDetail, setSelectedDetail] = useState<StockLogResponseDto | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const fetchPage = async (page : number) => {
-    if(!accessToken) return;
-    try{
+    if (!accessToken) return;
+    try {
       const response = await getStockLogs(
         accessToken,
         page,
@@ -40,7 +38,7 @@ function StockLogPage({
         branchId || undefined,
         type || undefined,
         startDate || undefined,
-        endDate || undefined
+        endDate || undefined,
       );
 
       if(response.code === "SU" && response.data){
@@ -63,13 +61,13 @@ function StockLogPage({
 
   useEffect(() => {
     fetchPage(0);
-  },[accessToken,keyword,branchId,type,startDate,endDate]);
+  },[accessToken, keyword, branchId, type, startDate, endDate]);
 
   const openDetailModal = async (id:number) => {
-    if(!accessToken) return;
-    try{
+    if (!accessToken) return;
+    try {
       const response = await getStockLogDetail(id,accessToken);
-      if(response.code === "SU" && response.data){
+      if(response.code === 'SU' && response.data){
         setSelectedDetail(response.data);
         setSelectedStockLogId(id);
         setIsDetailOpen(true);
@@ -81,7 +79,7 @@ function StockLogPage({
         alert("상세 조회 중 오류 발생");
 
     }
-  }
+  };
 
    const handleDetailClose = () => {
     setSelectedDetail(null);
@@ -93,15 +91,12 @@ function StockLogPage({
     fetchPage(page);
   };
 
-
-  return (
-
-    
+  return (  
     <div>
       <h2>재고 로그</h2>
-      <div>
+      <div className='filter-bar'>
         <select className='input-search' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
-          <option value="">전체</option>
+          <option value=''>전체</option>
           <option value={StockActionType.IN}>입고</option>
           <option value={StockActionType.OUT}>출고</option>
           <option value={StockActionType.LOSS}>손실</option>
@@ -116,14 +111,15 @@ function StockLogPage({
         }}>
           <option value="" disabled>지점을 선택하세요</option>
           {branches.map(branch => {return(
-            <option key = {branch.id} value={branch.id}> {branch.name}</option>)
+            <option key = {branch.branchId} value={branch.branchId}> {branch.branchName}</option>)
           })}
 
         </select>
 
-        <button className='searchBtn' onClick={() => goToPage(0)}>검색</button>
+        <button className='searchBtn' onClick={() => goToPage(0)}>검색</button></div><div>
         <div>
-          <table className=''>
+          
+          <table className='table-policy'>
             <thead>
               <tr>
                 <th>IDX</th>
@@ -145,13 +141,13 @@ function StockLogPage({
                   <td>{s.amount}</td>
                   <td>{s.type}</td>
                   <td>
-                    <button className='' onClick={() => openDetailModal(s.stockLogId)}>보기</button>
+                    <button className='modifyBtn' onClick={() => openDetailModal(s.stockLogId)}>보기</button>
                   </td>
 
                   </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
 
                <div className='pagination'>
             <button className='' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
@@ -171,8 +167,8 @@ function StockLogPage({
 
 
       </div>
-    </div>
-  )
+    
+  );
 }
 
 export default StockLogPage
