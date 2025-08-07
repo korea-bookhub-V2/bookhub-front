@@ -201,7 +201,7 @@ function SalesQuantityByCategory() {
       </div>
 
       <div style={{ margin: 30 }}>
-        <button onClick={onFetchChart}>새로고침</button>
+        <button className="searchBtn" onClick={onFetchChart}>새로고침</button>
 
         {loading ? (
           <div>불러오는 중...</div>

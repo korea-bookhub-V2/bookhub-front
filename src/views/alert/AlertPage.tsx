@@ -129,8 +129,9 @@ function AlertPage() {
         </tbody>
       </table>
       {pageData && pageData.totalPages > 0 && (
-        <div>
+        <div className="footer">
           <button
+            className="pageBtn"
             onClick={() => goToPage(startPage - pagesPerGroup)}
             disabled={startPage < pagesPerGroup}>
             {"<"}
@@ -144,11 +145,12 @@ function AlertPage() {
               </button>
           ))}
           <button
+            className="pageBtn"
             onClick={() => goToPage(startPage + pagesPerGroup)}
             disabled={endPage >= (pageData?.totalPages ?? 0)}>
               {">"}
           </button>
-          <span>
+          <span className="pageText">
             {pageData?.totalPages > 0 ? `${(pageData?.currentPage ?? 0) + 1} / ${pageData?.totalPages}` : "0 / 0"}
           </span>  
         </div>

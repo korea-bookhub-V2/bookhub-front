@@ -96,16 +96,17 @@ function BookLogs() {
       </div>
 
       {pageData && pageData.totalPages > 0 && (
-        <div>
-          <button onClick={() => goToPage(startPage - pagesPerGroup)} disabled={startPage === 0}>{"<"}</button>
+        <div className="footer">
+          <button className="pageBtn" onClick={() => goToPage(startPage - pagesPerGroup)} disabled={startPage === 0}>{"<"}</button>
           {Array.from({ length: endPage - startPage }, (_, i) => startPage + i).map((i) => (
             <button
               key={i}
               className={`pageBtn${i === currentPage ? " current" : ""}`} onClick={() => goToPage(i)}>{i+1}</button>
           ))}
           <button
+            className="pageBtn"
             onClick={() => goToPage(startPage + pagesPerGroup)} disabled={endPage >= (pageData?.totalPages ?? 0)}>{">"}</button>
-          <span>{`${(pageData?.currentPage ?? 0) + 1} / ${pageData?.totalPages ?? 0}`}</span>
+          <span className="pageText">{`${(pageData?.currentPage ?? 0) + 1} / ${pageData?.totalPages ?? 0}`}</span>
         </div>
       )}
     </div>

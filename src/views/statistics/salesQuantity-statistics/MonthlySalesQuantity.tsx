@@ -50,7 +50,8 @@ function MonthlySalesQuantity() {
     <div>
       <h4>월별 통계</h4>
       <div>
-        <select
+        <select 
+          className="input-search"
           value={selectedYear}
           onChange={(e) => setSelectedYear(Number(e.target.value))}>
             {yearRange.map((year) => (

@@ -120,8 +120,9 @@ function ReceptionConfirm() {
         </table>
       </div>
     {pageData && pageData.totalPages > 0 && (
-        <div>
+        <div className="footer">
           <button
+            className="pageBtn"
             onClick={() => goToPage(pageData.currentPage - 1)}
             disabled={pageData.currentPage === 0}>
             {"<"}
@@ -135,11 +136,12 @@ function ReceptionConfirm() {
               </button>
           ))}
           <button
+            className="pageBtn"
             onClick={() => goToPage(pageData.currentPage + 1)}
             disabled={pageData.currentPage + 1 >= pageData.totalPages}>
               {">"}
           </button>
-          <span>
+          <span className="pageText">
             {pageData.totalPages > 0 ? `${pageData.currentPage + 1} / ${pageData.totalPages}` : "0 / 0"}
           </span>  
         </div>
