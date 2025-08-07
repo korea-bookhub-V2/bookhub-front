@@ -122,7 +122,7 @@ function LocationPage() {
   const handleDelete = async (id: number) => {
     if (!window.confirm("정말 삭제하시겠습니까")) return;
     if (!token) return;
-    const res = await deleteLocation(branchId ? Number(branchId) : 0, id, token);
+    const res = await deleteLocation(id, token);
     if (res.code === "SU") {
       const isLast = locations.length === 1 && currentPage > 0;
       fetchPage(isLast ? currentPage - 1 : currentPage);

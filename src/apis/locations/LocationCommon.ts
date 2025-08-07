@@ -12,7 +12,7 @@ export const getLocations= async (
     size: number,
     bookTitle?: string,
     isbn? : string,
-    branchId? : number //이거 토글로 할건데 어떻게 할지 생각해보기 (branchrepo에서 받아와야하나?)
+    branchId? : number 
 ): Promise<
     ResponseDto<
         PageResponseDto<LocationResponseDto>>> => {

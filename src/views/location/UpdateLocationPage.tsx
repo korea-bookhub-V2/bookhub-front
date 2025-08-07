@@ -50,7 +50,7 @@ function UpdateLocationPage({ isOpen, onClose, onUpdated, branchId, locationId, 
       note,
     };
 
-    const res = await updateLocation(branchId, locationId, dto as any, token);
+    const res = await updateLocation(locationId, dto as any, token);
     if (res.code !== "SU") {
       setMessage(res.message);
       return;
