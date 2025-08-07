@@ -86,6 +86,7 @@ function SaleQuantityByBranch() {
         <div style={{ display: "flex", gap: 12, margin: 16 }}>
           <select
             value={selectedYear}
+            className="input-search"
             onChange={(e) => setSelectedYear(Number(e.target.value))}
             style={{ width: 150 }}
           >
@@ -97,6 +98,7 @@ function SaleQuantityByBranch() {
           </select>
           <select
             value={selectedMonth}
+            className="input-search"
             onChange={(e) => setSelectedMonth(Number(e.target.value))}
             style={{ width: 150 }}
           >
@@ -107,7 +109,7 @@ function SaleQuantityByBranch() {
             ))}
           </select>
           <div>
-            <button onClick={onFetchChart} style={{ margin: 10 }}>
+            <button onClick={onFetchChart} className="searchBtn" style={{ margin: 10 }}>
               새로고침
             </button>
           </div>

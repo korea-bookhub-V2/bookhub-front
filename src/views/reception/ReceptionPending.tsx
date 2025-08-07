@@ -112,8 +112,9 @@ function ReceptionPending() {
           </table>
         </div>
         {pendingList && pendingList.totalPages > 0 && (
-        <div>
+        <div className="footer">
           <button
+            className="pageBtn"
             onClick={() => goToPage(pendingList.currentPage - 1)}
             disabled={pendingList.currentPage === 0}>
             {"<"}
@@ -127,11 +128,12 @@ function ReceptionPending() {
               </button>
           ))}
           <button
+            className="pageBtn"
             onClick={() => goToPage(pendingList.currentPage + 1)}
             disabled={pendingList.currentPage + 1 >= pendingList.totalPages}>
               {">"}
           </button>
-          <span>
+          <span className="pageText">
             {pendingList.totalPages > 0 ? `${pendingList.currentPage + 1} / ${pendingList.totalPages}` : "0 / 0"}
           </span>  
         </div>

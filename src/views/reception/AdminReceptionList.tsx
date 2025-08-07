@@ -68,7 +68,7 @@ function AdminReceptionList() {
     <div>
       <h2>관리자 수령 확인 로그 조회</h2>
       <div style={{ display: "flex", gap: "10px", marginBottom: "16px"}}>
-        <select value={branchName} onChange={(e) => setBranchName(e.target.value)}>
+        <select className="input-search" value={branchName} onChange={(e) => setBranchName(e.target.value)}>
           <option value="">전체 지점</option>
           {branches.map((branch) => (
             <option key={branch.branchId} value={branch.branchName}>
@@ -119,8 +119,9 @@ function AdminReceptionList() {
       )}
 
       {pageData && pageData.totalPages > 0 && (
-        <div>
+        <div className="footer">
           <button
+            className="pageBtn"
             onClick={() => goToPage(pageData.currentPage - 1)}
             disabled={pageData.currentPage === 0}>
             {"<"}
@@ -134,11 +135,12 @@ function AdminReceptionList() {
               </button>
           ))}
           <button
+            className="pageBtn"
             onClick={() => goToPage(pageData.currentPage + 1)}
             disabled={pageData.currentPage + 1 >= pageData.totalPages}>
               {">"}
           </button>
-          <span>
+          <span className="pageText">
             {pageData.totalPages > 0 ? `${pageData.currentPage + 1} / ${pageData.totalPages}` : "0 / 0"}
           </span>  
         </div>

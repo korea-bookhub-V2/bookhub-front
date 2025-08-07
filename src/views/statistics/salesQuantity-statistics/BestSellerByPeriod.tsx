@@ -124,20 +124,23 @@ function BestSellerByPeriod() {
     <div>
       <h2>기간별 베스트셀러 순위</h2>
       <div>
-          <div>
+          <div style={{ display: "flex", gap: "8px" }}>
             <button
+              className="searchBtn"
               onClick={() => {
                 onWeeklyBestSellers(), setBestSellerTitle("주간 베스트셀러");
               }}>
                 주간 베스트셀러
               </button>
               <button
+                className="searchBtn"
                 onClick={() => {
                   onMonthlyBestSellers(), setBestSellerTitle("월간 베스트셀러");
                 }}>
                   월간 베스트셀러
                 </button>
                 <button
+                  className="searchBtn"
                   onClick={() => {
                     onYearlyBestSellers(), setBestSellerTitle("연간 베스트셀러");
                   }}>
@@ -168,29 +171,31 @@ function BestSellerByPeriod() {
         {message}
 
         {bestSeller.length > 0 && (
-          <div>
-            <button
-              onClick={goPrev}
-              disabled={currentPage === 0}>
-                {"<"}
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i).map((i) => (
-                <button
-                  key={i}
-                  className={`pageBtn${i === currentPage ? "current" : ""}`}
-                  onClick={() => goToPage(i)}>
-                  {i + 1}
-                  </button>
-              ))}
+          <div className="footer">
+          <button
+            className="pageBtn"
+            onClick={goPrev}
+            disabled={currentPage === 0}>
+            {"<"}
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i).map((i) => (
               <button
-                onClick={goNext}
-                disabled={currentPage >= totalPages - 1}>
-                  {">"}
+                key={i}
+                className={`pageBtn${i === currentPage ? " current" : ""}`}
+                onClick={() => goToPage(i)}>
+                  {i + 1}
                 </button>
-                <span>
-                  {totalPages > 0 ? `${currentPage + 1} / ${totalPages} ` : "0 / 0"}
-                </span>
-          </div>
+            ))}
+            <button
+              className="pageBtn"
+              onClick={goNext}
+              disabled={currentPage >= totalPages - 1}>
+                {">"}
+              </button>
+              <span className="pageText">
+                {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "0 / 0"}
+              </span>
+        </div>
         )}
     </div>
   );

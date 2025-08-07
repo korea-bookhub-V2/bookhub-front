@@ -13,6 +13,10 @@ function AdminBook() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState<BookResponseDto | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
+  const pagesPerGroup = 5;
+
   const handleSearch = async () => {
     const token = cookies.accessToken;
     if (!token) return;
@@ -42,6 +46,25 @@ function AdminBook() {
     setIsCreateModalOpen(false);
     setSelectedBook(null);
   };
+
+  const goToPage = (page: number) => {
+    if (page >= 0 && page < totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const goPrev = () => {
+    if (currentPage > 0) setCurrentPage(currentPage - 1);
+  };
+
+  const goNext = () => {
+    if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
+  }
+
+  const totalPages = Math.ceil(bookList.length / itemsPerPage);
+  const currentGroup = Math.floor(currentPage / pagesPerGroup);
+  const startPage = currentGroup * pagesPerGroup;
+  const endPage = Math.min(startPage + pagesPerGroup, totalPages);
 
   return (
     <div>
@@ -79,7 +102,7 @@ function AdminBook() {
           </tr>
         </thead>
         <tbody>
-          {bookList.map((book) => (
+          {bookList.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map((book) => (
             <tr key={book.isbn}>
               <td>{book.bookTitle}</td>
               <td>{book.authorName}</td>
@@ -109,6 +132,26 @@ function AdminBook() {
           )}
         </tbody>
       </table>
+
+      {bookList.length > 0 && (
+        <div className="footer">
+          <button className="pageBtn" onClick={goPrev} disabled={currentPage === 0}>
+            {"<"}
+          </button>
+          {Array.from({ length: endPage - startPage }, (_, i) => startPage + i).map((i) => (
+            <button
+              key={i}
+              className={`pageBtn${i === currentPage ? " current" : ""}`}
+              onClick={() => goToPage(i)}>
+                {i + 1}
+              </button>
+          ))}
+          <button className="pageBtn" onClick={goNext} disabled={currentPage >= totalPages - 1}>
+            {">"}
+          </button>
+          <span className="pageText">{`${currentPage + 1} / ${totalPages}`}</span>
+          </div>
+      )}
 
       {isCreateModalOpen && (
         <Modal isOpen={true} onClose={() => setIsCreateModalOpen(false)}>

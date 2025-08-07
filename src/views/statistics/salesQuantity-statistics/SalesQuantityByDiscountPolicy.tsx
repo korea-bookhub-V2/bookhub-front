@@ -103,6 +103,7 @@ function SalesQuantityByDiscountPolicy() {
       <div style={{ margin: 30 }}>
         <div style={{ display: "flex", gap: 12, margin: 16 }}>
           <select
+            className="input-search"
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
             style={{ width: 150 }}
@@ -115,6 +116,7 @@ function SalesQuantityByDiscountPolicy() {
           </select>
           <select
             value={selectedQuarter}
+            className="input-search"
             onChange={(e) => setSelectedQuarter(Number(e.target.value))}
             style={{ width: 150 }}
           >
@@ -124,7 +126,7 @@ function SalesQuantityByDiscountPolicy() {
             <option value={4}>4분기 (10~12월)</option>
           </select>
           <div>
-            <button onClick={onFetchChart} style={{ margin: 10 }}>
+            <button onClick={onFetchChart} className="searchBtn" style={{ margin: 10 }}>
               새로고침
             </button>
           </div>

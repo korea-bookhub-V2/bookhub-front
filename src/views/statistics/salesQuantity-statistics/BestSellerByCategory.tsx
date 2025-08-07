@@ -137,6 +137,7 @@ function BestSellerByCategory() {
       <select
         id="topCategory"
         value={topCategory}
+        className="input-search"
         onChange={handleTopCategoryChange}>
           <option value="DOMESTIC">국내 도서</option>
           <option value="FOREIGN">해외 도서</option>
@@ -146,6 +147,7 @@ function BestSellerByCategory() {
         <select
           id="bottomCategory"
           value={bottomCategoryId}
+          className="input-search"
           onChange={handleBottomCategoryChange}>
             <option value="" disabled hidden>
               하위 카테고리를 선택해주세요
@@ -173,28 +175,28 @@ function BestSellerByCategory() {
           {message}
 
           {bestSeller.length > 0 && (
-            <div className="">
+            <div className="footer">
               <button
-                className=""
+                className="pageBtn"
                 onClick={goPrev}
                 disabled={currentPage === 0}>
-                  {"<"}
+                {"<"}
                 </button>
                 {Array.from({ length: totalPages }, (_, i) => i).map((i) => (
                   <button
                     key={i}
-                    className={`pageBtn${i === currentPage ? "current" : ""}`}
+                    className={`pageBtn${i === currentPage ? " current" : ""}`}
                     onClick={() => goToPage(i)}>
                       {i + 1}
                     </button>
                 ))}
                 <button
-                  className=""
+                  className="pageBtn"
                   onClick={goNext}
                   disabled={currentPage >= totalPages - 1}>
                     {">"}
                   </button>
-                  <span className="">
+                  <span className="pageText">
                     {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "0 / 0"}
                   </span>
             </div>

@@ -2,6 +2,7 @@ import { getTop100BestSellers } from '@/apis/statistics/salesQuantityStatistics/
 import { BestSellerResponseDto } from '@/dtos/statistics/salesQuantityStatistics/response/BestSeller.response.dto';
 import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
+import '../../../styles/style.css';
 
 function TotalBestSeller() {
   const [bestSeller, setBestSeller] = useState<BestSellerResponseDto[]>([]);
@@ -104,8 +105,9 @@ function TotalBestSeller() {
       {message}
 
       {bestSeller.length > 0 && (
-        <div>
+        <div className="footer">
           <button
+            className="pageBtn"
             onClick={goPrev}
             disabled={currentPage === 0}>
             {"<"}
@@ -119,11 +121,12 @@ function TotalBestSeller() {
                 </button>
             ))}
             <button
+              className="pageBtn"
               onClick={goNext}
               disabled={currentPage >= totalPages - 1}>
                 {">"}
               </button>
-              <span>
+              <span className="pageText">
                 {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "0 / 0"}
               </span>
         </div>
