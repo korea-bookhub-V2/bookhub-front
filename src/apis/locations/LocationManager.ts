@@ -6,13 +6,12 @@ import { AxiosError } from "axios";
 import { POST_LOCATION_URL, PUT_LOCATION_URL } from "./LocationUrl";
 
 export const createLocation = async(
-    branchId : number,
     dto: LocationCreateRequestDto,
     accessToken : string,   
 ) : Promise<ResponseDto<LocationResponseDto>> => {
     try{
         const response = await axiosInstance.post(
-                    POST_LOCATION_URL(branchId),
+                    POST_LOCATION_URL,
                     dto,
                     bearerAuthorization(accessToken)
                 );
@@ -23,14 +22,13 @@ export const createLocation = async(
 };
 
 export const updateLocation = async(
-    branchId : number,
     locationId: number,
     dto: LocationCreateRequestDto,
     accessToken : string,   
 ) : Promise<ResponseDto<LocationResponseDto>> => {
     try{
         const response = await axiosInstance.put(
-                    PUT_LOCATION_URL(branchId, locationId),
+                    PUT_LOCATION_URL(locationId),
                     dto,
                     bearerAuthorization(accessToken)
                 );
@@ -41,13 +39,12 @@ export const updateLocation = async(
 };
 
 export const deleteLocation = async(
-    branchId : number,
     locationId: number,
     accessToken : string,   
 ) : Promise<ResponseDto<null>> => {
     try{
         const response = await axiosInstance.delete(
-                    PUT_LOCATION_URL(branchId, locationId),
+                    PUT_LOCATION_URL(locationId),
                     bearerAuthorization(accessToken)
                 );
                 return responseSuccessHandler(response);

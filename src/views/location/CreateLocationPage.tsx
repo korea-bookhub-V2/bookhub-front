@@ -42,7 +42,7 @@ function CreateLocationPage({ isOpen, onClose, onCreated, branchId }: CreateLoca
       note,
     };
 
-    const res = await createLocation(branchId, dto, token);
+    const res = await createLocation(dto, token);
     if (res.code !== "SU") {
       setMessage(res.message);
       return;

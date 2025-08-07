@@ -14,7 +14,7 @@ export const updateStock = async(
 ) : Promise<ResponseDto<StockUpdateResponseDto>> =>{
     try{
         const response = await axiosInstance.put(
-            PUT_STOCK_URL( stockId),
+            PUT_STOCK_URL(stockId),
             dto,
             bearerAuthorization(accessToken)
         );
