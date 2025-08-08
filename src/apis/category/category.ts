@@ -5,6 +5,7 @@ import { axiosInstance, bearerAuthorization, responseErrorHandler, responseSucce
 import { DELETE_CATEGORY_URL, GET_CATEGORY_TREE_URL, GET_POLICY_BY_CATEGORYID_URL, GET_ROOT_CATEGORY_URL, POST_CATEGORY_URL, PUT_CATEGORY_URL } from "./categoryUrl";
 import { Axios, AxiosError } from "axios";
 import { CategoryType } from "../enums/CategoryType";
+import { PolicyDetailResponseDto } from "@/dtos/policy/Policy.response.dto";
 
 export const createCategory = async(
   dto: CategoryCreateRequestDto,
@@ -72,7 +73,7 @@ export const deleteCategory = async (
 export const getPolicyByCategory = async (
   categoryId: number,
   accessToken: string
-): Promise<ResponseDto<void>> => {
+): Promise<ResponseDto<PolicyDetailResponseDto>> => {
   try {
     const response = await axiosInstance.get(GET_POLICY_BY_CATEGORYID_URL(categoryId), bearerAuthorization(accessToken));
     return responseSuccessHandler(response);
