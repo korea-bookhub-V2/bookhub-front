@@ -5,6 +5,7 @@ import { CiDeliveryTruck, CiDiscount1 } from "react-icons/ci";
 import { ImBook } from "react-icons/im";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import './MainSearchBar.css';
 
 const featureRoutes = {
   "재고 현황": "/stocks",
