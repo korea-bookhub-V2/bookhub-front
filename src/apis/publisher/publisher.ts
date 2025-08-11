@@ -71,7 +71,7 @@ ResponseDto<
 PageResponseDto<PublisherResponseDto>| PublisherResponseDto[]>> => {
  try{
     let url = `${GET_ALL_PUBLISHER_URL}?page=${page}&size=${size}`;
-    if(keyword && keyword.trim() ! == ''){
+    if(keyword && keyword.trim() !== ''){
         url += `&keyword=${encodeURIComponent(keyword.trim())}`;
     }
     const response = await axiosInstance.get(

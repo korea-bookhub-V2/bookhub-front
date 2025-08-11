@@ -64,26 +64,26 @@ function UpdateLocationPage({ isOpen, onClose, onUpdated, branchId, locationId, 
 
   return (
     <div className="modal-overlay">
-      <div className="policy-detail-modal">
+      <div className="detail-modal">
         <button className="modal-close-button" onClick={onClose}>x</button>
         <h2 className="modal-title">위치 수정</h2>
-        <div className="form-group two-cols">
-          <div>
+        <div className="form-group">
+          
             <label>층</label>
             <input type="text" value={floor} onChange={(e) => setFloor(e.target.value)} />
-          </div>
-          <div>
+        
             <label>홀</label>
             <input type="text" value={hall} onChange={(e) => setHall(e.target.value)} />
-          </div>
+       
         </div>
         <div className="form-group">
           <label>섹션</label>
+          
           <input type="text" value={section} onChange={(e) => setSection(e.target.value)} />
         </div>
         <div className="form-group">
           <label>전시 형태</label>
-          <select value={displayType} onChange={(e) => setDisplayType(e.target.value as DisplayType)}>
+          <select className="modal-option" value={displayType} onChange={(e) => setDisplayType(e.target.value as DisplayType)}>
             <option value={DisplayType.BOOK_SHELF}>책장</option>
             <option value={DisplayType.DISPLAY_TABLE}>전시대</option>
           </select>
@@ -94,7 +94,7 @@ function UpdateLocationPage({ isOpen, onClose, onUpdated, branchId, locationId, 
         </div>
         {message && <p className="error-message">{message}</p>}
         <div className="modal-footer">
-          <button onClick={onUpdateClick}>수정</button>
+          <button className="btn-primary" onClick={onUpdateClick}>수정</button>
         </div>
       </div>
     </div>

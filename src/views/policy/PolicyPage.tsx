@@ -141,7 +141,7 @@ function PolicyPage() {
             <input className='input-search' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
         <input className='input-search' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
         <input className = 'input-search' type="text" placeholder='제목검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
-        <input className = 'input-search' type="number" placeholder='할인율(%)' value={discountPercent} onChange={(e) => setDiscountPercent(e.target.value=== ""?"":Number(e.target.value)) } />
+    
 
     <button className='searchBtn' onClick={() => goToPage(0)}>검색</button></div>
   

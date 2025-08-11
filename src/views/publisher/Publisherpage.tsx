@@ -3,7 +3,7 @@
 import { deletePublisher, getPublisher, getPublishers } from '@/apis/publisher/publisher';
 import { PageResponseDto } from '@/dtos/PageResponseDto';
 import { PublisherListResponseDto, PublisherResponseDto } from '@/dtos/publishers/publisher.response.dto';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import Createpublisher from './Createpublisher';
 import UpdatePublisher from './UpdatePublisher';
@@ -117,6 +117,10 @@ function Publisherpage() {
   const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
   const endPage = Math.min(startPage + PAGE_SIZE, totalPage);
 
+  useEffect(() =>{
+    if(token) fetchPage(0,keyword);
+},[token]);
+
     return (
       
       <div className=''>
@@ -132,7 +136,7 @@ function Publisherpage() {
                 <table>
                     <thead>
                         <tr>
-                            
+                            <th>Idx</th>
                             <th>출판사 이름</th>
                            
                             <th>수정</th>
@@ -140,8 +144,9 @@ function Publisherpage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {publishers.map((p) => (
+                        {publishers.map((p,index) => (
                             <tr key = {p.publisherId}>
+                               <td>{currentPage * PAGE_SIZE + index + 1}</td>
                                
                                 <td>{p.publisherName}</td>
                             

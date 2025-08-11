@@ -29,7 +29,6 @@ export const getStocks= async (
     page: number,
     size: number,
     bookTitle?: string,
-    isbn? : string,
     branchId? : number 
 ): Promise<
     ResponseDto<
@@ -37,7 +36,7 @@ export const getStocks= async (
     try {
         const response : AxiosResponse<ResponseDto<
         PageResponseDto<StockResponseDto>>> = await axiosInstance.get(GET_FILTERED_STOCKS_URL,{
-            params:{page, size, bookTitle, isbn, branchId},
+            params:{page, size, bookTitle,  branchId},
             headers: {Authorization: `Bearer ${accessToken}`},
         });
         return responseSuccessHandler(response);

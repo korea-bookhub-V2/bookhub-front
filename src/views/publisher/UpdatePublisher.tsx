@@ -63,11 +63,11 @@ function UpdatePublisher({isOpen, onClose, onUpdate, publisherDetail, publisherI
       <div className='detail-modal'>
       <div><button className="modal-close-button" onClick={onClose}>x</button>
       <h2 >출판사 수정</h2>
-      <div>
+      <div className='form-group'>
         <input type="text" value={publisherName} onChange={e => setPublisherName(e.target.value)} /></div>
       {message && <p className="error-message">{message}</p>}
       <div className="modal-footer">
-                    <button onClick={onUpdateClick} className="modifyBtn">수정</button>
+                    <button onClick={onUpdateClick} className="btn-primary">수정</button>
                 </div>
       
       </div></div>

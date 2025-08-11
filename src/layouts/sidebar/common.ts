@@ -31,7 +31,7 @@ export const commonMenu: SidebarMenu[] = [
     {
         title: '정책 조회',
         submenu: [
-            {label: '정책 전체조회', path: '/policies'},
+            {label: '정책 전체조회', path: '/policies/search'},
         ],
     },
     {

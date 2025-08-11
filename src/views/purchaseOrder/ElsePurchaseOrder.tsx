@@ -49,7 +49,7 @@ function ElsePurchaseOrder() {
     setUpdateForm({ ...updateForm, [name]: value });
   };
 
-  //* 조회 조건으로 조회(발주 담당자, 책 제목, 승인 여부) -- 조건 없을 시 전체 조회
+
   const onGetPurchaseOrderByCriteria = async () => {
     setPurchaseOrders([]);
     const { employeeName, bookIsbn, approvalStatus } = searchForm;
@@ -87,11 +87,10 @@ function ElsePurchaseOrder() {
     }
   };
 
-  //* 수정 모달창
   const openUpdateModal = (purchaseOrder: PurchaseOrderResponseDto) => {
     if (
       purchaseOrder.purchaseOrderStatus === "APPROVED" ||
-      purchaseOrder.purchaseOrderStatus === "DENIED"
+      purchaseOrder.purchaseOrderStatus === "REJECTED"
     ) {
       alert("이미 승인(또는 승인거절)된 요청입니다.");
       return;
@@ -104,25 +103,24 @@ function ElsePurchaseOrder() {
     setModalStatus(true);
   };
 
-  // * 수정 모달창 내용
   const modalContent: React.ReactNode = (
     <div>
-      <h3>발주량 수정 모달</h3>
-      <h5>ISBN: {updateForm.isbn}</h5>
+      <h2>발주량 수정 : ISBN : {updateForm.isbn} </h2>
       <input
-        type="text"
+      className="modal-option"
+        type="number"
         name="purchaseOrderAmount"
         value={updateForm.purchaseOrderAmount}
         onChange={onUpdateInputChange}
         placeholder="수정할 발주량을 입력하세요"
       />
-      <button onClick={() => onUpdatePurchaseOrderAmountClick(purchaseOrderId)}>
+      <button className="btn-primary" onClick={() => onUpdatePurchaseOrderAmountClick(purchaseOrderId)}>
         수정
       </button>
     </div>
   );
 
-  //* 수정 (발주량만 수정 가능하도록)
+ 
   const onUpdatePurchaseOrderAmountClick = async (purchaseOrderId: number) => {
     const dto = {
       isbn: updateForm.isbn,
@@ -144,7 +142,7 @@ function ElsePurchaseOrder() {
         return;
       }
 
-      // 수정 후 리스트 업데이트
+
       const updatedPurchaseOrders = purchaseOrders.map((order) =>
         order.purchaseOrderId === purchaseOrderId
           ? {
@@ -172,7 +170,7 @@ function ElsePurchaseOrder() {
   ) => {
     if (
       purchaseOrder.purchaseOrderStatus === "APPROVED" ||
-      purchaseOrder.purchaseOrderStatus === "DENIED"
+      purchaseOrder.purchaseOrderStatus === "REJECTED"
     ) {
       alert("이미 승인(또는 승인거절)된 요청입니다.");
       return;
@@ -254,11 +252,14 @@ function ElsePurchaseOrder() {
           <td>
             <button
               onClick={() => openUpdateModal(purchaseOrder)}
+              className="modifyBtn"
               
             >
               수정
             </button>
+            </td><td>
             <button
+            className="deleteBtn"
               onClick={() =>
                 onDeletePurchaseOrderClick(
                   purchaseOrder,
@@ -277,10 +278,9 @@ function ElsePurchaseOrder() {
 
   return (
     <div>
-      <div >
-        <div>
-          <CreatePurchaseOrder />
-        </div>
+      <div>
+        <h2>발주 관리</h2>
+        
         <div className="filters">
           <div className="filter-left">
           <input
@@ -331,6 +331,10 @@ function ElsePurchaseOrder() {
           >
             검색
           </button></div>
+
+          <div>
+          <CreatePurchaseOrder />
+        </div>
         </div>
       </div>
       {purchaseOrders && (
@@ -345,7 +349,8 @@ function ElsePurchaseOrder() {
               <th>발주 수량</th>
               <th>발주 일자</th>
               <th>승인 상태</th>
-              <th>작업</th>
+              <th>수정</th>
+              <th>삭제</th>
             </tr>
           </thead>
           <tbody>{responsePurchaseOrderList}</tbody>

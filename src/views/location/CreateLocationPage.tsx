@@ -63,7 +63,7 @@ function CreateLocationPage({ isOpen, onClose, onCreated, branchId }: CreateLoca
 
   return (
     <div className="modal-overlay">
-      <div className="policy-detail-modal">
+      <div className="detail-modal">
         <button className="modal-close-button" onClick={onClose}>
           x
         </button>
@@ -74,33 +74,34 @@ function CreateLocationPage({ isOpen, onClose, onCreated, branchId }: CreateLoca
             type="text"
             value={bookIsbn}
             onChange={(e) => setBookIsbn(e.target.value)}
-            placeholder="도서 ISBN"
+            placeholder=" 도서 ISBN"
           />
         </div>
-        <div className="form-group two-cols">
+        <div className="form-group">
           <div>
-            <label>층</label>
-            <input type="text" value={floor} onChange={(e) => setFloor(e.target.value)} />
+            <label>층 </label>
+            <input type="text" placeholder= " 층을 입력하세요"value={floor} onChange={(e) => setFloor(e.target.value)} />
           </div>
+
           <div>
-            <label>홀</label>
-            <input type="text" value={hall} onChange={(e) => setHall(e.target.value)} />
+            <label>홀 </label>
+            <input type="text" placeholder = " 홀을 입력하세요"value={hall} onChange={(e) => setHall(e.target.value)} />
           </div>
         </div>
         <div className="form-group">
-          <label>섹션</label>
-          <input type="text" value={section} onChange={(e) => setSection(e.target.value)} />
+          <label>섹션 </label>
+          <input type="text" placeholder = " 섹션을 입력하세요"value={section} onChange={(e) => setSection(e.target.value)} />
         </div>
         <div className="form-group">
-          <label>전시 형태</label>
-          <select value={displayType} onChange={(e) => setDisplayType(e.target.value as DisplayType)}>
+          <label>전시 형태 </label>
+          <select className="modal-option" value={displayType} onChange={(e) => setDisplayType(e.target.value as DisplayType)}>
             <option value={DisplayType.BOOK_SHELF}>책장</option>
             <option value={DisplayType.DISPLAY_TABLE}>전시대</option>
           </select>
         </div>
         <div className="form-group">
           <label>비고</label>
-          <textarea value={note} onChange={(e) => setNote(e.target.value)} />
+          <textarea placeholder = "특이사항 입력" value={note} onChange={(e) => setNote(e.target.value)} />
         </div>
         {message && <p className="error-message">{message}</p>}
         <div className="modal-footer">

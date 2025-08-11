@@ -14,8 +14,8 @@ function ApprovePurchaseOrder() {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
 
-  //* 발주 요청서 업데이트
   const onGetAllPurchaseOrdersRequested = async () => {
+    setPurchaseOrders([]);
     const token = cookies.accessToken;
 
     if (!token) {
@@ -90,14 +90,16 @@ function ApprovePurchaseOrder() {
           </td>
           <td>
             <button
+            className="modifyBtn"
               onClick={() =>
                 onPurchaseOrderApproveClick(purchaseOrder.purchaseOrderId)
               }
       
             >
               승인
-            </button>
+            </button></td><td>
             <button
+            className="deleteBtn"
               onClick={() =>
                 onPurchaseOrderRejectClick(purchaseOrder.purchaseOrderId)
               }
@@ -137,8 +139,7 @@ function ApprovePurchaseOrder() {
       }
 
       alert("승인되었습니다.");
-      setPurchaseOrders(purchaseOrders);
-      onGetAllPurchaseOrdersRequested();
+      setPurchaseOrders(prev => prev.filter(po => po.purchaseOrderId !== purchaseOrderId));
     } catch (error) {
       console.error(error);
       alert("오류가 발생했습니다.");
@@ -171,8 +172,7 @@ function ApprovePurchaseOrder() {
       }
 
       alert("승인 거부되었습니다.");
-      setPurchaseOrders(purchaseOrders);
-      onGetAllPurchaseOrdersRequested();
+      setPurchaseOrders(prev => prev.filter(po => po.purchaseOrderId !== purchaseOrderId));
     } catch (error) {
       console.error(error);
       alert("오류가 발생했습니다.");
@@ -183,10 +183,11 @@ function ApprovePurchaseOrder() {
 
   return (
     <div>
+      <h2>발주 승인</h2>
       <button
-        className="searchAll"
+        className="btn-primary"
         onClick={onGetAllPurchaseOrdersRequested}
-        style={{ margin: "0" }}
+       
       >
         발주 요청서 업데이트
       </button>
@@ -202,7 +203,8 @@ function ApprovePurchaseOrder() {
               <th>발주 수량</th>
               <th>발주 일자</th>
               <th>승인 상태</th>
-              <th>작업</th>
+              <th>승인</th>
+              <th>승인 거부</th>
             </tr>
           </thead>
           <tbody>{responsePurchaseOrderList}</tbody>
