@@ -1,7 +1,7 @@
 import { StockActionType } from "@/apis/enums/StockActionType";
 
 export interface StockUpdateRequestDto{
-    stockActionType: StockActionType;
+    type: StockActionType,
     employeeId : number;
     bookIsbn: string;
     branchId: number;

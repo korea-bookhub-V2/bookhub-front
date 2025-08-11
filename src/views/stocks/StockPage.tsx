@@ -12,7 +12,7 @@ function StockPage({branches = []}: StockProps) {
      const [cookies] = useCookies(['accessToken']);
      const token = cookies.accessToken;
    
-     const [keyword, setKeyword] = useState('');
+     const [bookTitle, setBooktitle] = useState('');
      const [branchId, setBranchId] = useState<number|undefined>(undefined);
 
      const [currentPage, setCurrentPage] = useState(0);
@@ -30,8 +30,8 @@ function StockPage({branches = []}: StockProps) {
                token,
                page,
                PAGE_SIZE,
-               keyword.trim() || undefined,
-               undefined,
+               bookTitle.trim() || undefined,
+              
                branchId || undefined
            );
    
@@ -56,7 +56,7 @@ function StockPage({branches = []}: StockProps) {
    
      useEffect(() => {
        fetchPage(0);
-     },[token,keyword,branchId]);
+     },[token,bookTitle,branchId]);
    
     
      const openUpdateModal = async (id : number) => {
@@ -110,7 +110,7 @@ function StockPage({branches = []}: StockProps) {
            
         <input className = 'input-search' 
         type="text" placeholder='제목검색' 
-        value={keyword} onChange={(e) => setKeyword(e.target.value) } 
+        value={bookTitle} onChange={(e) => setBooktitle(e.target.value) } 
         onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
         <select className='input-search' value={branchId ?? ''} 
         onChange={e=> {

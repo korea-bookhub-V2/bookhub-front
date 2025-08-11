@@ -12,7 +12,7 @@ function StockLogdetail({isOpen, onClose, stockLogDetail}:StockLogProps) {
 
   return (
         <div className="modal-overlay">
-            <div className="stockLog-detail-modal">
+            <div className="detail-modal">
                 <button className="modal-close-button" onClick={onClose}>x</button>
                 <h2 className="modal-title">정책 상세 조회</h2>
                 <table className="detail-table">

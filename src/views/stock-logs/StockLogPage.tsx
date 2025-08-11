@@ -95,16 +95,6 @@ function StockLogPage({branches = []}: StockProps) {
     <div>
       <h2>재고 로그</h2>
       <div className='filter-bar'>
-        <select className='input-search' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
-          <option value=''>전체</option>
-          <option value={StockActionType.IN}>입고</option>
-          <option value={StockActionType.OUT}>출고</option>
-          <option value={StockActionType.LOSS}>손실</option>
-        </select>
-
-        <input className='input-search' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
-        <input className='input-search' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
-        <input className = 'input-search' type="text" placeholder='책 제목 검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
         <select className='input-search' value={branchId ?? ''} onChange={e=> {
           const v = e.target.value
           setBranchId(v === ''? undefined : Number(v))
@@ -115,6 +105,18 @@ function StockLogPage({branches = []}: StockProps) {
           })}
 
         </select>
+        <input className = 'input-search' type="text" placeholder='책 제목 검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
+        <select className='input-search' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
+          <option value=''>전체</option>
+          <option value={StockActionType.IN}>입고</option>
+          <option value={StockActionType.OUT}>출고</option>
+          <option value={StockActionType.LOSS}>손실</option>
+        </select>
+
+        <input className='input-search' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
+        <input className='input-search' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
+        
+        
 
         <button className='searchBtn' onClick={() => goToPage(0)}>검색</button></div><div>
         <div>
@@ -132,9 +134,9 @@ function StockLogPage({branches = []}: StockProps) {
               </tr>
             </thead>
             <tbody>
-              {stocklogs.map((s) => (
+              {stocklogs.map((s,idx) => (
                 <tr key = {s.stockLogId}>
-                  <td></td>
+                  <td>{currentPage*PAGE_SIZE+idx+1}</td>
                   <td>{s.employeeName}</td>
                   <td>{s.bookTitle}</td>
                   <td>{s.branchName}</td>

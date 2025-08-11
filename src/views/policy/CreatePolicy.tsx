@@ -71,12 +71,12 @@ function CreatePolicy({isOpen, onClose, onCreated}:CreatePolicyProps){
 
     return(
         <div className="modal-overlay">
-            <div className="policy-detail-modal">
+            <div className="detail-modal">
                 <button className="modal-close-button" onClick={onClose}>x</button>
                 <h2 className="modal-title">정책 등록</h2>
                 <div className="form-group">
                     <label>정책 타입</label>
-                    <select value={policyType} onChange={e=>setPolicyType(e.target.value as PolicyType)}>
+                    <select className="modal-option" value={policyType} onChange={e=>setPolicyType(e.target.value as PolicyType)}>
                         <option value={PolicyType.BOOK_DISCOUNT}>도서 할인</option>
                         <option value={PolicyType.CATEGORY_DISCOUNT}>카테고리 할인</option>
                         <option value={PolicyType.TOTAL_PRICE_DISCOUNT}>총 금액 할인</option>
@@ -121,7 +121,7 @@ function CreatePolicy({isOpen, onClose, onCreated}:CreatePolicyProps){
 
                 {message && <p className="error-message">{message}</p>}
                 <div className="modal-footer">
-                    <button onClick={onCreateClick} className="">등록</button>
+                    <button onClick={onCreateClick} className="btn-primary">등록</button>
                 </div>
 
             </div>

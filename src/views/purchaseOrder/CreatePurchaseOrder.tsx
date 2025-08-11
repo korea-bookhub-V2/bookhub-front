@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { createPurchaseOrder } from "@/apis/purchaseOrder/purchaseOrder";
 import { PurchaseOrderRequestDto, PurchaseOrderCreateRequestDto } from "@/dtos/purchaseOrder/PurchaseOrder.request.dto";
-import styles from './createModal.module.css'
+
 import Modal from "@/apis/constants/Modal";
 
 function CreatePurchaseOrder() {
@@ -99,88 +99,47 @@ function CreatePurchaseOrder() {
 
   const modalContent: React.ReactNode = (
     <>
-      <h3 style={{ color: "#265185" }}>발주 요청서 작성</h3>
+      <h2>발주 요청서 작성</h2>
       <div>{message}</div>
       <div className="parent">
         <div className="center">
           <div className="table-scroll-container">
-            <table
-              style={{
-                width: 500,
-                margin: "16px 0",
-                borderCollapse: "collapse",
-                backgroundColor: "white",
-              }}
-            >
+            <table>
               <thead>
                 <tr>
                   <th>ISBN</th>
                   <th>발주량</th>
+                  <th>추가</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td
-                    style={{
-                      padding: "0",
-                      height: "48px",
-                    }}
-                  >
+                  <td>
                     <input
                       type="text"
                       placeholder="ISBN을 입력해주세요"
+                      className="modal-option"
                       name="isbn"
                       value={form.isbn}
                       onChange={onInputChange}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        boxSizing: "border-box",
-                        padding: "4px 8px",
-                        border: "1px solid transparent",
-                      }}
+             
                     />
                   </td>
-                  <td
-                    style={{
-                      padding: "0",
-                      height: "48px",
-                    }}
-                  >
+                  <td>
                     <input
                       type="text"
                       placeholder="발주량을 입력해주세요"
                       name="purchaseOrderAmount"
+                      className="modal-option"
                       value={form.purchaseOrderAmount}
                       onChange={onInputChange}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        boxSizing: "border-box",
-                        padding: "4px 8px",
-                        border: "1px solid transparent",
-                      }}
+               
                     />
                   </td>
                   <td
-                    style={{
-                      border: "1px solid #ccc",
-                      padding: "0",
-                      height: "48px",
-                      width: 30,
-                    }}
+         
                   >
-                    <button
-                      onClick={onAddPurchaseOrder}
-                      style={{
-                        width: "30",
-                        height: "100%",
-                        boxSizing: "border-box",
-                        padding: "4px 8px",
-                        border: "1px solid transparent",
-                        background: ''
-                      }}
-                    >
+                    <button onClick={onAddPurchaseOrder} className="deleteBtn">
                       추가
                     </button>
                   </td>
@@ -190,8 +149,8 @@ function CreatePurchaseOrder() {
             </table>
           </div>
         </div>
-        <div className="right">
-          <button onClick={onCreatePurchaseOrderClick} >
+        <div className="modal-footer">
+          <button onClick={onCreatePurchaseOrderClick} className="btn-primary"> 
             등록
           </button>
         </div>
@@ -200,10 +159,8 @@ function CreatePurchaseOrder() {
   );
 
   return (
-    <div className="">
-      <h2>발주 관리</h2>
-      
-
+    <div >
+     
       <div>
 
       <button className = 'createBtn' onClick={() => setModalStatus(true)} >

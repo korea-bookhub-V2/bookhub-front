@@ -20,7 +20,7 @@ export const getPolicies = async (
     try {
         const response : AxiosResponse<ResponseDto<
         PageResponseDto<PolicyListResponseDto>>> = await axiosInstance.get(GET_FILTERED_POLICIES_URL,{
-            params:{page, size,keyword,type,start,end},
+            params:{page, size,keyword, policyType : type ,start,end},
             headers: {Authorization: `Bearer ${accessToken}`},
         });
         return responseSuccessHandler(response);

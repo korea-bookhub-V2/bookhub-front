@@ -14,7 +14,7 @@ function LocationPage() {
   const [cookies] = useCookies(["accessToken"]);
   const token = cookies.accessToken;
 
-  const [bookTitle, setBookTitle] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [isbn, setIsbn] = useState("");
   const [branchId, setBranchId] = useState<string>("");
 
@@ -48,8 +48,7 @@ function LocationPage() {
       token,
       page,
       PAGE_SIZE,
-      bookTitle || undefined,
-      isbn || undefined,
+      keyword || undefined,
       branchId ? Number(branchId) : undefined
     );
 
@@ -67,7 +66,7 @@ function LocationPage() {
   };
 
   const reset = () => {
-    setBookTitle("");
+    setKeyword("");
     setIsbn("");
     setBranchId("");
     setLocations([]);
@@ -149,16 +148,10 @@ function LocationPage() {
         className="input-search"
           type="text"
           placeholder="도서 제목"
-          value={bookTitle}
-          onChange={(e) => setBookTitle(e.target.value)}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
         />
-        <input
-        className="input-search"
-          type="text"
-          placeholder="ISBN"
-          value={isbn}
-          onChange={(e) => setIsbn(e.target.value)}
-        />
+        
         <button  className='searchBtn' onClick={() => fetchPage(0)}>검색</button>
         <button  className='searchBtn' onClick={reset}>초기화</button></div>
         
@@ -170,6 +163,7 @@ function LocationPage() {
         <thead>
           <tr>
             <th>번호</th>
+            <th>지점</th>
             <th>도서명</th>
             <th>층</th>
             <th>홀</th>
@@ -183,6 +177,7 @@ function LocationPage() {
           {locations.map((loc, idx) => (
             <tr key={loc.locationId}>
               <td>{currentPage * PAGE_SIZE + idx + 1}</td>
+              <td>{loc.branchName}</td>
               <td>{loc.bookTitle}</td>
               <td>{loc.floor}</td>
               <td>{loc.hall}</td>

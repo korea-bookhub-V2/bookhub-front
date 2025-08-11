@@ -10,8 +10,7 @@ export const getLocations= async (
     accessToken: string,
     page: number,
     size: number,
-    bookTitle?: string,
-    isbn? : string,
+    keyword? : string,
     branchId? : number 
 ): Promise<
     ResponseDto<
@@ -19,7 +18,7 @@ export const getLocations= async (
     try {
         const response : AxiosResponse<ResponseDto<
         PageResponseDto<LocationResponseDto>>> = await axiosInstance.get(GET_FILTERED_LOCATIONS_URL,{
-            params:{page, size,bookTitle, isbn, branchId},
+            params:{page, size, keyword, branchId},
             headers: {Authorization: `Bearer ${accessToken}`},
         });
         return responseSuccessHandler(response);

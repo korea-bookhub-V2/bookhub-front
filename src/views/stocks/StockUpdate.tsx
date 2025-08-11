@@ -31,10 +31,7 @@ function StockUpdate({ isOpen, onClose, onUpdate, stockDetail, stockId }: Update
 
   useEffect(() => {
     if (stockDetail) {
-
-      setAmount(stockDetail.amount);
-      setBookIsbn(stockDetail.isbn);
-
+      setBookIsbn(stockDetail.bookIsbn);
       setBranchId(stockDetail.branchId);
       setMessage('');
     }
@@ -47,7 +44,7 @@ function StockUpdate({ isOpen, onClose, onUpdate, stockDetail, stockId }: Update
     }
 
     const dto: StockUpdateRequestDto = {
-      stockActionType,
+      type : stockActionType,
       employeeId,
       bookIsbn,
       branchId,
@@ -82,7 +79,8 @@ function StockUpdate({ isOpen, onClose, onUpdate, stockDetail, stockId }: Update
         <div className='form-group'>
           <label>재고 타입</label>
 
-          <select
+          <select 
+            className='modal-option'
             value={stockActionType}
             onChange={(e) => setStockActionType(e.target.value as StockActionType)}
           >
@@ -114,9 +112,10 @@ function StockUpdate({ isOpen, onClose, onUpdate, stockDetail, stockId }: Update
           />
         </div>
 
-        <div className=''>
+        <div className='form-group'>
           <label>재고 변경 수량</label>
           <input
+          className='modal-option'
             type='number'
             placeholder='재고변경 수량을 입력해주세요'
 

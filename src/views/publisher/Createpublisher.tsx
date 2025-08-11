@@ -55,9 +55,9 @@ function Createpublisher({isOpen, onClose, onCreated}:CreatePublisherProps
       <div>
         <button className="modal-close-button" onClick={onClose}>x</button>
       <h2 className='modal-title'>출판사 등록</h2>
-      <div >
+      <div className='form-group'>
       <input 
-      className='modal-input'
+      placeholder='  출판사 명을 입력해주십시오'
       type="text" 
       value={publisherName} 
       onChange={e => setPublisherName(e.target.value)} />
