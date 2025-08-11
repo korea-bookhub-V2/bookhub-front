@@ -5,7 +5,7 @@ import {
   responseErrorHandler,
   responseSuccessHandler,
 } from "../axiosConfig";
-import { GET_ALL_PURCHASE_ORDER_REQUESTED_URL, PURCHASE_APPROVAL_MODULE_URL_ADMIN, PUT_PURCHASE_ORDER_STATUS_URL } from "./purchaseOrderApprovalUrl";
+import { GET_ALL_PURCHASE_ORDER_REQUESTED_URL, PURCHASE_APPROVAL_LOGS_URL, PURCHASE_APPROVAL_MODULE_URL_ADMIN, PUT_PURCHASE_ORDER_STATUS_URL } from "./purchaseOrderApprovalUrl";
 import { ResponseDto } from "@/dtos";
 import { PurchaseOrderApprovalSearchParams } from "@/dtos/purchaseOrder/PurchaseOrderApprovalSearchParams";
 import { PurchaseOrderApprovalResponseDto } from "@/dtos/purchaseOrderApproval/purchaseOrderApproval.response.dto";
@@ -18,7 +18,7 @@ export const getAllPurchaseOrderApproval = async (
   accessToken: string
 ): Promise<ResponseDto<PageResponseDto<PurchaseOrderApprovalResponseDto>>> => {
   try {
-    const response = await axiosInstance.get(PURCHASE_APPROVAL_MODULE_URL_ADMIN, {
+    const response = await axiosInstance.get(PURCHASE_APPROVAL_LOGS_URL, {
       params,
       ...bearerAuthorization(accessToken),
     });
