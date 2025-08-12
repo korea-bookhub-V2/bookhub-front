@@ -86,15 +86,35 @@ function StockLogPage({branches = []}: StockProps) {
     setIsDetailOpen(false);
   };
 
-    const goToPage = (page : number) => {
+ const goToPage = (page : number) => {
     if(page<0 || page >=totalPages) return;
     fetchPage(page);
   };
 
+
+  const goPrev = () => {
+    if (currentPage > 0) goToPage(currentPage - 1);
+  };
+  const goNext = () => {
+    if (currentPage < totalPages - 1) goToPage(currentPage + 1);
+  };
+
+  const startPage = Math.floor(currentPage / PAGE_SIZE) * PAGE_SIZE;
+  const endPage = Math.min(startPage + PAGE_SIZE, totalPages);
   return (  
     <div>
       <h2>재고 로그</h2>
       <div className='filter-bar'>
+        <select className='input-search' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
+          <option value=''>전체</option>
+          <option value={StockActionType.IN}>입고</option>
+          <option value={StockActionType.OUT}>출고</option>
+          <option value={StockActionType.LOSS}>손실</option>
+        </select>
+
+        <input className='input-search' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
+        <input className='input-search' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
+        <input className = 'input-search' type="text" placeholder='책 제목 검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
         <select className='input-search' value={branchId ?? ''} onChange={e=> {
           const v = e.target.value
           setBranchId(v === ''? undefined : Number(v))
@@ -105,18 +125,6 @@ function StockLogPage({branches = []}: StockProps) {
           })}
 
         </select>
-        <input className = 'input-search' type="text" placeholder='책 제목 검색' value={keyword} onChange={(e) => setKeyword(e.target.value) } onKeyDown={(e) =>e.key === "Enter" && goToPage(0)} />
-        <select className='input-search' value={type} onChange={(e) => setType(e.target.value as StockActionType)}>
-          <option value=''>전체</option>
-          <option value={StockActionType.IN}>입고</option>
-          <option value={StockActionType.OUT}>출고</option>
-          <option value={StockActionType.LOSS}>손실</option>
-        </select>
-
-        <input className='input-search' type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
-        <input className='input-search' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
-        
-        
 
         <button className='searchBtn' onClick={() => goToPage(0)}>검색</button></div><div>
         <div>
@@ -134,9 +142,9 @@ function StockLogPage({branches = []}: StockProps) {
               </tr>
             </thead>
             <tbody>
-              {stocklogs.map((s,idx) => (
+              {stocklogs.map((s,index) => (
                 <tr key = {s.stockLogId}>
-                  <td>{currentPage*PAGE_SIZE+idx+1}</td>
+                  <td>{currentPage * PAGE_SIZE + index + 1}</td>
                   <td>{s.employeeName}</td>
                   <td>{s.bookTitle}</td>
                   <td>{s.branchName}</td>
@@ -149,14 +157,43 @@ function StockLogPage({branches = []}: StockProps) {
                   </tr>
               ))}
             </tbody>
-          </table></div>
+          </table>
+              <div className="footer">
+        <button
+          className="pageBtn"
+          onClick={goPrev}
+          disabled={currentPage === 0}
+        >
+          {"<"}
+        </button>
+        {Array.from(
+          { length: endPage - startPage },
+          (_, i) => startPage + i
+        ).map((i) => (
+          <button
+            key={i}
+            className={`pageBtn${i === currentPage ? " current" : ""}`}
+            onClick={() => goToPage(i)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          className="pageBtn"
+          onClick={goNext}
+          disabled={currentPage >= totalPages - 1}
+        >
+          {">"}
+        </button>
+        <span className="pageText">
+          {totalPages > 0 ? `${currentPage + 1} / ${totalPages}` : "0 / 0"}
+        </span>
+      </div>
+          
+          
+          </div>
 
-               <div className='pagination'>
-            <button className='' disabled={currentPage===0} onClick={() => goToPage(currentPage-1)}>이전</button>
-            <span>{currentPage+1}/{totalPages}</span>
-            <button className='' disabled={currentPage +1 >= totalPages} onClick={() => goToPage(currentPage+1)}>다음</button>
-        </div>
-
+               
         {isDetailOpen && selectedDetail && selectedStockLogId != null && (
           <StockLogdetail
           isOpen = {isDetailOpen}

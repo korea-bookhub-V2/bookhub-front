@@ -50,14 +50,13 @@ function MonthlyRevenue() {
     }, [selectedYear]);
   
     return (
-      <div
-        style={{ width: "100%", maxWidth: 800, margin: "0 auto", padding: 32 }}
-      >
-         <h2 className="text-xl font-semibold mb-4">월간 매출 통계</h2>
+      <div>
+         <h2>월간 매출 통계</h2>
 
   
-        <div style={{ margin: 16 }}>
+        <div >
           <select
+          className="modal-option"
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
           >
@@ -67,7 +66,7 @@ function MonthlyRevenue() {
               </option>
             ))}
           </select>
-          <p>[{selectedYear}년]</p>
+          
         </div>
   
         {loading ? (
