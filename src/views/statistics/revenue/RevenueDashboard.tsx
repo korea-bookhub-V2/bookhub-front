@@ -15,9 +15,9 @@ function RevenueDashboard() {
         height: "50vh",
         padding: "12px",
       }}>
-<div><WeekdayRevenue/></div>
-<div><BranchRevenue/></div>
-<div><WeeklyRevenue/></div>
+<div style={{ borderRight: "3px solid black", borderBottom: "3px solid black" }}><WeekdayRevenue/></div>
+<div style={{ borderBottom: "3px solid black" }}><BranchRevenue/></div>
+<div style={{ borderRight: "3px solid black" }}><WeeklyRevenue/></div>
 <div><MonthlyRevenue/></div>
 
       </div>

@@ -38,15 +38,15 @@ function WeekdayRevenue() {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">요일별 매출 통계</h2>
-      <div className="flex items-center gap-4 mb-4">
-        <label className="flex items-center">
+      <h2 >요일별 매출 통계</h2>
+      <div >
+        <label >
           연도:
           <input
             type="number"
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="border rounded p-1 ml-2 w-20"
+            className="modal-option"
           />
         </label>
         <div className="flex items-center">
@@ -54,7 +54,8 @@ function WeekdayRevenue() {
           {[1, 2, 3, 4].map((q) => (
             <button
               key={q}
-              className={`px-3 py-1 border rounded mr-2 ${quarter === q ? 'bg-blue-500 text-white' : ''}`}
+              className="btn-primary"
+              style={{ marginRight: "8px" }}
               onClick={() => setQuarter(q)}
             >
               {q}분기

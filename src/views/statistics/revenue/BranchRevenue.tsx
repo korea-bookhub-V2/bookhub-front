@@ -80,7 +80,7 @@ const raw: BranchRevenueResponseDto[] = res.data ?? [];      const branchMap: Re
             name="startDate"
             value={form.startDate}
             onChange={handleChange}
-            className="border rounded p-1 ml-2"
+            className="modal-option"
           />
         </label>
         <label className="flex items-center">
@@ -90,12 +90,12 @@ const raw: BranchRevenueResponseDto[] = res.data ?? [];      const branchMap: Re
             name="endDate"
             value={form.endDate}
             onChange={handleChange}
-            className="border rounded p-1 ml-2"
+            className="modal-option"
           />
         </label>
         <button
           onClick={handleSubmit}
-          className="ml-2 px-4 py-1 bg-blue-500 text-white rounded"
+          className="btn-primary"
         >
           조회
         </button>
