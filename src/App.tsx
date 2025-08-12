@@ -157,7 +157,7 @@ function App() {
               <Route
                 path="/reception/confirmed"
                 element={
-                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                  <RequireAuth allowedRoles={["ROLE_MANAGER"]}>
                     <ReceptionConfirm />
                   </RequireAuth>
                 }
@@ -165,7 +165,7 @@ function App() {
               <Route
                 path="/reception/pending"
                 element={
-                  <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
+                  <RequireAuth allowedRoles={["ROLE_MANAGER"]}>
                     <ReceptionPending />
                   </RequireAuth>
                 }

@@ -99,7 +99,7 @@ function ReceptionPending() {
                     <td>{item.bookIsbn}</td>
                     <td>{item.purchaseOrderAmount}</td>
                     <td>
-                      <button onClick={() => onReceptionApprove(item.bookReceptionApprovalId)}>수령</button>
+                      <button className="modifyBtn" onClick={() => onReceptionApprove(item.bookReceptionApprovalId)}>수령</button>
                     </td>
                   </tr>
                 ))
