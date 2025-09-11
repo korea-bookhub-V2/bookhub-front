@@ -142,7 +142,7 @@ function CategoryStockStatistics() {
       </div>
       {message && <p>{message}</p>}
       <div>
-        <div>
+        <div style={{display: "flex", justifyContent: "center"}}>
           {form.length > 0 && (
             <PieChart width={800} height={600}>
               <Pie

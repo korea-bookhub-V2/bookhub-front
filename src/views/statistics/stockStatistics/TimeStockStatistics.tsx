@@ -152,7 +152,7 @@ function TimeStockStatistics() {
         </div>
       </div>
       <div>
-        <div>
+        <div style={{display: "flex"}}>
           {form.length > 0 && (
             <div>
               <h2>월별 지점 입고량</h2>

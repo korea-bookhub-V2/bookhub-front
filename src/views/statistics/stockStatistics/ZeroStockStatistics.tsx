@@ -85,11 +85,8 @@ function ZeroStockStatistics() {
 
       <div>
         <div style={{ height: "700px" }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={form}
-              margin={{ top: 20, right: 30, left: 10, bottom: 10 }}
-            >
+          <ResponsiveContainer>
+            <BarChart data={form} barCategoryGap="40%">
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="branchName"
